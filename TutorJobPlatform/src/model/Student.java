@@ -16,7 +16,7 @@ public class Student extends User {
         this.matNummer = matNummer;
         choiceMade = false;
 
-        this.preferencePopup = new PreferencePopup(this);
+//        this.preferencePopup = new PreferencePopup(this);
         // TODO move into homescreen
     }
 

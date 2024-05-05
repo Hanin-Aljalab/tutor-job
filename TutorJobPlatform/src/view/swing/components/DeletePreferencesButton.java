@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DeletePreferencesButton implements ActionListener {
+public class DeletePreferencesButton extends JButton implements ActionListener {
     Student student;
     JButton deleteButton;
 
