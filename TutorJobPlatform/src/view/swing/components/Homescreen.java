@@ -16,7 +16,7 @@ public class Homescreen extends JFrame {
 
     GridBagConstraints constraints = new GridBagConstraints();
 
-    public Homescreen(Student user) {
+    public Homescreen(User user) {
         this.user = user;
 
         setTitle("Homescreen");
@@ -27,7 +27,7 @@ public class Homescreen extends JFrame {
         constraints.insets = new Insets(10, 10, 10, 10);
 
         JPanel top = new JPanel(); //----------------------------------------------------
-        top.setBounds(0,0,700,50);
+        top.setBounds(0,0,700,25);
         top.setLayout(new GridBagLayout());
         add(top);
         top.setBackground(Color.GRAY);
@@ -46,23 +46,29 @@ public class Homescreen extends JFrame {
         }
 
         JSeparator separator = new JSeparator();
-        separator.setBounds(0,55,700,2);
+        separator.setBounds(0,25,700,4);
         separator.setBackground(Color.BLUE);
         add(separator);
 
         JPanel bottom = new JPanel(); // ----------------------------------------------------
-        bottom.setBounds(0,60,700,400);
+        bottom.setBounds(0,100,700,300);
         bottom.setLayout(new GridLayout());
         add(bottom, BorderLayout.CENTER);
 
         JPanel bottomLeft = new JPanel(); // ............................
         bottomLeft.setLayout(new GridBagLayout());
+        bottomLeft.setBackground(Color.lightGray);
         bottom.add(bottomLeft);
 
-        chooseYourPreference = new JButton("Choose your Preference"); // TODO: ActionListener für PerfPopUp
+        chooseYourPreference = new JButton("Choose your Preference");
+        // TODO: ActionListener für PerfPopUp
+        // TODO: setEnabled(false) wenn schon gewählt
+
         constraints.gridx = 0;
         constraints.gridy = 0;
         bottomLeft.add(chooseYourPreference, constraints);
+
+        // TODO neue Methode in Student die prüft ob schon preference gewählt wurde
 
 //        DeletePreferencesButton delPref = new DeletePreferencesButton((Student) user);
 //        constraints.gridx = 1;
@@ -71,10 +77,10 @@ public class Homescreen extends JFrame {
 
         JPanel bottomRight = new JPanel(); // ...........................
         bottomRight.setLayout(new GridBagLayout());
-        bottomRight.setBackground(Color.LIGHT_GRAY);
+        //bottomRight.setBackground(Color.white);
         bottom.add(bottomRight);
 
-        infoPreference = new JLabel("Hallo"); // TODO: Listen von Student ausgeben mit SwingList
+        infoPreference = new JLabel("HIER STEHEN DIE PRÄFERENZEN"); // TODO: Listen von Student ausgeben mit SwingList
         constraints.gridx = 2;
         constraints.gridy = 0;
         bottomRight.add(infoPreference, constraints);
@@ -85,6 +91,6 @@ public class Homescreen extends JFrame {
     public static void main(String[] args) {
         Student s1 = new Student("Markus", "W", "1234", 3008816);
         Teacher t1 = new Teacher("Markus", "W", "1234");
-        new Homescreen(s1);
+        new Homescreen(t1);
     }
 }
