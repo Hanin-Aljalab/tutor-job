@@ -45,8 +45,13 @@ public class Homescreen extends JFrame {
             top.add(matrikelnumber, constraints);
         }
 
+        JSeparator separator = new JSeparator();
+        separator.setBounds(0,55,700,2);
+        separator.setBackground(Color.BLUE);
+        add(separator);
+
         JPanel bottom = new JPanel(); // ----------------------------------------------------
-        bottom.setBounds(0,100,700,400);
+        bottom.setBounds(0,60,700,400);
         bottom.setLayout(new GridLayout());
         add(bottom, BorderLayout.CENTER);
 
