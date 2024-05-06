@@ -4,7 +4,9 @@ import model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.prefs.Preferences;
 
 public class Homescreen extends JFrame {
     private User user;
@@ -27,7 +29,7 @@ public class Homescreen extends JFrame {
         constraints.insets = new Insets(10, 10, 10, 10);
 
         JPanel top = new JPanel(); //----------------------------------------------------
-        top.setBounds(0,0,700,25);
+        top.setBounds(0,0,700,50);
         top.setLayout(new GridBagLayout());
         add(top);
         top.setBackground(Color.GRAY);
@@ -46,7 +48,7 @@ public class Homescreen extends JFrame {
         }
 
         JSeparator separator = new JSeparator();
-        separator.setBounds(0,25,700,4);
+        separator.setBounds(0,50,700,4);
         separator.setBackground(Color.BLUE);
         add(separator);
 
@@ -61,19 +63,19 @@ public class Homescreen extends JFrame {
         bottom.add(bottomLeft);
 
         chooseYourPreference = new JButton("Choose your Preference");
-        // TODO: ActionListener für PerfPopUp
-        // TODO: setEnabled(false) wenn schon gewählt
-
         constraints.gridx = 0;
         constraints.gridy = 0;
+
+        chooseYourPreference.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new PreferencePopup((Student) user);
+                }
+            });
+
         bottomLeft.add(chooseYourPreference, constraints);
 
         // TODO neue Methode in Student die prüft ob schon preference gewählt wurde
 
-//        DeletePreferencesButton delPref = new DeletePreferencesButton((Student) user);
-//        constraints.gridx = 1;
-//        constraints.gridy = 0;
-//        bottomLeft.add(delPref,constraints);
 
         JPanel bottomRight = new JPanel(); // ...........................
         bottomRight.setLayout(new GridBagLayout());
@@ -91,6 +93,10 @@ public class Homescreen extends JFrame {
     public static void main(String[] args) {
         Student s1 = new Student("Markus", "W", "1234", 3008816);
         Teacher t1 = new Teacher("Markus", "W", "1234");
-        new Homescreen(t1);
+        new Homescreen(s1);
     }
+
+    //TODO: PrefPOPup schließt wenn x --> lieber nur das Fenster schließen
 }
+
+

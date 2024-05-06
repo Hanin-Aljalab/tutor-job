@@ -35,7 +35,7 @@ public class PreferencePopup extends JFrame implements ActionListener {
         //      setContentPane(wrapperPanel); // TODO wofür?????
 
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
     }
 
