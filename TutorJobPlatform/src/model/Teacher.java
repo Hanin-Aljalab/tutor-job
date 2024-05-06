@@ -6,8 +6,9 @@ public class Teacher extends User {
     JTextField LectureInput = new JTextField();
     JTextField SlotInput = new JTextField();
 
-    public Teacher(String name, String surname, String password) {
-        super(name, surname, password);
+
+    public Teacher(String name, String surname, String password, String title) {
+        super(name, surname, password, title);
     }
 
 

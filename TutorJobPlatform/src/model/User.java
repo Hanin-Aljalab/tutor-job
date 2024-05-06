@@ -1,22 +1,31 @@
 package model;
 
 public class User {
-    private String name;
-    private String surname;
+    private String firstName;
+    private String lastName;
     private String password;
+    private String title;
 
     public User(String name, String surname, String password) {
-        this.name = name;
-        this.surname = surname;
+        this.firstName = name;
+        this.lastName = surname;
         this.password = password;
+        this.title = "";
     }
 
-    public String getName() {
-        return name;
+    public User(String name, String surname, String password, String title) {
+        this.firstName = name;
+        this.lastName = surname;
+        this.password = password;
+        this.title = title;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public String getPassword() {
