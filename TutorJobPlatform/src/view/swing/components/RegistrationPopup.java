@@ -1,15 +1,15 @@
 package view.swing.components;
 
-import model.Student;
-import model.Teacher;
-import model.User;
-import model.Data;
+import controller.Registration;
+import model.AppData;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class RegistrationPopup {
+    private final Registration registration = Registration.registration;
+
     private JFrame frame;
     private JPanel mainPanel, formPanel, buttonPanel;
     private JTextField firstNameField, lastNameField, emailField, passwordField,
@@ -64,7 +64,14 @@ public class RegistrationPopup {
         submitButton = new JButton("Registrieren");
         submitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                registerUser();
+                if(transmitData()) {
+                    JOptionPane.showMessageDialog(frame, "Sie sind jetzt registriert!");
+                    System.out.println(AppData.data.getStudents());
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Registrierung " +
+                            "fehlgeschlagen. Bitte überprüfen Sie Ihre " +
+                            "Daten.");
+                }
             }
         });
 
@@ -109,33 +116,31 @@ public class RegistrationPopup {
         titleDropdown.setVisible(!isStudent);
     }
 
-    // TODO an Klasse Registrierung anbinden für Registrierungslogik
-    private void registerUser() {
+    // TODO: Pop-up-Nachrichten anzeigen basierend auf dem Ergebnis
+    private boolean transmitData() {
         String role = (String) roleDropdown.getSelectedItem();
         boolean isStudent = "Student*in".equals(role);
-        User newUser;
+
+        String firstName = firstNameField.getText();
+        String lastName = lastNameField.getText();
+        String password = passwordField.getText();
+        String passwordRep = passwordConfirmField.getText();
+        String title = "";
+        String studNumber = "";
+
         if (isStudent) {
-            int studNumber =
-                    Integer.parseInt(matriculationNumberField.getText());
-            newUser = new Student(firstNameField.getText(),
-                    lastNameField.getText(), passwordField.getText(), studNumber);
+            studNumber = matriculationNumberField.getText();
         } else {
-            newUser = new Teacher(firstNameField.getText(),
-                    lastNameField.getText(), passwordField.getText(),
-                    (String) titleDropdown.getSelectedItem());
+            title = (String) titleDropdown.getSelectedItem();
         }
 
-        Data.addUser(newUser);
-        System.out.println(Data.getStudents());
-
-        // Validierung und Registrierungslogik hier
-        // Pop-up-Nachrichten anzeigen basierend auf dem Ergebnis
-        JOptionPane.showMessageDialog(frame, "Sie sind jetzt registriert!");
+        return registration.registerUser(firstName, lastName, password,
+                passwordRep, role, title, studNumber);
     }
 
     // TODO Data should not be initiated here (probably in homescreen)
     public static void main(String[] args) {
-        new Data();
+        new AppData();
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 new RegistrationPopup();

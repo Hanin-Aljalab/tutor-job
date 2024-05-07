@@ -1,4 +1,4 @@
-package view.swing.components;
+/*package view.swing.components;
 
 import model.*;
 
@@ -103,4 +103,4 @@ public class Homescreen extends JFrame {
 
 
     }
-
+*/

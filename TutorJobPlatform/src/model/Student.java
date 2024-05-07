@@ -12,7 +12,7 @@ public class Student extends User {
     private PreferencePopup preferencePopup;
 
     public Student(String name, String surname, String password, int matNummer) {
-        super(name, surname, password);
+        super(name, surname, password, "Student*in");
         this.matNummer = matNummer;
         choiceMade = false;
     }
