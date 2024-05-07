@@ -1,4 +1,4 @@
-/*package view.swing.components;
+package view.swing.components;
 
 import model.*;
 
@@ -7,12 +7,28 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// TODO: Homescreen sollte wahrscheinlich als erstes öffnen und hat die
+//  Schaltflächen "Login" und "Registrieren". Beim Login wird dann
+//  übergeben, von welchem USer der Homescreen angezeigt wird (eben der, der
+//  sich eingeloggt hat).
+
+// TODO: Unterschiedliche Ansicht von Dozent und Student. Die Schaltflächen
+//  und die Inhalte unterscheiden sich ja deutlich zwischen den verschiedenen
+//  Nutzergruppen.
+
+// TODO: Weitere Informationen auf dem Homescreen bereitstellen, z.B. etwas
+//  wie: "Dies ist eine Plattform für die Zuweisung von Tutor*innenstellen.
+//  Bitte wählen Sie Ihre Präferenzen bis zum <Datum>. Die Zuteilung erfolgt
+//  dann automatisiert. Wir wünschen Ihnen viel Freude und Erfolg im Tutorium!"
+//  Und wenn dann die Zuweisung durchgeführt wurde:
+//  "Sie wurden eingeteilt für das Tutorium Name: <Name>, Dozent*in: <Dozent>.
+//  Wir wünschen Ihnen viel Freude und Erfolg im Tutorium!"
 public class Homescreen extends JFrame {
     private User user;
     private JButton chooseYourPreference;
     private JLabel fill;
     private JLabel name;
-    private JLabel matrikelnumber;
+    private JLabel studNumber;
     private JLabel infoPreference;
 
     GridBagConstraints constraints = new GridBagConstraints();
@@ -33,7 +49,8 @@ public class Homescreen extends JFrame {
         add(top);
         top.setBackground(Color.GRAY);
 
-        name = new JLabel("Name: " + user.getName() + " " + user.getSurname());
+        name =
+                new JLabel("Name: " + user.getFirstName() + " " + user.getLastName());
 
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -41,10 +58,10 @@ public class Homescreen extends JFrame {
         top.add(name, constraints);
 
         if (user.getClass() == Student.class) {
-            matrikelnumber = new JLabel("mtr: " + ((Student) user).getMatNummer());
+            studNumber = new JLabel("mtr: " + ((Student) user).getMatNummer());
             constraints.gridx = 1;
             constraints.gridy = 0;
-            top.add(matrikelnumber, constraints);
+            top.add(studNumber, constraints);
         }
 
         JSeparator separator = new JSeparator();
@@ -94,7 +111,7 @@ public class Homescreen extends JFrame {
 
         public static void main (String[]args){
             Student s1 = new Student("Markus", "W", "1234", 3008816);
-            Teacher t1 = new Teacher("Markus", "W", "1234");
+            Teacher t1 = new Teacher("Markus", "W", "1234", "");
             new Homescreen(t1);
         }
 
@@ -103,4 +120,4 @@ public class Homescreen extends JFrame {
 
 
     }
-*/
+
