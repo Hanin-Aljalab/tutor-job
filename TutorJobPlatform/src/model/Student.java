@@ -15,9 +15,6 @@ public class Student extends User {
         super(name, surname, password);
         this.matNummer = matNummer;
         choiceMade = false;
-
-        this.preferencePopup = new PreferencePopup(this);
-        // TODO move into homescreen
     }
 
     public void setPreferences(ArrayList<String> lectures,

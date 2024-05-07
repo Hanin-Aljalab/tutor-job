@@ -3,7 +3,7 @@ package model;
 import javax.swing.*;
 
 public class Teacher extends User {
-    JTextField LectureInput = new JTextField();
+    JTextField LectureInput = new JTextField(); // TODO
     JTextField SlotInput = new JTextField();
 
 
@@ -17,7 +17,8 @@ public class Teacher extends User {
      * creates a new Job, depending on the input given in the JText fields
      */
     private void createLecture(){
-       // TODO anpassen an refaktorisierte Klassen
+       // TODO anpassen an refaktorisierte Klassen: Create lecture will have
+       //  own popup
        // new Job(LectureInput.getText(),SlotInput.getColumns());
     }
 

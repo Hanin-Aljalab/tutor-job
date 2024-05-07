@@ -114,5 +114,6 @@ public class PreferencePopup extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         student.setPreferences(lecturePref, teacherPref);
     }
+
 }
 
