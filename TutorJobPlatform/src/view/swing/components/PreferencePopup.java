@@ -113,6 +113,8 @@ public class PreferencePopup extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         student.setPreferences(lecturePref, teacherPref);
+        student.setChoiceMade(true);
+        dispose();
     }
 }
 

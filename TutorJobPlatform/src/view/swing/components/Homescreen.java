@@ -23,7 +23,7 @@ public class Homescreen extends JFrame {
 
         setTitle("Homescreen");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 700, 500);
+        setBounds(100, 100, 700, 400);
         setLocationRelativeTo(null);
         setLayout(null);
         constraints.insets = new Insets(10, 10, 10, 10);
@@ -53,7 +53,7 @@ public class Homescreen extends JFrame {
         add(separator);
 
         JPanel bottom = new JPanel(); // ----------------------------------------------------
-        bottom.setBounds(0,100,700,300);
+        bottom.setBounds(0,58,700,300);
         bottom.setLayout(new GridLayout());
         add(bottom, BorderLayout.CENTER);
 
@@ -62,18 +62,19 @@ public class Homescreen extends JFrame {
         bottomLeft.setBackground(Color.lightGray);
         bottom.add(bottomLeft);
 
-        chooseYourPreference = new JButton("Choose your Preference");
-        constraints.gridx = 0;
-        constraints.gridy = 0;
+        if(((Student) user).isChoiceMade()) {
+            chooseYourPreference = new JButton("Choose your Preference");
+            constraints.gridx = 0;
+            constraints.gridy = 0;
 
-        chooseYourPreference.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                new PreferencePopup((Student) user);
+            chooseYourPreference.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    new PreferencePopup((Student) user);
                 }
             });
 
-        bottomLeft.add(chooseYourPreference, constraints);
-
+            bottomLeft.add(chooseYourPreference, constraints);
+        }
         // TODO neue Methode in Student die prüft ob schon preference gewählt wurde
 
 

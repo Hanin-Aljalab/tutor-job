@@ -55,6 +55,10 @@ public class Student extends User {
         return teacherPref;
     }
 
+    public void setChoiceMade(boolean choiceMade) {
+        this.choiceMade = choiceMade;
+    }
+
     public boolean isChoiceMade() {
         return choiceMade;
     }
