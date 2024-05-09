@@ -53,7 +53,7 @@ public class Homescreen extends JFrame {
         add(top);
         top.setBackground(Color.GRAY);
 
-        name = new JLabel("Name: " + user.getName() + " " + user.getSurname());
+        name = new JLabel("Name: " + user.getFirstName() + " " + user.getLastName());
 
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -66,6 +66,8 @@ public class Homescreen extends JFrame {
             constraints.gridy = 0;
             top.add(matrikelnumber, constraints);
         }
+
+        //TODO wenn Dozent dann profession?
 
         top.add(createLogoutButton());
 
