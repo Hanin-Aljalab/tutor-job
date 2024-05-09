@@ -28,8 +28,11 @@ public class Homescreen extends JFrame {
     private JButton chooseYourPreference;
     private JLabel fill;
     private JLabel name;
-    private JLabel studNumber;
+    private JLabel matrikelnumber;
     private JLabel infoPreference;
+    private JLabel preferenceStatus;
+    private JList<String> teachers;
+    private JList<String> lectures;
 
     GridBagConstraints constraints = new GridBagConstraints();
 
@@ -41,6 +44,7 @@ public class Homescreen extends JFrame {
         setBounds(100, 100, 700, 400);
         setLocationRelativeTo(null);
         setLayout(null);
+        setResizable(false);
         constraints.insets = new Insets(10, 10, 10, 10);
 
         JPanel top = new JPanel(); //----------------------------------------------------
@@ -49,8 +53,7 @@ public class Homescreen extends JFrame {
         add(top);
         top.setBackground(Color.GRAY);
 
-        name =
-                new JLabel("Name: " + user.getFirstName() + " " + user.getLastName());
+        name = new JLabel("Name: " + user.getName() + " " + user.getSurname());
 
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -58,11 +61,13 @@ public class Homescreen extends JFrame {
         top.add(name, constraints);
 
         if (user.getClass() == Student.class) {
-            studNumber = new JLabel("mtr: " + ((Student) user).getMatNummer());
+            matrikelnumber = new JLabel("mtr: " + ((Student) user).getMatNummer());
             constraints.gridx = 1;
             constraints.gridy = 0;
-            top.add(studNumber, constraints);
+            top.add(matrikelnumber, constraints);
         }
+
+        top.add(createLogoutButton());
 
         JSeparator separator = new JSeparator();
         separator.setBounds(0, 50, 700, 4);
@@ -79,45 +84,59 @@ public class Homescreen extends JFrame {
         bottomLeft.setBackground(Color.lightGray);
         bottom.add(bottomLeft);
 
+        preferenceStatus = new JLabel("No preference chosen");
+        preferenceStatus.setForeground(Color.GRAY);
+        preferenceStatus.setVisible(false);
+        constraints.gridy = 1;
+        bottomLeft.add(preferenceStatus, constraints);
+
         if (!((Student) user).isChoiceMade()) {
             chooseYourPreference = new JButton("Choose your Preference");
-
             chooseYourPreference.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     new PreferencePopup((Student) user);
                     ((Student) user).setChoiceMade(true);
                     chooseYourPreference.setEnabled(false);
+                    preferenceStatus.setText("Preference already chosen!");
+                    preferenceStatus.setForeground(Color.GRAY);
+                    preferenceStatus.setVisible(true);
                 }
             });
+            constraints.gridy = 0;
             bottomLeft.add(chooseYourPreference, constraints);
         }
 
-            // TODO neue Methode in Student die prüft ob schon preference gewählt wurde
+        JPanel bottomRight = new JPanel(); // ...........................
+        bottomRight.setLayout(new GridBagLayout());
+        bottom.add(bottomRight);
 
+        infoPreference = new JLabel("HIER STEHEN DIE PRÄFERENZEN"); // TODO: Listen von Student ausgeben mit SwingList
 
-            JPanel bottomRight = new JPanel(); // ...........................
-            bottomRight.setLayout(new GridBagLayout());
-            //bottomRight.setBackground(Color.white);
-            bottom.add(bottomRight);
+        constraints.gridx = 2;
+        constraints.gridy = 0;
+        bottomRight.add(infoPreference, constraints);
 
-            infoPreference = new JLabel("HIER STEHEN DIE PRÄFERENZEN"); // TODO: Listen von Student ausgeben mit SwingList
-
-            constraints.gridx = 2;
-            constraints.gridy = 0;
-            bottomRight.add(infoPreference, constraints);
-
-            setVisible(true);
-        }
-
-        public static void main (String[]args){
-            Student s1 = new Student("Markus", "W", "1234", 3008816);
-            Teacher t1 = new Teacher("Markus", "W", "1234", "");
-            new Homescreen(t1);
-        }
-
-
-        //TODO: PrefPOPup schließt wenn x --> lieber nur das Fenster schließen
-
-
+        setVisible(true);
     }
+
+    //TODO Method for Logout button ...................................
+    private JButton createLogoutButton(){
+        JButton logout = new JButton("Logout");
+        logout.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new LoginPopup();
+                constraints.gridx = 3;
+            }
+        });
+        return logout;
+    }
+
+
+    public static void main (String[]args){
+        Student s1 = new Student("Markus", "W", "1234", 3008816);
+        Teacher t1 = new Teacher("Markus", "W", "1234", "Dozent");
+        new Homescreen(s1);
+    }
+
+}
 
