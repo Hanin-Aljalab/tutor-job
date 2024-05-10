@@ -18,7 +18,7 @@ public class PreferencePopup extends JFrame implements ActionListener {
     private final int width = 700;
     private final int height = 500;
 
-    public PreferencePopup(Student student) {
+    public PreferencePopup(Homescreen homescreen, Student student) {
         this.student = student;
         lecturePref = new ArrayList<>();
         teacherPref = new ArrayList<>();
@@ -32,7 +32,7 @@ public class PreferencePopup extends JFrame implements ActionListener {
         createLecturePanel();
         createTeacherPanel();
         revalidate();
-        //      setContentPane(wrapperPanel); // TODO wofür?????
+        //setContentPane(wrapperPanel); // TODO wofür?????
 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

@@ -13,6 +13,8 @@ public class Teacher extends User {
 
 
 
+
+
     /**
      * creates a new Job, depending on the input given in the JText fields
      */

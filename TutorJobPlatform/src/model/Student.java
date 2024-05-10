@@ -59,5 +59,11 @@ public class Student extends User {
     public boolean isChoiceMade() {
         return choiceMade;
     }
+
+    public void clearPreferences() {
+        lecturePref.clear();
+        teacherPref.clear();
+        choiceMade = false;
+    }
 }
 
