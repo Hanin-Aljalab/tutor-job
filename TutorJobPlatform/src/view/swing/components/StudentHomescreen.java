@@ -164,7 +164,8 @@ public class StudentHomescreen extends Homescreen {
 
     // TODO temp main
     public static void main(String[] args) {
-        Student s1 = new Student("Markus", "Winklhofer", "1234", 3008816);
+        Student s1 = new Student("Markus", "Winklhofer", "1234", 3008816,
+                "IMB");
         Teacher t1 = new Teacher("Yordan", "Todorov", "1234", "Dr");
         new StudentHomescreen(s1);
     }

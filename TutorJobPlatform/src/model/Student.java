@@ -5,15 +5,18 @@ import java.util.ArrayList;
 
 public class Student extends User {
     private int matNummer;
+    private String studyPath;
     private ArrayList<String> lecturePref;
     private ArrayList<String> teacherPref;
     private boolean choiceMade;
 
     private PreferencePopup preferencePopup;
 
-    public Student(String name, String surname, String password, int matNummer) {
+    public Student(String name, String surname, String password,
+                   int matNummer, String studyPath) {
         super(name, surname, password, "Student*in");
         this.matNummer = matNummer;
+        this.studyPath = studyPath;
         choiceMade = false;
     }
 

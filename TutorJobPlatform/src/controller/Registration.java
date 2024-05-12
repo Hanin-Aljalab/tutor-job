@@ -17,7 +17,8 @@ public class Registration {
     public boolean registerUser(String firstName, String lastName,
                                 String password,
                                 String passwordRep, String profession,
-                                String title, String studNumber) {
+                                String title, String studNumber,
+                                String studyPath) {
         User user;
 
         boolean usernameExists = data.checkIfUsernameExists(lastName,
@@ -36,7 +37,8 @@ public class Registration {
             user = new Teacher(firstName, lastName, password, title);
         } else {
             int matNumber = Integer.parseInt(studNumber); //TODO try catch
-            user = new Student(firstName, lastName, password, matNumber);
+            user = new Student(firstName, lastName, password, matNumber,
+                    studyPath);
 
         }
         data.addUser(user);

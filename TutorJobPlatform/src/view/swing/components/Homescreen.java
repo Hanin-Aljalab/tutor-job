@@ -200,7 +200,7 @@ public abstract class Homescreen extends JFrame {
                     JOptionPane.QUESTION_MESSAGE);
             if (response == JOptionPane.YES_OPTION) {
                 dispose();
-                new LoginPopup();
+                new LoginWindow();
             }
         });
         return logout;

@@ -14,7 +14,7 @@ public class RegistrationPopup {
     private JPanel mainPanel, formPanel, buttonPanel;
     private JTextField firstNameField, lastNameField, emailField, passwordField,
      passwordConfirmField, matriculationNumberField;
-    private JComboBox<String> roleDropdown, titleDropdown;
+    private JComboBox<String> roleDropdown, titleDropdown, studyPathDropdown;
     private JButton submitButton;
     private JLabel messageLabel;
 
@@ -45,12 +45,14 @@ public class RegistrationPopup {
         roleDropdown.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 toggleFieldsBasedOnRole((String) roleDropdown.getSelectedItem());
-                System.out.println("listened!");
             }
         });
 
         String[] teacherTitles = {"", "Dr.", "Prof. Dr."};
         titleDropdown = new JComboBox<>(teacherTitles);
+
+        String[] studyPaths = {"CSB", "IB", "IMB", "UIB"};
+        studyPathDropdown = new JComboBox<>(studyPaths);
 
         // Textfelder
         firstNameField = new JTextField();
@@ -85,6 +87,7 @@ public class RegistrationPopup {
         addToFormPanel(new JLabel("Vorname:"), firstNameField);
         addToFormPanel(new JLabel("Nachname:"), lastNameField);
         addToFormPanel(new JLabel("Matrikelnummer:"), matriculationNumberField);
+        addToFormPanel(new JLabel("Studiengang:"), studyPathDropdown);
         addToFormPanel(new JLabel("E-Mail:"), emailField);
         addToFormPanel(new JLabel("Passwort:"), passwordField);
         addToFormPanel(new JLabel("Passwort wiederholen:"),
@@ -114,6 +117,7 @@ public class RegistrationPopup {
         boolean isStudent = "Student*in".equals(role);
         matriculationNumberField.setVisible(isStudent);
         titleDropdown.setVisible(!isStudent);
+        studyPathDropdown.setVisible(isStudent);
     }
 
     // TODO: Pop-up-Nachrichten anzeigen basierend auf dem Ergebnis
@@ -127,15 +131,16 @@ public class RegistrationPopup {
         String passwordRep = passwordConfirmField.getText();
         String title = "";
         String studNumber = "";
+        String studyPath = "";
 
         if (isStudent) {
             studNumber = matriculationNumberField.getText();
+            studyPath = (String) roleDropdown.getSelectedItem();
         } else {
             title = (String) titleDropdown.getSelectedItem();
         }
-
         return registration.registerUser(firstName, lastName, password,
-                passwordRep, role, title, studNumber);
+                passwordRep, role, title, studNumber, studyPath);
     }
 
     // TODO Data should not be initiated here (probably in homescreen)
