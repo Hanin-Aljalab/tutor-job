@@ -35,8 +35,8 @@ public class Student extends User {
     }
 
     public void deletePreferences() {
-        lecturePref = null;
-        teacherPref = null;
+        lecturePref.clear();
+        teacherPref.clear();
         choiceMade = false;
     }
 
@@ -58,12 +58,6 @@ public class Student extends User {
 
     public boolean isChoiceMade() {
         return choiceMade;
-    }
-
-    public void clearPreferences() {
-        lecturePref.clear();
-        teacherPref.clear();
-        choiceMade = false;
     }
 }
 
