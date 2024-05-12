@@ -2,6 +2,8 @@ package view.swing.components;
 
 import model.Student;
 import model.Teacher;
+import view.swing.components.homescreens.StudentHomescreen;
+import view.swing.components.homescreens.TeacherHomescreen;
 
 import javax.swing.*;
 import java.awt.*;

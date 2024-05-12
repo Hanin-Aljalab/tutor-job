@@ -1,4 +1,4 @@
-package view.swing.components;
+package view.swing.components.homescreens;
 
 public class InfoText {
     public static final String[] studentGeneral = new String[]

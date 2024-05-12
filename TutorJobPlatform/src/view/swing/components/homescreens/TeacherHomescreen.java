@@ -1,4 +1,4 @@
-package view.swing.components;
+package view.swing.components.homescreens;
 
 import model.Student;
 import model.Teacher;

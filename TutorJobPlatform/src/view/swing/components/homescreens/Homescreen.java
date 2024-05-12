@@ -1,6 +1,7 @@
-package view.swing.components;
+package view.swing.components.homescreens;
 
 import model.*;
+import view.swing.components.LoginWindow;
 
 import javax.swing.*;
 import java.awt.*;
