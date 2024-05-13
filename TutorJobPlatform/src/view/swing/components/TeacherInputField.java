@@ -1,5 +1,8 @@
 package view.swing.components;
 
+import model.Lecture;
+import model.Teacher;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,10 +16,13 @@ public class TeacherInputField extends JFrame {
     private JComboBox<String> comboBoxAnzahlTutoren;
     private ArrayList<JCheckBox> checkBoxesStudiengaenge;
     private JTextArea txtAnforderungen;
-    private JTextField txtKontaktInfo;
     private JButton btnSpeichern;
 
-    public TeacherInputField() {
+    private Teacher loggedInTeacher; // Referenz auf den eingeloggten Lehrer
+
+    public TeacherInputField(Teacher loggedInTeacher) {
+        this.loggedInTeacher = loggedInTeacher;
+
         setTitle("Dozenteninformationen eingeben");
         setSize(700, 700);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -44,19 +50,14 @@ public class TeacherInputField extends JFrame {
         comboBoxAnzahlTutoren = new JComboBox<>(new String[]{"1", "2", "3", "4", "5"});
         inputPanel.add(lblAnzahlTutoren);
         inputPanel.add(comboBoxAnzahlTutoren);
-        
+
         JLabel lblAnforderungen = new JLabel("Anforderungen an die Tutoren:");
         txtAnforderungen = new JTextArea();
         inputPanel.add(lblAnforderungen);
         inputPanel.add(new JScrollPane(txtAnforderungen));
 
-        JLabel lblKontaktInfo = new JLabel("Kontakinformationen der Dozenten:");
-        txtKontaktInfo = new JTextField();
-        inputPanel.add(lblKontaktInfo);
-        inputPanel.add(txtKontaktInfo);
-
-        JPanel studiengaengePanel = new JPanel(new GridLayout(0, 4)); // Hier können Sie die Anzahl der Spalten ändern
-        studiengaengePanel.setPreferredSize(new Dimension(600, 300)); // Hier können Sie die Größe des Panels ändern
+        JPanel studiengaengePanel = new JPanel(new GridLayout(0, 4));
+        studiengaengePanel.setPreferredSize(new Dimension(600, 300)); 
 
         String[] studiengaenge = {"BCB", "BB", "CB", "CSB", "EEB", "ETB", "IB", "IEB", "ELB", "KI-Ingenieurswissenschaften",
                 "DB", "MB", "MEB", "IMB", "MTB", "NTB", "SB", "TIB", "TS", "UIB",
@@ -64,7 +65,7 @@ public class TeacherInputField extends JFrame {
         checkBoxesStudiengaenge = new ArrayList<>();
         for (String studiengang : studiengaenge) {
             JCheckBox checkBox = new JCheckBox(studiengang);
-            checkBox.setPreferredSize(new Dimension(150, 30)); // Hier können Sie die Größe der Checkboxen ändern
+            checkBox.setPreferredSize(new Dimension(150, 30)); 
             checkBoxesStudiengaenge.add(checkBox);
             studiengaengePanel.add(checkBox);
         }
@@ -72,8 +73,6 @@ public class TeacherInputField extends JFrame {
         JLabel lblStudiengang = new JLabel("Studiengang der TutorInnen:");
         inputPanel.add(lblStudiengang);
         inputPanel.add(studiengaengePanel);
-        
-
 
         add(inputPanel, BorderLayout.CENTER);
 
@@ -87,7 +86,6 @@ public class TeacherInputField extends JFrame {
                 String dauer = txtDauer.getText();
                 int anzahlTutoren = Integer.parseInt((String) comboBoxAnzahlTutoren.getSelectedItem());
                 String anforderungen = txtAnforderungen.getText();
-                String kontaktInfo = txtKontaktInfo.getText();
                 ArrayList<String> selectedStudyPaths = new ArrayList<>();
                 for (JCheckBox checkBox : checkBoxesStudiengaenge) {
                     if (checkBox.isSelected()) {
@@ -95,20 +93,14 @@ public class TeacherInputField extends JFrame {
                     }
                 }
 
-                // Erstelle eine neue Lecture-Instanz mit den gesammelten Informationen
-                // Lecture lecture = new Lecture(name, ort, dauer, arbeitszeit, entlohnung, anzahlTutoren, anforderungen, kontaktInfo, selectedStudyPath);
+                // Erstellt eine neue Lecture-Instanz mit den gesammelten Informationen
+                //Lecture lecture = loggedInTeacher.createLecture(name, ort, dauer, anzahlTutoren, anforderungen, selectedStudyPaths);
+
+               
             }
         });
         add(btnSpeichern, BorderLayout.SOUTH);
 
         setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new TeacherInputField();
-            }
-        });
     }
 }
