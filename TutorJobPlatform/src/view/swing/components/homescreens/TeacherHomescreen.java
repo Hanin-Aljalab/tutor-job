@@ -10,7 +10,7 @@ public class TeacherHomescreen extends Homescreen{
     private DefaultListModel<String> lectureModel;
     private JList<String> lectures;
 
-    TeacherHomescreen(Teacher user) {
+    public TeacherHomescreen(Teacher user) {
         super(user, Color.YELLOW);
         button = configureButton();
         choicePanel.add(button);
