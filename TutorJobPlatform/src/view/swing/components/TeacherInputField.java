@@ -35,8 +35,7 @@ public class TeacherInputField extends JFrame {
         inputPanel.add(labelName);
         inputPanel.add(txtCourseName);
 
-        JLabel labelAbbreviation = new JLabel("Veranstaltungsname " +
-                "(ausgeschrieben):");
+        JLabel labelAbbreviation = new JLabel("Kürzel:");
         txtAbbreviation = new JTextField();
         inputPanel.add(labelAbbreviation);
         inputPanel.add(txtAbbreviation);
@@ -96,5 +95,10 @@ public class TeacherInputField extends JFrame {
         add(btnSave, BorderLayout.SOUTH);
 
         setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        Teacher stg = new Teacher("Jess", "Steinberger", "12234", "Prof. Dr.");
+        TeacherInputField field = new TeacherInputField(stg);
     }
 }
