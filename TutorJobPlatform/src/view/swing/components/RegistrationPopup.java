@@ -12,8 +12,8 @@ public class RegistrationPopup {
 
     private JFrame frame;
     private JPanel mainPanel, formPanel, buttonPanel;
-    private JTextField firstNameField, lastNameField, emailField, passwordField,
-     passwordConfirmField, matriculationNumberField;
+    private JTextField firstNameField, lastNameField, abbreviationField, passwordField,
+            passwordConfirmField, matriculationNumberField;
     private JComboBox<String> roleDropdown, titleDropdown, studyPathDropdown;
     private JButton submitButton;
     private JLabel messageLabel;
@@ -57,7 +57,7 @@ public class RegistrationPopup {
         // Textfelder
         firstNameField = new JTextField();
         lastNameField = new JTextField();
-        emailField = new JTextField();
+        abbreviationField = new JTextField();
         passwordField = new JPasswordField();
         passwordConfirmField = new JPasswordField();
         matriculationNumberField = new JTextField();
@@ -86,9 +86,9 @@ public class RegistrationPopup {
         addToFormPanel(new JLabel("Anrede:"), titleDropdown);
         addToFormPanel(new JLabel("Vorname:"), firstNameField);
         addToFormPanel(new JLabel("Nachname:"), lastNameField);
+        addToFormPanel(new JLabel("Dozent*innenkürzel:"), abbreviationField);
         addToFormPanel(new JLabel("Matrikelnummer:"), matriculationNumberField);
         addToFormPanel(new JLabel("Studiengang:"), studyPathDropdown);
-        addToFormPanel(new JLabel("E-Mail:"), emailField);
         addToFormPanel(new JLabel("Passwort:"), passwordField);
         addToFormPanel(new JLabel("Passwort wiederholen:"),
                 passwordConfirmField);
@@ -117,6 +117,7 @@ public class RegistrationPopup {
         boolean isStudent = "Student*in".equals(role);
         matriculationNumberField.setVisible(isStudent);
         titleDropdown.setVisible(!isStudent);
+        abbreviationField.setVisible(!isStudent);
         studyPathDropdown.setVisible(isStudent);
     }
 
