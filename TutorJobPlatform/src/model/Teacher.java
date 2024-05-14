@@ -1,6 +1,7 @@
 package model;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class Teacher extends User {
     JTextField LectureInput = new JTextField(); // TODO
@@ -16,10 +17,9 @@ public class Teacher extends User {
     /**
      * creates a new Job, depending on the input given in the JText fields
      */
-    private void createLecture(){
-       // TODO anpassen an refaktorisierte Klassen: Create lecture will have
-       //  own popup
-       // new Job(LectureInput.getText(),SlotInput.getColumns());
+    public Lecture createLecture(String name, int anzahlTutoren, String anforderungen, ArrayList<String> selectedStudyPaths) {
+        Lecture lecture = new Lecture(name, anzahlTutoren, anforderungen, this, selectedStudyPaths);
+        return lecture;
     }
 
 }

@@ -11,8 +11,6 @@ import java.util.ArrayList;
 
 public class TeacherInputField extends JFrame {
     private JTextField txtVeranstaltungName;
-    private JTextField txtOrt;
-    private JTextField txtDauer;
     private JComboBox<String> comboBoxAnzahlTutoren;
     private ArrayList<JCheckBox> checkBoxesStudiengaenge;
     private JTextArea txtAnforderungen;
@@ -36,16 +34,6 @@ public class TeacherInputField extends JFrame {
         inputPanel.add(lblVeranstaltungName);
         inputPanel.add(txtVeranstaltungName);
 
-        JLabel lblOrt = new JLabel("Gebäude und Raum:");
-        txtOrt = new JTextField();
-        inputPanel.add(lblOrt);
-        inputPanel.add(txtOrt);
-
-        JLabel lblDauer = new JLabel("Dauer der Veranstaltung in Stunden:");
-        txtDauer = new JTextField();
-        inputPanel.add(lblDauer);
-        inputPanel.add(txtDauer);
-
         JLabel lblAnzahlTutoren = new JLabel("Anzahl an Tutoren:");
         comboBoxAnzahlTutoren = new JComboBox<>(new String[]{"1", "2", "3", "4", "5"});
         inputPanel.add(lblAnzahlTutoren);
@@ -59,9 +47,7 @@ public class TeacherInputField extends JFrame {
         JPanel studiengaengePanel = new JPanel(new GridLayout(0, 4));
         studiengaengePanel.setPreferredSize(new Dimension(600, 300)); 
 
-        String[] studiengaenge = {"BCB", "BB", "CB", "CSB", "EEB", "ETB", "IB", "IEB", "ELB", "KI-Ingenieurswissenschaften",
-                "DB", "MB", "MEB", "IMB", "MTB", "NTB", "SB", "TIB", "TS", "UIB",
-                "VB", "WB", "WBI"};
+        String[] studiengaenge = {"IMB", "UIB", "CSB", "IB"};
         checkBoxesStudiengaenge = new ArrayList<>();
         for (String studiengang : studiengaenge) {
             JCheckBox checkBox = new JCheckBox(studiengang);
@@ -82,8 +68,6 @@ public class TeacherInputField extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Eingaben aus der UI werden verwendet, um eine neue Lecture-Instanz zu erstellen
                 String name = txtVeranstaltungName.getText();
-                String ort = txtOrt.getText();
-                String dauer = txtDauer.getText();
                 int anzahlTutoren = Integer.parseInt((String) comboBoxAnzahlTutoren.getSelectedItem());
                 String anforderungen = txtAnforderungen.getText();
                 ArrayList<String> selectedStudyPaths = new ArrayList<>();
@@ -94,7 +78,7 @@ public class TeacherInputField extends JFrame {
                 }
 
                 // Erstellt eine neue Lecture-Instanz mit den gesammelten Informationen
-                //Lecture lecture = loggedInTeacher.createLecture(name, ort, dauer, anzahlTutoren, anforderungen, selectedStudyPaths);
+                Lecture lecture = loggedInTeacher.createLecture(name, anzahlTutoren, anforderungen, selectedStudyPaths);
 
                
             }
