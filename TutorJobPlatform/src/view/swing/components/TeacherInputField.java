@@ -10,18 +10,19 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class TeacherInputField extends JFrame {
-    private JTextField txtVeranstaltungName;
-    private JComboBox<String> comboBoxAnzahlTutoren;
-    private ArrayList<JCheckBox> checkBoxesStudiengaenge;
-    private JTextArea txtAnforderungen;
-    private JButton btnSpeichern;
+    private JTextField txtCourseName;
+    private JTextField txtAbbreviation;
+    private JComboBox<String> comboBoxDesiredTutorNumber;
+    private ArrayList<JCheckBox> checkBoxesAllowedStudyPaths;
+    private JTextArea txtCourseInfo;
+    private JButton btnSave;
 
     private Teacher loggedInTeacher; // Referenz auf den eingeloggten Lehrer
 
     public TeacherInputField(Teacher loggedInTeacher) {
         this.loggedInTeacher = loggedInTeacher;
 
-        setTitle("Dozenteninformationen eingeben");
+        setTitle("Neuen Kurs anlegen");
         setSize(700, 700);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -29,61 +30,70 @@ public class TeacherInputField extends JFrame {
         JPanel inputPanel = new JPanel(new GridLayout(10, 2));
 
         // Labels und Textfelder für die Eingaben
-        JLabel lblVeranstaltungName = new JLabel("Veranstaltungname:");
-        txtVeranstaltungName = new JTextField();
-        inputPanel.add(lblVeranstaltungName);
-        inputPanel.add(txtVeranstaltungName);
+        JLabel labelName = new JLabel("Veranstaltungsname (ausgeschrieben):");
+        txtCourseName = new JTextField();
+        inputPanel.add(labelName);
+        inputPanel.add(txtCourseName);
 
-        JLabel lblAnzahlTutoren = new JLabel("Anzahl an Tutoren:");
-        comboBoxAnzahlTutoren = new JComboBox<>(new String[]{"1", "2", "3", "4", "5"});
-        inputPanel.add(lblAnzahlTutoren);
-        inputPanel.add(comboBoxAnzahlTutoren);
+        JLabel labelAbbreviation = new JLabel("Veranstaltungsname " +
+                "(ausgeschrieben):");
+        txtAbbreviation = new JTextField();
+        inputPanel.add(labelAbbreviation);
+        inputPanel.add(txtAbbreviation);
 
-        JLabel lblAnforderungen = new JLabel("Anforderungen an die Tutoren:");
-        txtAnforderungen = new JTextArea();
-        inputPanel.add(lblAnforderungen);
-        inputPanel.add(new JScrollPane(txtAnforderungen));
+        JLabel labelTutNumber = new JLabel("Anzahl Tutor*innen:");
+        comboBoxDesiredTutorNumber = new JComboBox<>(new String[]{"1", "2", "3", "4", "5"});
+        inputPanel.add(labelTutNumber);
+        inputPanel.add(comboBoxDesiredTutorNumber);
 
-        JPanel studiengaengePanel = new JPanel(new GridLayout(0, 4));
-        studiengaengePanel.setPreferredSize(new Dimension(600, 300)); 
+        JLabel labelCourseInfo = new JLabel("Kurzbeschreibung" +
+                "/Anforderungen:");
+        txtCourseInfo = new JTextArea();
+        inputPanel.add(labelCourseInfo);
+        inputPanel.add(new JScrollPane(txtCourseInfo));
 
-        String[] studiengaenge = {"IMB", "UIB", "CSB", "IB"};
-        checkBoxesStudiengaenge = new ArrayList<>();
-        for (String studiengang : studiengaenge) {
-            JCheckBox checkBox = new JCheckBox(studiengang);
+        JPanel studyPathPanel = new JPanel(new GridLayout(0, 4));
+        studyPathPanel.setPreferredSize(new Dimension(600, 300));
+
+        String[] studyPaths = {"IMB", "UIB", "CSB", "IB"};
+        checkBoxesAllowedStudyPaths = new ArrayList<>();
+        for (String studyPath : studyPaths) {
+            JCheckBox checkBox = new JCheckBox(studyPath);
             checkBox.setPreferredSize(new Dimension(150, 30)); 
-            checkBoxesStudiengaenge.add(checkBox);
-            studiengaengePanel.add(checkBox);
+            checkBoxesAllowedStudyPaths.add(checkBox);
+            studyPathPanel.add(checkBox);
         }
 
-        JLabel lblStudiengang = new JLabel("Studiengang der TutorInnen:");
-        inputPanel.add(lblStudiengang);
-        inputPanel.add(studiengaengePanel);
+        JLabel labelStudyPaths = new JLabel("Studiengang der Tutor*innen:");
+        inputPanel.add(labelStudyPaths);
+        inputPanel.add(studyPathPanel);
 
         add(inputPanel, BorderLayout.CENTER);
 
         // Button zum Speichern der Daten
-        btnSpeichern = new JButton("Speichern");
-        btnSpeichern.addActionListener(new ActionListener() {
+        btnSave = new JButton("Speichern");
+        btnSave.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Eingaben aus der UI werden verwendet, um eine neue Lecture-Instanz zu erstellen
-                String name = txtVeranstaltungName.getText();
-                int anzahlTutoren = Integer.parseInt((String) comboBoxAnzahlTutoren.getSelectedItem());
-                String anforderungen = txtAnforderungen.getText();
+                String courseName = txtCourseName.getText();
+                String abbreviation = txtAbbreviation.getText();
+                int tutorNum = Integer.parseInt((String) comboBoxDesiredTutorNumber.getSelectedItem());
+                String courseInfo = txtCourseInfo.getText();
                 ArrayList<String> selectedStudyPaths = new ArrayList<>();
-                for (JCheckBox checkBox : checkBoxesStudiengaenge) {
+                for (JCheckBox checkBox : checkBoxesAllowedStudyPaths) {
                     if (checkBox.isSelected()) {
                         selectedStudyPaths.add(checkBox.getText());
                     }
                 }
 
                 // Erstellt eine neue Lecture-Instanz mit den gesammelten Informationen
-                Lecture lecture = loggedInTeacher.createLecture(name, anzahlTutoren, anforderungen, selectedStudyPaths);
+                Lecture lecture = loggedInTeacher.createLecture(courseName,
+                        abbreviation, tutorNum, courseInfo, selectedStudyPaths);
 
                
             }
         });
-        add(btnSpeichern, BorderLayout.SOUTH);
+        add(btnSave, BorderLayout.SOUTH);
 
         setVisible(true);
     }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Teacher extends User {
     JTextField LectureInput = new JTextField(); // TODO
-    JTextField SlotInput = new JTextField();
+    JTextField SlotInput = new JTextField(); // TODO
     ArrayList<Lecture> lectures;
 
 
@@ -22,8 +22,11 @@ public class Teacher extends User {
     /**
      * creates a new Job, depending on the input given in the JText fields
      */
-    public Lecture createLecture(String name, int anzahlTutoren, String anforderungen, ArrayList<String> selectedStudyPaths) {
-        Lecture lecture = new Lecture(name, anzahlTutoren, anforderungen, this, selectedStudyPaths);
+    public Lecture createLecture(String name, String abbreviation,
+                                 int numTutors,
+                                 String courseInfo, ArrayList<String> allowedStudyPaths) {
+        Lecture lecture = new Lecture(name, abbreviation, numTutors,
+                courseInfo,this, allowedStudyPaths);
         return lecture;
     }
 

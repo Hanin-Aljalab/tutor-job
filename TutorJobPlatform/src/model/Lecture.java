@@ -4,44 +4,37 @@ import java.util.ArrayList;
 public class Lecture {
   
     private String name;
-    private String ort;
-    private String dauer;
-    private int anzahlTutoren;
-    private String anforderungen;
+    private String abbreviation;
+    private int desiredTutorNumber;
+    private String courseInfo;
     private Teacher teacher;
     private ArrayList<Student> tutors;
-    private ArrayList<String> selectedStudyPaths;
+    private ArrayList<String> allowedStudyPaths;
 
-    public Lecture(String name, int anzahlTutoren, String anforderungen,
-                   Teacher teacher, ArrayList<String> selectedStudyPaths) {
+    public Lecture(String name, String abbreviation, int numTutors,
+                   String courseInfo, Teacher teacher, ArrayList<String> allowedStudyPaths) {
         this.name = name;
-        this.ort = ort;
-        this.dauer = dauer;
-        this.anzahlTutoren = anzahlTutoren;
-        this.anforderungen = anforderungen;
+        this.abbreviation = abbreviation;
+        this.desiredTutorNumber = numTutors;
+        this.courseInfo = courseInfo;
         this.teacher = teacher;
-        this.selectedStudyPaths = selectedStudyPaths;
+        this.allowedStudyPaths = allowedStudyPaths;
     }
-
 
     public String getName() {
         return name;
     }
 
-    public String getOrt() {
-        return ort;
+    public String getAbbreviation() {
+        return abbreviation;
     }
 
-    public String getDauer() {
-        return dauer;
+    public int getDesiredTutorNumber() {
+        return desiredTutorNumber;
     }
 
-    public int getAnzahlTutoren() {
-        return anzahlTutoren;
-    }
-
-    public String getAnforderungen() {
-        return anforderungen;
+    public String getCourseInfo() {
+        return courseInfo;
     }
 
     public Teacher getTeacher() {
@@ -56,7 +49,7 @@ public class Lecture {
         tutors.add(student);
     }
 
-    public ArrayList<String> getSelectedStudyPaths() {
-        return selectedStudyPaths;
+    public ArrayList<String> getAllowedStudyPaths() {
+        return allowedStudyPaths;
     }
 }
