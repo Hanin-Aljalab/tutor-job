@@ -87,4 +87,9 @@ public class TeacherInputField extends JFrame {
 
         setVisible(true);
     }
+
+    public static void main(String[] args) {
+        Teacher stg = new Teacher("Jess", "Steinberger", "12345", "Prof. Dr.");
+        TeacherInputField field = new TeacherInputField(stg);
+    }
 }
