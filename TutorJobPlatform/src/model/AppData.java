@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import exceptions.UserAlreadyExistsException;
 
 import java.util.List;
 
@@ -18,18 +19,19 @@ public class AppData {
     //   (Namen können gleich sein), sondern entweder mit Matrikelnummer oder
     //   Emailadresse. Wenn kein Student/Dozent gefunden wird, sollte eine
     //   Fehlermeldung (Exception) herausgegeben werden.
-    public boolean checkIfUsernameExists(String username, String profession) {
-        if (profession.equals("Dozent*in")) {
+    
+    public boolean checkIfUserExists(String abbreviation, String studNumber, String role) {
+        if (role.equals("Dozent*in")) {
             for (Teacher teacher : teachers) {
-                if (teacher.getLastName().equals(username)) {
+                if (abbreviation.equals(teacher.getAbbreviation())) {
                     return true;
                 }
             }
         }
 
-        if (profession.equals("Student*in")) {
+        if (role.equals("Student*in")) {
             for (Student student : students) {
-                if (student.getLastName().equals(username)) {
+                if (studNumber.equals(student.getStudNumber())) {
                     return true;
                 }
             }
@@ -51,18 +53,18 @@ public class AppData {
     // TODO: Auch eine Überlegung: in ArrayLists gibt es MEthoden, die direkt
     //  einen gewünschten Wert zurückgeben, z.B. etwas wie find() - dann
     //  müsste man es nicht mit einer komplizierten for-Schleife lösen
-    public User getUser(String username, String profession) {
-        if (profession.equals("Dozent*in")) {
+    public User getUser(String studNumber, String abbreviation, String role) {
+        if (role.equals("Dozent*in")) {
             for (Teacher teacher : teachers) {
-                if (teacher.getLastName().equals(username)) {
+                if (teacher.getAbbreviation().equals(abbreviation)) {
                     return teacher;
                 }
             }
         }
 
-        if (profession.equals("Student*in")) {
+        if (role.equals("Student*in")) {
             for (Student student : students) {
-                if (student.getLastName().equals(username)) {
+                if (student.getStudNumber().equals(studNumber)) {
                     return student;
                 }
             }
@@ -73,11 +75,11 @@ public class AppData {
 
     // TODO removeUser();
 
-    public static List<Student> getStudents() {
+    public List<Student> getStudents() {
         return students;
     }
 
-    public static List<Teacher> getTeachers() {
+    public List<Teacher> getTeachers() {
         return teachers;
     }
 }

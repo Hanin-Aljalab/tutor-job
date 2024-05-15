@@ -1,46 +1,97 @@
 package controller;
 
-import model.*;
+import model.AppData;
+import model.User;
+import model.Teacher;
+import model.Student;
+import model.Lecture;
+import exceptions.AbbreviationInvalidException;
+import exceptions.InvalidInputException;
+import exceptions.UserAlreadyExistsException;
+import exceptions.StudentNumberInvalidException;
+import exceptions.PasswordsNotIdenticalException;
 
 public class Registration {
-    public static Registration registration = new Registration();
-    private AppData data = AppData.data;
+	public static Registration registration = new Registration();
+	private AppData data = AppData.data;
 
-    // TODO: Die Registrierungsmethode sollte einen Fehler
-    //  werfen, falls mit der Registrierung etwas nicht
-    //  klappt. Dafür brauchen wir eigene Exceptions, z.B.
-    //  "UserAlreadyExistsException", "StudentNumberInvalidException",
-    //  "PasswordsNotIdenticalException", "EmailNotValidException",
-    //  "InvalidInputException" (Felder sind leer)
-    //  Die Passwortüberprüfung und Überprüfung, ob User schon existiert,
-    //  sollten in separate Methoden ausgelagert werden.
-    public boolean registerUser(String firstName, String lastName,
-                                String password,
-                                String passwordRep, String profession,
-                                String title, String studNumber) {
-        User user;
+	// Überprüfe ob der Benutzer bereits existiert
+	private boolean checkIfUserAlreadyExists(String abbreviation, String studNumber, String role) {
+		return data.checkIfUserExists(abbreviation, studNumber, role);
+	}
 
-        boolean usernameExists = data.checkIfUsernameExists(lastName,
-                profession);
-        if (usernameExists) {
-            System.out.println("Username schon vergeben!");
-            return false; // Username exists
-        }
+	// Überprüfe ob die Passwörter identisch sind
+	private boolean checkIfPasswordsMatch(String password, String passwordRep) {
+		return password.equals(passwordRep);
+	}
 
-        if (!password.equals(passwordRep)) {
-            System.out.println("Passwort nicht korrekt eingegeben!");
-            return false;
-        }
+	// Überprüfe ob Eingaben leer sind
+	private boolean checkIfInputIsIncomplete(String name, String surname, String title, String password,
+			String passwordRep, String role, String abbreviation, String studNumber) {
+		if (name.isEmpty() || surname.isEmpty() || password.isEmpty() || passwordRep.isEmpty() || role.isEmpty()
+				|| (role.equals("Student*in") && studNumber.isEmpty()) || (role.equals("Dozent*in") && title.isEmpty())
+				|| (role.equals("Dozent*in") && abbreviation.isEmpty())) {
+			return true;
+		}
+		return false;
+	}
 
-        if (profession.equals("Dozent*in")) {
-            user = new Teacher(firstName, lastName, password, title);
-        } else {
-            int matNumber = Integer.parseInt(studNumber); //TODO try catch
-            user = new Student(firstName, lastName, password, matNumber);
+	public boolean checkIfStudNumberIsCorrect(String studNumber) {
+		if (studNumber.matches("[0-9]+")) {
+			return true;
+		}
+		return false;
+	}
 
-        }
-        data.addUser(user);
+	public boolean checkIfAbbreviationIsCorrect(String abbreviation) {
+		if (abbreviation.matches("[a-zA-Z]+")) {
+			return true;
+		}
+		return false;
+	}
 
-        return true;
-    }
+	// Registrierungsmethode mit Fehlerbehandlung //Frage: Beim Anmelden kann man ja
+	// nicht studNumber UND abbreviation übergeben
+	public boolean registerUser(String name, String surname, String password, String passwordRep, String role,
+			String title, String studNumber, String abbreviation)
+			throws UserAlreadyExistsException, StudentNumberInvalidException, PasswordsNotIdenticalException,
+			InvalidInputException, AbbreviationInvalidException {
+
+		// Überprüfe ob Eingaben leer sind
+		if (checkIfInputIsIncomplete(name, surname, title, password, passwordRep, role, abbreviation, studNumber)) {
+			throw new InvalidInputException("Ein oder mehrere Felder sind leer.");
+		}
+
+		// Überprüfe ob Benutzer bereits existiert
+		if (checkIfUserAlreadyExists(abbreviation, studNumber, role)) {
+			throw new UserAlreadyExistsException("Email schon vergeben!");
+		}
+
+		// Überprüfe ob das Passwort korrekt eingegeben wurde
+		if (!checkIfPasswordsMatch(password, passwordRep)) {
+			throw new PasswordsNotIdenticalException("Passwörter stimmen nicht überein!");
+		}
+
+		// Überprüfe ob die Matrikelnummer gültig ist, falls der Benutzer ein Student ist
+		if (role.equals("Student*in") && !checkIfStudNumberIsCorrect(studNumber)) {
+			throw new StudentNumberInvalidException("Ungültige Matrikelnummer!");
+		}
+
+		// Überprüfe ob das Dozentenkürzel gültig ist, falls der Benutzer ein Dozent ist
+		if (role.equals("Dozent*in") && !checkIfAbbreviationIsCorrect(abbreviation)) {
+			throw new AbbreviationInvalidException("Ungültiges Dozentenkürzel!");
+		}
+
+		// Neuen Benutzer erstellen und hinzufügen
+		User user = null;
+		if (role.equals("Dozent*in")) {
+			user = new Teacher(name, surname, password, title, abbreviation);
+		} else if (role.equals("Student*in")) {
+			// int studNumberParsed = Integer.parseInt(studNumber);
+			user = new Student(name, surname, password, studNumber);
+		}
+		data.addUser(user);
+
+		return true;
+	}
 }

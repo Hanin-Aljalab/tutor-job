@@ -2,30 +2,44 @@ package controller;
 
 import model.*;
 
+import exceptions.IncorrectPasswordException;
+import exceptions.UserDoesNotExistException;
+
 public class Login {
-    private AppData data = AppData.data;
+	public static Login login = new Login();
+	private AppData data = AppData.data;
 
-    public Login() {
-    }
+	//Methode, die überprüft ob ein Benutzer registriert ist
+	public boolean checkIfUserExists(User user) {
+		if (user == null) {
+			return false;
+		}
+		return true;
+	}
+	
+	//Methode, die das Passwort auf Korrektheit überprüft
+	public boolean validatePassword(User user, String passwort) {
+		if (user.getPassword().equals(passwort)) {
+			return true;
+		}
+		return false;
+	}
+	
+	// Überprüfung, ob Benutzer existiert und Passwort korrekt ist
+	public User loginUser(String role, String studNumber, String abbreviation, String password)
+			throws IncorrectPasswordException, UserDoesNotExistException {
+		User user = data.getUser(studNumber, abbreviation, role);
 
-    //TODO:
-    // a) Login nicht über Namen (Namen können gleich sein), sondern durch
-    // eine eindeutige Eigenschaft, z.B. EMail oder Matrikelnummer.
-    // b) separate Methode, die überprüft, ob der Nutzer existiert
-    // c) separate MEthode, die das PAsswort auf Korrektheit überprüft
-    // d) die MEthode sollte den jeweiligen Studenten oder Dozenten
-    // zurückgeben, kein boolean
-    public boolean loginUser(String username, String password, String profession) {
-        boolean usernameExists = data.checkIfUsernameExists(username, profession);
-        if (usernameExists) {
-            User user = data.getUser(username, profession);
-            if (user != null && user.getPassword().equals(password)) {
-                //TODO hier Methodenaufruf validatePAssword()
-                return true; //TODO: sollte kein boolean zurückgeben, sondern
-                             // ein Objekt
-            }
-        }
-        return false;
-    }
+		// Überprüfung, ob der Benutzer existiert
+		if (!checkIfUserExists(user)) {
+			throw new UserDoesNotExistException("Benutzer nicht gefunden!");
+		}
+		
+		if (!validatePassword(user, password)) {
+            throw new IncorrectPasswordException("Falsches Passwort!");
+		}
+
+		return user;
+	}
+	
 }
-

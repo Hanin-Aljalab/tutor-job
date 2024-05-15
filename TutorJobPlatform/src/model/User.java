@@ -1,36 +1,38 @@
 package model;
-
-public class User {
-    private String firstName;
-    private String lastName;
+//Changed variable profession to role
+//Deleted variable email 
+//Changed firstname to name and lastname to surname
+public class User {     
+    private String name;
+    private String surname;
     private String password;
     private String title;
-    private String profession;
+    private String role;
 
     public User(String name, String surname, String password,
-                String profession) {
-        this.firstName = name;
-        this.lastName = surname;
+                String role) {
+        this.name = name;
+        this.surname = surname;
         this.password = password;
         this.title = "";
-        this.profession = profession;
+        this.role = role;
     }
 
     public User(String name, String surname, String password, String title,
-                String profession) {
-        this.firstName = name;
-        this.lastName = surname;
+                String role) {
+        this.name = name;
+        this.surname = surname;
         this.password = password;
         this.title = title;
-        this.profession = profession;
+        this.role = role;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getSurname() {
+        return surname;
     }
 
     public String getTitle() {
@@ -40,4 +42,7 @@ public class User {
     public String getPassword() {
         return password;
     }
+    
+    
+    
 }
