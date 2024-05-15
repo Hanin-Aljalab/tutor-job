@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 public class Lecture {
     private String name;
+    private String abbreviation;
     private Teacher teacher;
     private ArrayList<Student> tutors;
     private String[] studyPaths;
@@ -16,6 +17,10 @@ public class Lecture {
 
     public String getName() {
         return name;
+    }
+
+    public String getAbbreviation() {
+        return abbreviation;
     }
 
     public Teacher getTeacher() {

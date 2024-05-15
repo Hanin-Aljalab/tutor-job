@@ -8,10 +8,12 @@ public class AppData {
     public static AppData data = new AppData();
     private static List<Student> students;
     private static List<Teacher> teachers;
+    private static List<Lecture> lectures;
 
     public AppData() {
         students = new ArrayList<>();
         teachers = new ArrayList<>();
+        lectures = new ArrayList<>();
     }
 
     //  TODO: Es sollte auch nicht anhand von dem Namen überprüft werden
@@ -80,4 +82,9 @@ public class AppData {
     public static List<Teacher> getTeachers() {
         return teachers;
     }
+
+    public static List<Lecture> getLectures() {
+        return lectures;
+    }
+
 }
