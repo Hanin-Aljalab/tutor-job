@@ -5,7 +5,7 @@ public class Lecture {
 
     private String name;
     private String abbreviation;
-    private int desiredTutorNumber;
+    private int numOpenTutorSlots;
     private String courseInfo;
     private Teacher teacher;
     private ArrayList<Student> tutors;
@@ -15,7 +15,7 @@ public class Lecture {
                    String courseInfo, Teacher teacher, ArrayList<String> allowedStudyPaths) {
         this.name = name;
         this.abbreviation = abbreviation;
-        this.desiredTutorNumber = numTutors;
+        this.numOpenTutorSlots = numTutors;
         this.courseInfo = courseInfo;
         this.teacher = teacher;
         this.allowedStudyPaths = allowedStudyPaths;
@@ -29,8 +29,8 @@ public class Lecture {
         return abbreviation;
     }
 
-    public int getDesiredTutorNumber() {
-        return desiredTutorNumber;
+    public int getNumOpenTutorSlots() {
+        return numOpenTutorSlots;
     }
 
     public String getCourseInfo() {
@@ -51,5 +51,9 @@ public class Lecture {
 
     public ArrayList<String> getAllowedStudyPaths() {
         return allowedStudyPaths;
+    }
+
+    public void allocateSlot(){
+        numOpenTutorSlots--;
     }
 }
