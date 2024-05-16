@@ -30,11 +30,11 @@ public class Login {
 			throws IncorrectPasswordException, UserDoesNotExistException {
 		User user = data.getUser(studNumber, abbreviation, role);
 
-		// Überprüfung, ob der Benutzer existiert
+		// Überprüfe ob der Benutzer existiert
 		if (!checkIfUserExists(user)) {
 			throw new UserDoesNotExistException("Benutzer nicht gefunden!");
 		}
-		
+		// Überprüfe ob das Passwort richtig ist 
 		if (!validatePassword(user, password)) {
             throw new IncorrectPasswordException("Falsches Passwort!");
 		}

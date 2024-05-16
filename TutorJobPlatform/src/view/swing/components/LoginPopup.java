@@ -35,7 +35,7 @@ public class LoginPopup extends JFrame implements ActionListener {
 		frame = new JFrame();
 		frame.setTitle("Anmeldung");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(500, 200);
+		frame.setSize(500, 250);
 
 		// Hauptpanel
 		mainPanel = new JPanel();

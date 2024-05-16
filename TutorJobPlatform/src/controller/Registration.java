@@ -15,17 +15,17 @@ public class Registration {
 	public static Registration registration = new Registration();
 	private AppData data = AppData.data;
 
-	// Überprüfe ob der Benutzer bereits existiert
+	// Methode, die überprüft ob der Benutzer bereits existiert
 	private boolean checkIfUserAlreadyExists(String abbreviation, String studNumber, String role) {
 		return data.checkIfUserExists(abbreviation, studNumber, role);
 	}
 
-	// Überprüfe ob die Passwörter identisch sind
+	// Methode, die überprüft ob die Passwörter identisch sind
 	private boolean checkIfPasswordsMatch(String password, String passwordRep) {
 		return password.equals(passwordRep);
 	}
 
-	// Überprüfe ob Eingaben leer sind
+	// Methode, die überprüft ob Eingabefelder leer sind
 	private boolean checkIfInputIsIncomplete(String name, String surname, String title, String password,
 			String passwordRep, String role, String abbreviation, String studNumber) {
 		if (name.isEmpty() || surname.isEmpty() || password.isEmpty() || passwordRep.isEmpty() || role.isEmpty()
@@ -36,6 +36,7 @@ public class Registration {
 		return false;
 	}
 
+	// Methode, die überprüft ob die Matrikelnummer nur aus Zahlen besteht 
 	public boolean checkIfStudNumberIsCorrect(String studNumber) {
 		if (studNumber.matches("[0-9]+")) {
 			return true;
@@ -43,6 +44,7 @@ public class Registration {
 		return false;
 	}
 
+	// Methode, die üperprüft ob das Dozentenkürzel nur aus Buchstaben besteht
 	public boolean checkIfAbbreviationIsCorrect(String abbreviation) {
 		if (abbreviation.matches("[a-zA-Z]+")) {
 			return true;
@@ -50,8 +52,7 @@ public class Registration {
 		return false;
 	}
 
-	// Registrierungsmethode mit Fehlerbehandlung //Frage: Beim Anmelden kann man ja
-	// nicht studNumber UND abbreviation übergeben
+	// Registrierungsmethode mit Fehlerbehandlung 
 	public boolean registerUser(String name, String surname, String password, String passwordRep, String role,
 			String title, String studNumber, String abbreviation)
 			throws UserAlreadyExistsException, StudentNumberInvalidException, PasswordsNotIdenticalException,
@@ -64,7 +65,7 @@ public class Registration {
 
 		// Überprüfe ob Benutzer bereits existiert
 		if (checkIfUserAlreadyExists(abbreviation, studNumber, role)) {
-			throw new UserAlreadyExistsException("Email schon vergeben!");
+			throw new UserAlreadyExistsException("Benutzer existiert schon!");
 		}
 
 		// Überprüfe ob das Passwort korrekt eingegeben wurde
@@ -87,7 +88,6 @@ public class Registration {
 		if (role.equals("Dozent*in")) {
 			user = new Teacher(name, surname, password, title, abbreviation);
 		} else if (role.equals("Student*in")) {
-			// int studNumberParsed = Integer.parseInt(studNumber);
 			user = new Student(name, surname, password, studNumber);
 		}
 		data.addUser(user);
