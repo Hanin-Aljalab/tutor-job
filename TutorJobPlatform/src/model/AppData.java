@@ -134,7 +134,6 @@ public class AppData {
 				}
 			}
 		}
-
 		return null; // Username not found
 	}
 
@@ -158,8 +157,6 @@ public class AppData {
 	public List<Student> getStudents() {
 		return students;
 	}
-
-
 
 	public List<Teacher> getTeachers() {
 		return teachers;

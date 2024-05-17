@@ -2,7 +2,6 @@ package view.swing.components.homescreens;
 
 import model.AppData;
 import model.Student;
-import model.Teacher;
 import view.swing.components.PreferencePopup;
 
 import javax.swing.*;

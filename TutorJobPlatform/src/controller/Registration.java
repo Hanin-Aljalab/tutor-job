@@ -1,15 +1,8 @@
 package controller;
 
-import model.AppData;
-import model.User;
-import model.Teacher;
-import model.Student;
-import model.Lecture;
-import exceptions.InvalidInputException;
-import exceptions.UserAlreadyExistsException;
-import exceptions.StudentNumberInvalidException;
-import exceptions.TeacherIdInvalidException;
-import exceptions.PasswordsNotIdenticalException;
+import model.*;
+import exceptions.*;
+
 
 public class Registration {
 	public static Registration registration = new Registration();
@@ -104,15 +97,15 @@ public class Registration {
       * @throws StudentNumberInvalidException if the student number is invalid
       * @throws PasswordsNotIdenticalException if the passwords do not match
       * @throws InvalidInputException if any input fields are incomplete
-      * @throws AbbreviationInvalidException if the teacher ID is invalid
+      * @throws TeacherIdInvalidException if the teacher ID is invalid
       */
-     public boolean registerUser(String firstName, String lastname, String password, String passwordRep, String role,
+     public boolean registerUser(String firstName, String lastName, String password, String passwordRep, String role,
 			String title, String studNumber, String teacherId, String studyPath)
 			throws UserAlreadyExistsException, StudentNumberInvalidException, PasswordsNotIdenticalException,
 			InvalidInputException, TeacherIdInvalidException{
 
 		// Überprüfe ob Eingaben leer sind
-		if (checkIfInputIsIncomplete(firstName, lastname, title, password, passwordRep, role, teacherId, studNumber, studyPath)) {
+		if (checkIfInputIsIncomplete(firstName, lastName, title, password, passwordRep, role, teacherId, studNumber, studyPath)) {
 			throw new InvalidInputException("Ein oder mehrere Felder sind leer.");
 		}
 
@@ -133,15 +126,16 @@ public class Registration {
 
 		// Überprüfe ob das Dozentenkürzel gültig ist, falls der Benutzer ein Dozent ist
 		if (role.equals("Dozent*in") && !checkIfTeacherIdIsCorrect(teacherId)) {
-			throw new TeacherIdInvalidException("Ungültiges Dozentenkürzel!");
+			throw new TeacherIdInvalidException("Ungültiges " +
+					"Dozent*innenkürzel!");
 		}
 
 		// Neuen Benutzer erstellen und hinzufügen
 		User user = null;
 		if (role.equals("Dozent*in")) {
-			user = new Teacher(firstName, lastname, password, title, teacherId);
+			user = new Teacher(firstName, lastName, password, title, teacherId);
 		} else if (role.equals("Student*in")) {
-			user = new Student(firstName, lastname, passwordRep, studNumber, studyPath);
+			user = new Student(firstName, lastName, passwordRep, studNumber, studyPath);
 		}
 		data.addUser(user);
 

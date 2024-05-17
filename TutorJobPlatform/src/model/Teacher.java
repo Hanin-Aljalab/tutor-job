@@ -8,7 +8,7 @@ public class Teacher extends User {
 	private String teacherId;
 
 	JTextField LectureInput = new JTextField(); // TODO
-	JTextField SlotInput = new JTextField();
+	JTextField SlotInput = new JTextField(); // TODO
 	ArrayList<Lecture> lectures;
 
 	public Teacher(String firstName, String lastName, String password, String title, String teacherId) {

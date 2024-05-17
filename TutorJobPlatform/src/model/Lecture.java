@@ -5,20 +5,20 @@ public class Lecture {
   
     private String name;
     private String abbreviation;
-    private int desiredTutorNumber;
+    private int numOfTutors;
     private String courseInfo;
     private Teacher teacher;
     private ArrayList<Student> tutors;
-    private ArrayList<String> allowedStudyPaths;
+    private ArrayList<String> studyPaths;
 
     public Lecture(String name, String abbreviation, int numTutors,
                    String courseInfo, Teacher teacher, ArrayList<String> allowedStudyPaths) {
         this.name = name;
         this.abbreviation = abbreviation;
-        this.desiredTutorNumber = numTutors;
+        this.numOfTutors = numTutors;
         this.courseInfo = courseInfo;
         this.teacher = teacher;
-        this.allowedStudyPaths = allowedStudyPaths;
+        this.studyPaths = allowedStudyPaths;
     }
 
     public String getName() {
@@ -29,8 +29,8 @@ public class Lecture {
         return abbreviation;
     }
 
-    public int getDesiredTutorNumber() {
-        return desiredTutorNumber;
+    public int getNumOfTutors() {
+        return numOfTutors;
     }
 
     public String getCourseInfo() {
@@ -49,8 +49,8 @@ public class Lecture {
         tutors.add(student);
     }
 
-    public ArrayList<String> getAllowedStudyPaths() {
-        return allowedStudyPaths;
+    public ArrayList<String> getStudyPaths() {
+        return studyPaths;
     }
 
     @Override

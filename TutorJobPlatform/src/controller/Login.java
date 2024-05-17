@@ -1,10 +1,8 @@
 package controller;
 
-import exceptions.InvalidInputException;
+import exceptions.*;
 import model.*;
 
-import exceptions.IncorrectPasswordException;
-import exceptions.UserDoesNotExistException;
 
 public class Login {
 	public static Login login = new Login();
