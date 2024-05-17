@@ -15,63 +15,78 @@ import java.awt.event.*;
 public class RegistrationPopup {
 	private final Registration registration = Registration.registration;
 
+	// Declare UI components
 	private JFrame frame;
 	private JPanel mainPanel, formPanel, buttonPanel;
-	private JTextField nameField, surnameField, abbreviationField, passwordField, passwordConfirmField, studNumberField;
-	private JComboBox<String> roleDropdown, titleDropdown;
+	private JTextField firstNameField, lastNameField, teacherIdField, passwordField, passwordConfirmField,
+			studNumberField;
+	private JComboBox<String> roleDropdown, titleDropdown, studyPathDropdown;
 	private JButton submitButton, loginButton;
 	private JLabel messageLabel;
 
+	/**
+	 * Constructor to initialize the registration popup window. Sets up the UI
+	 * components and their layout.
+	 */
 	public RegistrationPopup() {
-		// Fenster erstellen
+		// Create the frame
 		frame = new JFrame("Registrierung");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(500, 500);
 
-		// Hauptpanel
+		// Main panel
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout(10, 10));
 		mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-		// Formularpanel
+		// Form panel
 		formPanel = new JPanel();
 		formPanel.setLayout(new GridLayout(0, 2, 10, 10));
 		formPanel.setOpaque(false);
 
-		// Buttonpanel
+		// Button panel
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 		buttonPanel.setOpaque(false);
 
-		// Rollenauswahl
+		// Role selection
 		String[] roles = { "Student*in", "Dozent*in" };
 		roleDropdown = new JComboBox<>(roles);
 		roleDropdown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				toggleFieldsBasedOnRole((String) roleDropdown.getSelectedItem());
-				System.out.println("listened!");
 			}
 		});
 
+		// Teacher titles
 		String[] teacherTitles = { "", "Dr.", "Prof. Dr." };
 		titleDropdown = new JComboBox<>(teacherTitles);
 
-		// Textfelder
-		nameField = new JTextField();
-		surnameField = new JTextField();
-		abbreviationField = new JTextField();
+		// Study paths
+		String[] studyPaths = { "CSB", "IB", "IMB", "UIB" };
+		studyPathDropdown = new JComboBox<>(studyPaths);
+
+		// Text fields
+		firstNameField = new JTextField();
+		lastNameField = new JTextField();
+		teacherIdField = new JTextField();
 		passwordField = new JPasswordField();
 		passwordConfirmField = new JPasswordField();
 		studNumberField = new JTextField();
 
-		// Submit-Button
+		// Submit button
 		submitButton = new JButton("Registrieren");
 		submitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if (transmitData()) {
 						JOptionPane.showMessageDialog(frame, "Sie sind jetzt registriert!");
-						System.out.println(AppData.data.getStudents());  
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								frame.dispose();
+								new LoginWindow();
+							}
+						});
 					} else {
 						JOptionPane.showMessageDialog(frame,
 								"Registrierung " + "fehlgeschlagen. Bitte überprüfen Sie Ihre " + "Daten.");
@@ -85,39 +100,40 @@ public class RegistrationPopup {
 			}
 		});
 
-		// Jetzt Einloggen
+		// Login button
 		loginButton = new JButton("Jetzt Anmelden!");
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						frame.dispose();
-						new LoginPopup();
+						new LoginWindow();
 					}
 				});
 			}
 		});
 
-		// Nachrichtenlabel
+		// Message label
 		messageLabel = new JLabel(" ");
 		messageLabel.setForeground(Color.RED);
 
-		// Komponenten zum Formularpanel hinzufügen
+		// Add components to form panel
 		addToFormPanel(new JLabel("Ich bin:"), roleDropdown);
 		addToFormPanel(new JLabel("Anrede:"), titleDropdown);
-		addToFormPanel(new JLabel("Vorname:"), nameField);
-		addToFormPanel(new JLabel("Nachname:"), surnameField);
+		addToFormPanel(new JLabel("Vorname:"), firstNameField);
+		addToFormPanel(new JLabel("Nachname:"), lastNameField);
+		addToFormPanel(new JLabel("Studiengang:"), studyPathDropdown);
 		addToFormPanel(new JLabel("Matrikelnummer:"), studNumberField);
-		addToFormPanel(new JLabel("Dozentenkürzel:"), abbreviationField);
+		addToFormPanel(new JLabel("Dozent*innenkürzel:"), teacherIdField);
 		addToFormPanel(new JLabel("Passwort:"), passwordField);
 		addToFormPanel(new JLabel("Passwort wiederholen:"), passwordConfirmField);
 		toggleFieldsBasedOnRole((String) roleDropdown.getSelectedItem());
 
-		// Buttonpanel hinzufügen
+		// Add buttons to button panel
 		buttonPanel.add(submitButton);
-        buttonPanel.add(loginButton);
+		buttonPanel.add(loginButton);
 
-		// Hauptpanel hinzufügen
+		// Add panels to main panel
 		mainPanel.add(formPanel, BorderLayout.CENTER);
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 		mainPanel.add(messageLabel, BorderLayout.NORTH);
@@ -128,40 +144,66 @@ public class RegistrationPopup {
 		frame.setVisible(true);
 	}
 
+	/**
+	 * Adds a label and a corresponding field to the form panel.
+	 * 
+	 * @param label the label component
+	 * @param field the field component
+	 */
 	private void addToFormPanel(Component label, Component field) {
 		formPanel.add(label);
 		formPanel.add(field);
 	}
 
+	/**
+	 * Toggles the visibility of fields based on the selected role.
+	 * 
+	 * @param role the selected role
+	 */
 	private void toggleFieldsBasedOnRole(String role) {
 		boolean isStudent = "Student*in".equals(role);
 		studNumberField.setVisible(isStudent);
 		titleDropdown.setVisible(!isStudent);
-		abbreviationField.setVisible(!isStudent);
+		teacherIdField.setVisible(!isStudent);
+		studyPathDropdown.setVisible(isStudent);
 	}
 
 	// TODO: Pop-up-Nachrichten anzeigen basierend auf dem Ergebnis
+
+	/**
+	 * Transmits the data from the registration form to the registration controller.
+	 * 
+	 * @return true if the registration is successful, false otherwise
+	 * @throws UserAlreadyExistsException     if the user already exists
+	 * @throws StudentNumberInvalidException  if the student number is invalid
+	 * @throws PasswordsNotIdenticalException if the passwords do not match
+	 * @throws InvalidInputException          if the input is invalid
+	 * @throws AbbreviationInvalidException   if the teacher ID is invalid
+	 */
 	private boolean transmitData() throws UserAlreadyExistsException, StudentNumberInvalidException,
 			PasswordsNotIdenticalException, InvalidInputException, AbbreviationInvalidException {
 		String role = (String) roleDropdown.getSelectedItem();
 		boolean isStudent = "Student*in".equals(role);
 
-		String name = nameField.getText();
-		String surname = surnameField.getText();
+		String firstName = firstNameField.getText();
+		String lastName = lastNameField.getText();
 		String password = passwordField.getText();
 		String passwordRep = passwordConfirmField.getText();
 		String title = "";
 		String studNumber = "";
-		String abbreviation = "";
+		String teacherId = "";
+		String studyPath = "";
 
 		if (isStudent) {
 			studNumber = studNumberField.getText();
+			studyPath = (String) roleDropdown.getSelectedItem();
 		} else {
 			title = (String) titleDropdown.getSelectedItem();
-			abbreviation = abbreviationField.getText();
+			teacherId = teacherIdField.getText();
 		}
 
-		return registration.registerUser(name, surname, password, passwordRep, role, title, studNumber, abbreviation);
+		return registration.registerUser(firstName, lastName, password, passwordRep, role, title, studNumber, teacherId,
+				studyPath);
 	}
 
 }

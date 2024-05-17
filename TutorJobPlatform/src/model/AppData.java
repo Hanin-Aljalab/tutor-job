@@ -6,7 +6,7 @@ import exceptions.UserAlreadyExistsException;
 import java.util.List;
 
 public class AppData {
-	public static AppData data = new AppData();
+	final public static AppData data = new AppData();
 	private static List<Student> students;
 	private static List<Teacher> teachers;
 
@@ -15,11 +15,18 @@ public class AppData {
 		teachers = new ArrayList<>();
 	}
 
-	// Methode, die überprüft ob ein Benutzer registriert ist
-	public boolean checkIfUserExists(String abbreviation, String studNumber, String role) {
+	/**
+	 * Checks if a user is already registered.
+	 * 
+	 * @param teacherId  the teacher ID
+	 * @param studNumber the student number
+	 * @param role       the role of the user (e.g., student, teacher)
+	 * @return true if the user exists, false otherwise
+	 */
+	public boolean checkIfUserExists(String teacherId, String studNumber, String role) {
 		if (role.equals("Dozent*in")) {
 			for (Teacher teacher : teachers) {
-				if (abbreviation.equals(teacher.getAbbreviation())) {
+				if (teacherId.equals(teacher.getTeacherId())) {
 					return true;
 				}
 			}
@@ -35,7 +42,12 @@ public class AppData {
 		return false;
 	}
 
-	// Methode, die einen Benutzer registriert
+	/**
+	 * Registers a new user.
+	 * 
+	 * @param user the user to be added
+	 * @throws UserAlreadyExistsException if the user already exists
+	 */
 	public void addUser(User user) {
 		if (user instanceof Teacher) {
 			Teacher teacher = (Teacher) user;
@@ -47,15 +59,19 @@ public class AppData {
 		}
 	}
 
-	// TODO: Auch eine Überlegung: in ArrayLists gibt es MEthoden, die direkt
-	// einen gewünschten Wert zurückgeben, z.B. etwas wie find() - dann
-	// müsste man es nicht mit einer komplizierten for-Schleife lösen
-	
-	//Methode, die einen bestimmten Benutzer sucht und zurückgibt
-	public User getUser(String studNumber, String abbreviation, String role) {
+	/**
+	 * Searches for and returns a user based on their student number, teacher ID,
+	 * and role.
+	 * 
+	 * @param studNumber the student number
+	 * @param teacherId  the teacher ID
+	 * @param role       the role of the user (e.g., student, teacher)
+	 * @return the user if found, otherwise null
+	 */
+	public User getUser(String studNumber, String teacherId, String role) {
 		if (role.equals("Dozent*in")) {
 			for (Teacher teacher : teachers) {
-				if (teacher.getAbbreviation().equals(abbreviation)) {
+				if (teacher.getTeacherId().equals(teacherId)) {
 					return teacher;
 				}
 			}
@@ -72,7 +88,15 @@ public class AppData {
 		return null; // Username not found
 	}
 
-	// Methode, die einen Benutzer löscht
+	/**
+	 * Searches for and returns a user based on their student number, teacher ID,
+	 * and role.
+	 * 
+	 * @param studNumber the student number
+	 * @param teacherId  the teacher ID
+	 * @param role       the role of the user (e.g., student, teacher)
+	 * @return the user if found, otherwise null
+	 */
 	public void removeUser(User user) {
 		if (user instanceof Teacher) {
 			Teacher teacher = (Teacher) user;
@@ -89,10 +113,20 @@ public class AppData {
 		}
 	}
 
+	/**
+	 * Returns the list of students.
+	 * 
+	 * @return the list of students
+	 */
 	public List<Student> getStudents() {
 		return students;
 	}
 
+	/**
+	 * Returns the list of teachers.
+	 * 
+	 * @return the list of teachers
+	 */
 	public List<Teacher> getTeachers() {
 		return teachers;
 	}

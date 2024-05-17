@@ -5,15 +5,17 @@ import java.util.ArrayList;
 
 public class Student extends User {
 	private String studNumber;
+	private String studyPath;
 	private ArrayList<String> lecturePref;
 	private ArrayList<String> teacherPref;
 	private boolean choiceMade;
 
 	private PreferencePopup preferencePopup;
 
-	public Student(String name, String surname, String password, String studNumber) {
-		super(name, surname, password, "Student*in");
+	public Student(String firstName, String lastName, String password, String studNumber, String studyPath) {
+		super(firstName, lastName, password, "Student*in");
 		this.studNumber = studNumber;
+		this.studyPath = studyPath;
 		choiceMade = false;
 	}
 
@@ -58,4 +60,5 @@ public class Student extends User {
 	public boolean isChoiceMade() {
 		return choiceMade;
 	}
+
 }
