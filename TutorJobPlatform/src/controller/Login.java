@@ -1,5 +1,6 @@
 package controller;
 
+import exceptions.InvalidInputException;
 import model.*;
 
 import exceptions.IncorrectPasswordException;
@@ -48,9 +49,13 @@ public class Login {
 	 * @throws UserDoesNotExistException  if the user does not exist
 	 */
 	public User loginUser(String role, String studNumber, String teacherId, String password)
-			throws IncorrectPasswordException, UserDoesNotExistException {
+			throws IncorrectPasswordException, UserDoesNotExistException,
+			InvalidInputException {
 		User user = data.getUser(studNumber, teacherId, role);
 
+		if (studNumber.isEmpty() && teacherId.isEmpty() || password.isEmpty()) {
+			throw new InvalidInputException("Fehlende Eingabe!");
+		}
 		// Überprüfe ob der Benutzer existiert
 		if (!checkIfUserExists(user)) {
 			throw new UserDoesNotExistException("Benutzer nicht gefunden!");

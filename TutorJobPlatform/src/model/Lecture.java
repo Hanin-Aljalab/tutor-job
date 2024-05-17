@@ -52,4 +52,9 @@ public class Lecture {
     public ArrayList<String> getAllowedStudyPaths() {
         return allowedStudyPaths;
     }
+
+    @Override
+    public String toString() {
+        return this.name + " bei " + this.teacher.toString();
+    }
 }

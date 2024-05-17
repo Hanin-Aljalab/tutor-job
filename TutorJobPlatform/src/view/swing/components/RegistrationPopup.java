@@ -139,14 +139,12 @@ public class RegistrationPopup {
 								new LoginWindow();
 							}
 						});
-					} else {
-						JOptionPane.showMessageDialog(frame,
-								"Registrierung " + "fehlgeschlagen. Bitte überprüfen Sie Ihre " + "Daten.");
-
 					}
-				} catch (HeadlessException | UserAlreadyExistsException | StudentNumberInvalidException
+				} catch (UserAlreadyExistsException | StudentNumberInvalidException
 						| PasswordsNotIdenticalException | InvalidInputException
 						| TeacherIdInvalidException exception) {
+					JOptionPane.showMessageDialog(new Frame(), exception.getMessage());
+				} catch (HeadlessException exception) {
 					exception.printStackTrace();
 				}
 			}

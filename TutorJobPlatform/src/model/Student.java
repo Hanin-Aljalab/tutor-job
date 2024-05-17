@@ -16,28 +16,14 @@ public class Student extends User {
 		super(name, surname, password, "Student*in");
 		this.studNumber = studNumber;
 		this.studyPath = studyPath;
+		lecturePref = new ArrayList<>();
+		teacherPref = new ArrayList<>();
 		choiceMade = false;
 	}
 
-	public void setPreferences(ArrayList<String> lectures, ArrayList<String> teachers) {
-		setLecturePref(lectures);
-		setTeacherPref(teachers);
-		choiceMade = true;
-		System.out.println("Das steht in Student" + lectures);
-		System.out.println("Das steht in Student" + teachers);
-	}
-
-	public void setLecturePref(ArrayList<String> lectures) {
-		lecturePref = lectures;
-	}
-
-	public void setTeacherPref(ArrayList<String> teachers) {
-		teacherPref = teachers;
-	}
-
 	public void deletePreferences() {
-		lecturePref = null;
-		teacherPref = null;
+		lecturePref.clear();
+		teacherPref.clear();
 		choiceMade = false;
 	}
 
@@ -48,9 +34,21 @@ public class Student extends User {
 	public ArrayList<String> getLecturePref() {
 		return lecturePref;
 	}
-
 	public ArrayList<String> getTeacherPref() {
 		return teacherPref;
+	}
+
+	public void removePreference(String preference) {
+		lecturePref.remove(preference);
+		teacherPref.remove(preference);
+	}
+
+	public void addPreference(String preference, String prefCategory) {
+		if (prefCategory.equals("Kurse")) {
+			lecturePref.add(preference);
+		} else if (prefCategory.equals("Dozent*innen")) {
+			teacherPref.add(preference);
+		}
 	}
 
 	public void setChoiceMade(boolean choiceMade) {
@@ -61,4 +59,8 @@ public class Student extends User {
 		return choiceMade;
 	}
 
+	@Override
+	public String toString() {
+		return getFirstName() + " " + getLastName() + " (" + getStudNumber() + ")";
+	}
 }

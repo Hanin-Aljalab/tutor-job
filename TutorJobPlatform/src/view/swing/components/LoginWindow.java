@@ -122,11 +122,10 @@ public class LoginWindow extends JFrame implements ActionListener {
 							frame.dispose();
 							new TeacherHomescreen((Teacher) currentUser);
 						}
-					} else {
-						JOptionPane.showMessageDialog(frame, "Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihre Daten.");
 					}
-				} catch (HeadlessException | StudentNumberInvalidException | InvalidInputException
-						| TeacherIdInvalidException | IncorrectPasswordException | UserDoesNotExistException exception) {
+				} catch (InvalidInputException | IncorrectPasswordException | UserDoesNotExistException exception) {
+					JOptionPane.showMessageDialog(new Frame(), exception.getMessage());
+				} catch (HeadlessException exception) {
 					exception.printStackTrace();
 				}
 			}
@@ -193,14 +192,12 @@ public class LoginWindow extends JFrame implements ActionListener {
 	 * Transmits the data from the login form to the login controller.
 	 * 
 	 * @return true if the login is successful, false otherwise
-	 * @throws StudentNumberInvalidException if the student number is invalid
 	 * @throws InvalidInputException         if the input is invalid
-	 * @throws TeacherIdInvalidException     if the teacher ID is invalid
 	 * @throws IncorrectPasswordException    if the password is incorrect
 	 * @throws UserDoesNotExistException     if the user does not exist
 	 */
-	private boolean transmitData() throws StudentNumberInvalidException, InvalidInputException,
-			TeacherIdInvalidException, IncorrectPasswordException, UserDoesNotExistException {
+	private boolean transmitData() throws InvalidInputException,
+			IncorrectPasswordException, UserDoesNotExistException {
 		String role = (String) roleDropdown.getSelectedItem();
 		boolean isStudent = "Student*in".equals(role);
 

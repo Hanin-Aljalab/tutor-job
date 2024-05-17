@@ -1,5 +1,6 @@
 package view.swing.components.homescreens;
 
+import model.AppData;
 import model.Student;
 import model.Teacher;
 import view.swing.components.PreferencePopup;
@@ -165,10 +166,7 @@ public class StudentHomescreen extends Homescreen {
 
     // TODO temp main
     public static void main(String[] args) {
-        Student s1 = new Student("Markus", "Winklhofer", "1234", "3008816",
-                "IMB");
-        //Teacher t1 = new Teacher("Yordan", "Todorov", "1234", "Dr");
-        new StudentHomescreen(s1);
+        new StudentHomescreen(AppData.data.getStudents().getFirst());
     }
 
 
