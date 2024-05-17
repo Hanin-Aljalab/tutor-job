@@ -5,11 +5,11 @@ import javax.swing.*;
 import controller.Login;
 import controller.Registration;
 
-import exceptions.AbbreviationInvalidException;
 import exceptions.IncorrectPasswordException;
 import exceptions.InvalidInputException;
 import exceptions.PasswordsNotIdenticalException;
 import exceptions.StudentNumberInvalidException;
+import exceptions.TeacherIdInvalidException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserDoesNotExistException;
 
@@ -29,10 +29,16 @@ public class LoginWindow extends JFrame implements ActionListener {
 
 	// Declare UI components
 	private JFrame frame;
-	private JPanel mainPanel, formPanel, buttonPanel;
-	private JTextField studNumberField, teacherIdField, passwordField;
+	private JPanel mainPanel, formPanel, buttonPanel, passwordPanel;
+	private JTextField studNumberField, teacherIdField;
+	private JPasswordField passwordField;
 	private JComboBox<String> roleDropdown;
-	private JButton submitButton, registerButton;
+	private JButton submitButton, registerButton, toggleButton;
+	private boolean isPasswordVisible = false;
+
+	// Icons
+	private ImageIcon openEyeIcon;
+	private ImageIcon closedEyeIcon;
 
 	/**
 	 * Constructor to initialize the login window. Sets up the UI components and
@@ -45,7 +51,7 @@ public class LoginWindow extends JFrame implements ActionListener {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(500, 250);
 
-		/// Main panel
+		// Main panel
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout(10, 10));
 		mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -73,6 +79,32 @@ public class LoginWindow extends JFrame implements ActionListener {
 		studNumberField = new JTextField();
 		teacherIdField = new JTextField();
 		passwordField = new JPasswordField();
+		passwordField.setEchoChar('*'); // Set the echo character to hide the password
+
+		// Load and scale the eye icons
+		openEyeIcon = new ImageIcon(new ImageIcon("src/icons/eye.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+		closedEyeIcon = new ImageIcon(new ImageIcon("src/icons/hide.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+
+		// Password panel with toggle button
+		passwordPanel = new JPanel(new BorderLayout());
+		passwordPanel.add(passwordField, BorderLayout.CENTER);
+
+		// Toggle button with closed eye icon initially
+		toggleButton = new JButton(closedEyeIcon);
+		toggleButton.setPreferredSize(new Dimension(30, 30));
+		toggleButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (isPasswordVisible) {
+					passwordField.setEchoChar('*');
+					toggleButton.setIcon(closedEyeIcon);
+				} else {
+					passwordField.setEchoChar((char) 0);
+					toggleButton.setIcon(openEyeIcon);
+				}
+				isPasswordVisible = !isPasswordVisible;
+			}
+		});
+		passwordPanel.add(toggleButton, BorderLayout.EAST);
 
 		// Submit button
 		submitButton = new JButton("Anmelden");
@@ -82,26 +114,21 @@ public class LoginWindow extends JFrame implements ActionListener {
 					if (transmitData()) {
 						String role = (String) roleDropdown.getSelectedItem();
 						boolean isStudent = "Student*in".equals(role);
-						User currentuser = data.getUser(studNumberField.getText(), teacherIdField.getText(), role);
+						User currentUser = data.getUser(studNumberField.getText(), teacherIdField.getText(), role);
 						if (isStudent) {
 							frame.dispose();
-							new StudentHomescreen((Student) currentuser);
+							new StudentHomescreen((Student) currentUser);
 						} else {
 							frame.dispose();
-							new TeacherHomescreen((Teacher) currentuser);
+							new TeacherHomescreen((Teacher) currentUser);
 						}
-
 					} else {
-						JOptionPane.showMessageDialog(frame,
-								"Anmeldung" + "fehlgeschlagen. Bitte überprüfen Sie Ihre " + "Daten.");
-
+						JOptionPane.showMessageDialog(frame, "Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihre Daten.");
 					}
 				} catch (HeadlessException | StudentNumberInvalidException | InvalidInputException
-						| AbbreviationInvalidException | IncorrectPasswordException
-						| UserDoesNotExistException exception) {
+						| TeacherIdInvalidException | IncorrectPasswordException | UserDoesNotExistException exception) {
 					exception.printStackTrace();
 				}
-
 			}
 		});
 
@@ -122,7 +149,7 @@ public class LoginWindow extends JFrame implements ActionListener {
 		addToFormPanel(new JLabel("Ich bin:"), roleDropdown);
 		addToFormPanel(new JLabel("Matrikelnummer:"), studNumberField);
 		addToFormPanel(new JLabel("Dozent*innenkürzel:"), teacherIdField);
-		addToFormPanel(new JLabel("Passwort:"), passwordField);
+		addToFormPanel(new JLabel("Passwort:"), passwordPanel);
 
 		toggleFieldsBasedOnRole((String) roleDropdown.getSelectedItem());
 
@@ -168,18 +195,18 @@ public class LoginWindow extends JFrame implements ActionListener {
 	 * @return true if the login is successful, false otherwise
 	 * @throws StudentNumberInvalidException if the student number is invalid
 	 * @throws InvalidInputException         if the input is invalid
-	 * @throws AbbreviationInvalidException  if the teacher ID is invalid
+	 * @throws TeacherIdInvalidException     if the teacher ID is invalid
 	 * @throws IncorrectPasswordException    if the password is incorrect
 	 * @throws UserDoesNotExistException     if the user does not exist
 	 */
 	private boolean transmitData() throws StudentNumberInvalidException, InvalidInputException,
-			AbbreviationInvalidException, IncorrectPasswordException, UserDoesNotExistException {
+			TeacherIdInvalidException, IncorrectPasswordException, UserDoesNotExistException {
 		String role = (String) roleDropdown.getSelectedItem();
 		boolean isStudent = "Student*in".equals(role);
 
 		String studNumber = "";
 		String teacherId = "";
-		String password = passwordField.getText();
+		String password = new String(passwordField.getPassword());
 
 		if (isStudent) {
 			studNumber = studNumberField.getText();
@@ -189,15 +216,10 @@ public class LoginWindow extends JFrame implements ActionListener {
 
 		User user = login.loginUser(role, studNumber, teacherId, password);
 
-		if (user == null) {
-			return false;
-		}
-		return true;
-
+		return user != null;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 	}
-
 }

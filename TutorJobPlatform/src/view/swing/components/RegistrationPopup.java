@@ -1,10 +1,10 @@
 package view.swing.components;
 
 import controller.Registration;
-import exceptions.AbbreviationInvalidException;
 import exceptions.InvalidInputException;
 import exceptions.PasswordsNotIdenticalException;
 import exceptions.StudentNumberInvalidException;
+import exceptions.TeacherIdInvalidException;
 import exceptions.UserAlreadyExistsException;
 import model.AppData;
 
@@ -18,11 +18,17 @@ public class RegistrationPopup {
 	// Declare UI components
 	private JFrame frame;
 	private JPanel mainPanel, formPanel, buttonPanel;
-	private JTextField firstNameField, lastNameField, teacherIdField, passwordField, passwordConfirmField,
-			studNumberField;
+	private JTextField firstNameField, lastNameField, teacherIdField, studNumberField;
+	private JPasswordField passwordField, passwordConfirmField;
 	private JComboBox<String> roleDropdown, titleDropdown, studyPathDropdown;
 	private JButton submitButton, loginButton;
 	private JLabel messageLabel;
+	private JButton toggleButton1, toggleButton2;
+	private boolean isPasswordVisible1 = false, isPasswordVisible2 = false;
+
+	// Icons
+	private ImageIcon openEyeIcon;
+	private ImageIcon closedEyeIcon;
 
 	/**
 	 * Constructor to initialize the registration popup window. Sets up the UI
@@ -74,6 +80,52 @@ public class RegistrationPopup {
 		passwordConfirmField = new JPasswordField();
 		studNumberField = new JTextField();
 
+		// Load and scale the eye icons
+		openEyeIcon = new ImageIcon(new ImageIcon("src/icons/eye.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+		closedEyeIcon = new ImageIcon(new ImageIcon("src/icons/hide.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+
+		// Password panel with toggle button for passwordField
+		JPanel passwordPanel1 = new JPanel(new BorderLayout());
+		passwordPanel1.add(passwordField, BorderLayout.CENTER);
+
+		// Toggle button with closed eye icon initially for passwordField
+		toggleButton1 = new JButton(closedEyeIcon);
+		toggleButton1.setPreferredSize(new Dimension(30, 30));
+		toggleButton1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (isPasswordVisible1) {
+					passwordField.setEchoChar('*');
+					toggleButton1.setIcon(closedEyeIcon);
+				} else {
+					passwordField.setEchoChar((char) 0);
+					toggleButton1.setIcon(openEyeIcon);
+				}
+				isPasswordVisible1 = !isPasswordVisible1;
+			}
+		});
+		passwordPanel1.add(toggleButton1, BorderLayout.EAST);
+
+		// Password panel with toggle button for passwordConfirmField
+		JPanel passwordPanel2 = new JPanel(new BorderLayout());
+		passwordPanel2.add(passwordConfirmField, BorderLayout.CENTER);
+
+		// Toggle button with closed eye icon initially for passwordConfirmField
+		toggleButton2 = new JButton(closedEyeIcon);
+		toggleButton2.setPreferredSize(new Dimension(30, 30));
+		toggleButton2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (isPasswordVisible2) {
+					passwordConfirmField.setEchoChar('*');
+					toggleButton2.setIcon(closedEyeIcon);
+				} else {
+					passwordConfirmField.setEchoChar((char) 0);
+					toggleButton2.setIcon(openEyeIcon);
+				}
+				isPasswordVisible2 = !isPasswordVisible2;
+			}
+		});
+		passwordPanel2.add(toggleButton2, BorderLayout.EAST);
+
 		// Submit button
 		submitButton = new JButton("Registrieren");
 		submitButton.addActionListener(new ActionListener() {
@@ -94,7 +146,7 @@ public class RegistrationPopup {
 					}
 				} catch (HeadlessException | UserAlreadyExistsException | StudentNumberInvalidException
 						| PasswordsNotIdenticalException | InvalidInputException
-						| AbbreviationInvalidException exception) {
+						| TeacherIdInvalidException exception) {
 					exception.printStackTrace();
 				}
 			}
@@ -125,8 +177,8 @@ public class RegistrationPopup {
 		addToFormPanel(new JLabel("Studiengang:"), studyPathDropdown);
 		addToFormPanel(new JLabel("Matrikelnummer:"), studNumberField);
 		addToFormPanel(new JLabel("Dozent*innenkürzel:"), teacherIdField);
-		addToFormPanel(new JLabel("Passwort:"), passwordField);
-		addToFormPanel(new JLabel("Passwort wiederholen:"), passwordConfirmField);
+		addToFormPanel(new JLabel("Passwort:"), passwordPanel1);
+		addToFormPanel(new JLabel("Passwort wiederholen:"), passwordPanel2);
 		toggleFieldsBasedOnRole((String) roleDropdown.getSelectedItem());
 
 		// Add buttons to button panel
@@ -178,17 +230,17 @@ public class RegistrationPopup {
 	 * @throws StudentNumberInvalidException  if the student number is invalid
 	 * @throws PasswordsNotIdenticalException if the passwords do not match
 	 * @throws InvalidInputException          if the input is invalid
-	 * @throws AbbreviationInvalidException   if the teacher ID is invalid
+	 * @throws TeacherIdInvalidException     if the teacher ID is invalid
 	 */
 	private boolean transmitData() throws UserAlreadyExistsException, StudentNumberInvalidException,
-			PasswordsNotIdenticalException, InvalidInputException, AbbreviationInvalidException {
+			PasswordsNotIdenticalException, InvalidInputException, TeacherIdInvalidException {
 		String role = (String) roleDropdown.getSelectedItem();
 		boolean isStudent = "Student*in".equals(role);
 
 		String firstName = firstNameField.getText();
 		String lastName = lastNameField.getText();
-		String password = passwordField.getText();
-		String passwordRep = passwordConfirmField.getText();
+		String password = new String(passwordField.getPassword());
+		String passwordRep = new String(passwordConfirmField.getPassword());
 		String title = "";
 		String studNumber = "";
 		String teacherId = "";
@@ -196,7 +248,7 @@ public class RegistrationPopup {
 
 		if (isStudent) {
 			studNumber = studNumberField.getText();
-			studyPath = (String) roleDropdown.getSelectedItem();
+			studyPath = (String) studyPathDropdown.getSelectedItem();
 		} else {
 			title = (String) titleDropdown.getSelectedItem();
 			teacherId = teacherIdField.getText();
@@ -205,5 +257,4 @@ public class RegistrationPopup {
 		return registration.registerUser(firstName, lastName, password, passwordRep, role, title, studNumber, teacherId,
 				studyPath);
 	}
-
 }

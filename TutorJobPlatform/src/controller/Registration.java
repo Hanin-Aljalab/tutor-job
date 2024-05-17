@@ -5,10 +5,10 @@ import model.User;
 import model.Teacher;
 import model.Student;
 import model.Lecture;
-import exceptions.AbbreviationInvalidException;
 import exceptions.InvalidInputException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.StudentNumberInvalidException;
+import exceptions.TeacherIdInvalidException;
 import exceptions.PasswordsNotIdenticalException;
 
 public class Registration {
@@ -109,7 +109,7 @@ public class Registration {
      public boolean registerUser(String firstName, String lastname, String password, String passwordRep, String role,
 			String title, String studNumber, String teacherId, String studyPath)
 			throws UserAlreadyExistsException, StudentNumberInvalidException, PasswordsNotIdenticalException,
-			InvalidInputException, AbbreviationInvalidException {
+			InvalidInputException, TeacherIdInvalidException{
 
 		// Überprüfe ob Eingaben leer sind
 		if (checkIfInputIsIncomplete(firstName, lastname, title, password, passwordRep, role, teacherId, studNumber, studyPath)) {
@@ -133,7 +133,7 @@ public class Registration {
 
 		// Überprüfe ob das Dozentenkürzel gültig ist, falls der Benutzer ein Dozent ist
 		if (role.equals("Dozent*in") && !checkIfTeacherIdIsCorrect(teacherId)) {
-			throw new AbbreviationInvalidException("Ungültiges Dozentenkürzel!");
+			throw new TeacherIdInvalidException("Ungültiges Dozentenkürzel!");
 		}
 
 		// Neuen Benutzer erstellen und hinzufügen
