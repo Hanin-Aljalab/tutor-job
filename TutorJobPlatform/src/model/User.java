@@ -1,6 +1,4 @@
 package model;
-//Changed variable profession to role
-//Deleted variable email 
 
 public class User {     
     private String firstName;

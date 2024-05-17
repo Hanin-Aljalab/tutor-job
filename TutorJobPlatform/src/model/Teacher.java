@@ -17,6 +17,10 @@ public class Teacher extends User {
 		lectures = new ArrayList<>();
 	}
 
+	public ArrayList<Lecture> getLectures() {
+		return lectures;
+	}
+	
 	/**
 	 * creates a new Job, depending on the input given in the JText fields
 	 */
@@ -25,11 +29,7 @@ public class Teacher extends User {
 		Lecture lecture = new Lecture(firstName, abbreviation, numTutors, courseInfo, this, allowedStudyPaths);
 		return lecture;
 	}
-
-	public ArrayList<Lecture> getLectures() {
-		return lectures;
-	}
-
+	
 	public String getTeacherId() {
 		return teacherId;
 	}

@@ -12,8 +12,8 @@ public class Student extends User {
 
 	private PreferencePopup preferencePopup;
 
-	public Student(String firstName, String lastName, String password, String studNumber, String studyPath) {
-		super(firstName, lastName, password, "Student*in");
+	public Student(String name, String surname, String password, String studNumber, String studyPath) {
+		super(name, surname, password, "Student*in");
 		this.studNumber = studNumber;
 		this.studyPath = studyPath;
 		choiceMade = false;
