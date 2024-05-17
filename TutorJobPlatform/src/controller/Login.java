@@ -1,31 +1,71 @@
 package controller;
 
+import exceptions.InvalidInputException;
 import model.*;
 
+import exceptions.IncorrectPasswordException;
+import exceptions.UserDoesNotExistException;
+
 public class Login {
-    private AppData data = AppData.data;
+	public static Login login = new Login();
+	private AppData data = AppData.data;
 
-    public Login() {
-    }
+	/**
+	 * Checks if a user is registered.
+	 * 
+	 * @param user the user to check
+	 * @return true if the user exists, false otherwise
+	 */
+	public boolean checkIfUserExists(User user) {
+		if (user == null) {
+			return false;
+		}
+		return true;
+	}
 
-    //TODO:
-    // a) Login nicht über Namen (Namen können gleich sein), sondern durch
-    // eine eindeutige Eigenschaft, z.B. EMail oder Matrikelnummer.
-    // b) separate Methode, die überprüft, ob der Nutzer existiert
-    // c) separate MEthode, die das PAsswort auf Korrektheit überprüft
-    // d) die MEthode sollte den jeweiligen Studenten oder Dozenten
-    // zurückgeben, kein boolean
-    public boolean loginUser(String username, String password, String profession) {
-        boolean usernameExists = data.checkIfUsernameExists(username, profession);
-        if (usernameExists) {
-            User user = data.getUser(username, profession);
-            if (user != null && user.getPassword().equals(password)) {
-                //TODO hier Methodenaufruf validatePAssword()
-                return true; //TODO: sollte kein boolean zurückgeben, sondern
-                             // ein Objekt
-            }
-        }
-        return false;
-    }
+	/**
+	 * Validates if the provided password matches the user's password.
+	 * 
+	 * @param user     the user whose password needs to be validated
+	 * @param passwort the password to validate
+	 * @return true if the password is correct, false otherwise
+	 */
+	public boolean validatePassword(User user, String passwort) {
+		if (user.getPassword().equals(passwort)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Logs in a user by checking if the user exists and if the password is correct.
+	 * 
+	 * @param role       the role of the user (e.g., student, teacher)
+	 * @param studNumber the student number of the user (if applicable)
+	 * @param teacherId  the teacher ID of the user (if applicable)
+	 * @param password   the password of the user
+	 * @return the logged-in user
+	 * @throws IncorrectPasswordException if the provided password is incorrect
+	 * @throws UserDoesNotExistException  if the user does not exist
+	 */
+	public User loginUser(String role, String studNumber, String teacherId, String password)
+			throws IncorrectPasswordException, UserDoesNotExistException,
+			InvalidInputException {
+		User user = data.getUser(studNumber, teacherId, role);
+
+		if (studNumber.isEmpty() && teacherId.isEmpty() || password.isEmpty()) {
+			throw new InvalidInputException("Fehlende Eingabe!");
+		}
+		// Überprüfe ob der Benutzer existiert
+		if (!checkIfUserExists(user)) {
+			throw new UserDoesNotExistException("Benutzer nicht gefunden!");
+		}
+		// Überprüfe ob das Passwort richtig ist
+		if (!validatePassword(user, password)) {
+			throw new IncorrectPasswordException("Falsches Passwort!");
+		}
+
+		return user;
+	}
+
 }
-
