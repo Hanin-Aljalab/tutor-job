@@ -10,8 +10,9 @@ class StudentHomescreenTest {
     void removePreferences() {
     }
 
-    @Test
-    void confirmDeletion() {
-        //TODO evtl. Robot (oder auch nicht)
-    }
+//    @Test
+//    void confirmDeletion() {
+//        //TODO evtl. Robot (oder auch nicht)
+//    }
+
 }
