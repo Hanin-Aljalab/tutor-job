@@ -98,13 +98,11 @@ public class TeacherHomescreen extends Homescreen {
         lectureModel.clear();
         Teacher teacher = ((Teacher) user);
         AppData.data.getLectures().forEach((lecture) -> {
-            System.out.println(lecture.toString());
             if (lecture.getTeacher().getTeacherId().equals(teacher.getTeacherId())) {
                 lectureModel.addElement(lecture.getName());
             }
         });
     }
-
 
     // TODO add functional methods
     private void addLecture() {
