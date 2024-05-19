@@ -7,6 +7,6 @@ public class Matcher {
     private static HashMap<Student, Lecture> matches;
 
     public static HashMap<Student, Lecture> getMatches() {
-        return matches;
+        return AppData.getMatches();
     }
 }

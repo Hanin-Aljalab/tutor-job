@@ -36,6 +36,9 @@ public class Teacher extends User {
 
 	@Override
 	public String toString() {
+		if (getTitle().isEmpty()) {
+			return getFirstName() + " " + getLastName();
+		}
 		return getTitle() + " " + getFirstName() + " " + getLastName();
 	}
 }

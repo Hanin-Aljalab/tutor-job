@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import exceptions.UserAlreadyExistsException;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class AppData {
@@ -10,6 +11,7 @@ public class AppData {
 	private static List<Student> students;
 	private static List<Teacher> teachers;
 	private static List<Lecture> lectures;
+	private static HashMap<Student, Lecture> matches;
 
 	public AppData() {
 		students = new ArrayList<>();
@@ -63,6 +65,13 @@ public class AppData {
 		lectures.add(lec3);
 		lectures.add(lec4);
 		lectures.add(lec5);
+
+		matches = new HashMap<>();
+		matches.put(stud1, lec1);
+		matches.put(stud2, lec2);
+		matches.put(stud3, lec3);
+	//	matches.put(stud4, lec4);
+		matches.put(stud4, lec1);
 	}
 
 	/**
@@ -180,5 +189,9 @@ public class AppData {
 			lectureNames.add(lecture.getAbbreviation());
 		}
 		return lectureNames;
+	}
+
+	public static HashMap<Student, Lecture> getMatches() {
+		return matches;
 	}
 }
