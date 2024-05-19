@@ -1,13 +1,12 @@
 package controller;
 
 import model.*;
-
-import java.util.Map;
+import java.util.HashMap;
 
 public class Matcher {
-    private static Map<Student, Lecture> matches;
+    private static HashMap<Student, Lecture> matches;
 
-    public static Map<Student, Lecture> getMatches() {
+    public static HashMap<Student, Lecture> getMatches() {
         return matches;
     }
 }
