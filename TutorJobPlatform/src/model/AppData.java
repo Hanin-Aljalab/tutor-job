@@ -75,6 +75,15 @@ public class AppData {
 	}
 
 	/**
+	 * Adds a new lecture to the list of lectures.
+	 *
+	 * @param lecture The lecture to add.
+	 */
+	public void addLecture(Lecture lecture) {
+		lectures.add(lecture);
+	}
+
+	/**
 	 * Checks if a user is already registered.
 	 * 
 	 * @param teacherId  the teacher ID

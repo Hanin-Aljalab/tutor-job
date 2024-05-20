@@ -1,11 +1,14 @@
 package view.swing.components.homescreens;
 
-import controller.App;
+//import model.AppData;
 import controller.Matcher;
 import model.*;
+import view.swing.components.TeacherInputField;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -55,8 +58,13 @@ public class TeacherHomescreen extends Homescreen {
     @Override
     protected JButton configureButton() {
         JButton lectureButton = new JButton("Neuen Kurs anlegen");
-        lectureButton.addActionListener(event
-                -> addLecture());
+        lectureButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            addLecture();
+        }
+    });
+
         lectureButton.setBackground(Color.LIGHT_GRAY);
         lectureButton.setPreferredSize(new Dimension(300, 25));
         return lectureButton;
@@ -106,6 +114,11 @@ public class TeacherHomescreen extends Homescreen {
 
     // TODO add functional methods
     private void addLecture() {
+        new TeacherInputField((Teacher) user, this);
+    }
+
+    public void refreshLectures() {
+        updateLectureScroll();
     }
 
     // TODO temp main

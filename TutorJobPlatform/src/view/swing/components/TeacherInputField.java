@@ -1,6 +1,7 @@
 package view.swing.components;
 
 import model.*;
+import view.swing.components.homescreens.TeacherHomescreen;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,9 +18,11 @@ public class TeacherInputField extends JFrame {
     private JButton btnSave;
 
     private Teacher loggedInTeacher; // Referenz auf den eingeloggten Lehrer
+    private TeacherHomescreen homescreen; // Referenz auf den TeacherHomescreen
 
-    public TeacherInputField(Teacher loggedInTeacher) {
+    public TeacherInputField(Teacher loggedInTeacher, TeacherHomescreen homescreen) {
         this.loggedInTeacher = loggedInTeacher;
+        this.homescreen = homescreen;
 
         setTitle("Neuen Kurs anlegen");
         setSize(700, 700);
@@ -88,7 +91,13 @@ public class TeacherInputField extends JFrame {
                 Lecture lecture = loggedInTeacher.createLecture(courseName,
                         abbreviation, tutorNum, courseInfo, selectedStudyPaths);
 
-               
+                AppData.data.addLecture(lecture); //Speichern der neuen Lecture in AppData
+
+                JOptionPane.showMessageDialog(TeacherInputField.this, "Kurs erfolgreich hinzugefügt! ");
+
+                homescreen.refreshLectures();
+
+               dispose();
             }
         });
         add(btnSave, BorderLayout.SOUTH);
@@ -97,7 +106,8 @@ public class TeacherInputField extends JFrame {
     }
 
     public static void main(String[] args) {
-        TeacherInputField field =
-                new TeacherInputField(AppData.data.getTeachers().getFirst());
+        Teacher teacher = new Teacher("Max", "Mustermann", "1234567", "hallo", "TOY"); // Beispiel-Lehrer erstellen
+        TeacherHomescreen homescreen = new TeacherHomescreen(teacher); // Beispiel-Homescreen erstellen
+        new TeacherInputField(teacher, homescreen); // Fenster öffnen
     }
 }
