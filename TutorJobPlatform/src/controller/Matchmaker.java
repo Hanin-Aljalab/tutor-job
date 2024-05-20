@@ -1,11 +1,12 @@
 package controller;
-
 import java.util.*;
 
-import static model.AppData.data;
-import static model.AppData.getTeachers;
+import model.Student;
+import model.AppData;
+import model.Teacher;
+import model.Lecture;
 
-import model.*;
+
 
 public class Matchmaker {
 
@@ -25,11 +26,11 @@ public class Matchmaker {
     // Studierende als Pref angegeben hat, den Studierenden zum weniger besetzten Kurs assigned.
     // Sorgt dafür, !!dass möglichst alle Kurse besetzt sind!!, und niemand etwas bekommt was er/sie gar nicht möchte.
     // yes, i know this is incredibly ugly
-    public int balanceTutors(){
+    public int balanceTutors() {
         if (student.getLecturePref().lecture.getNumOpenTutorSlots() >
-        student.getTeacherPref.lecture.getNumOpenTutorSlots()){
+                student.getTeacherPref.lecture.getNumOpenTutorSlots()) {
             //TODO student gets assigned to lecture of their choice
-            else {
+            else{
                 //TODO student gets assigned to profs course of their choice
             }
         }
