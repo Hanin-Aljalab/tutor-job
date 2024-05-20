@@ -1,23 +1,10 @@
 package view.swing.components;
 
-import javax.swing.*;
 
-import controller.Login;
-import controller.Registration;
 
-import exceptions.IncorrectPasswordException;
-import exceptions.InvalidInputException;
-import exceptions.PasswordsNotIdenticalException;
-import exceptions.StudentNumberInvalidException;
-import exceptions.TeacherIdInvalidException;
-import exceptions.UserAlreadyExistsException;
-import exceptions.UserDoesNotExistException;
-
-import model.AppData;
-import model.User;
-import model.Teacher;
-import model.Student;
-
+import controller.*;
+import exceptions.*;
+import model.*;
 import view.swing.components.homescreens.*;
 
 import javax.swing.*;
@@ -212,8 +199,16 @@ public class LoginWindow extends JFrame implements ActionListener {
 			teacherId = teacherIdField.getText();
 		}
 
-		User user = login.loginUser(role, studNumber, teacherId, password);
+		if (teacherId.equals("Matcher") && password.equals("matchmaking")) {
+			App.match();
+			JOptionPane.showMessageDialog(new Frame(), "Zuordnung " +
+					"durchgeführt.");
+			teacherIdField.setText("");
+			passwordField.setText("");
+			return false;
+		}
 
+		User user = login.loginUser(role, studNumber, teacherId, password);
 		return user != null;
 	}
 

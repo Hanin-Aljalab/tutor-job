@@ -18,6 +18,7 @@ public class StudentHomescreen extends Homescreen {
     public StudentHomescreen(Student user) {
         super(user, Color.CYAN);
         displayStudNumber();
+        updatePreferenceLists();
     }
 
     private void displayStudNumber() {
