@@ -1,5 +1,6 @@
 package view.swing.components.homescreens;
 
+import controller.App;
 import model.*;
 import view.swing.components.LoginWindow;
 
@@ -39,16 +40,16 @@ public abstract class Homescreen extends JFrame {
         configureBottomPanel();
 
         setVisible(true);
+
+        if(!App.isMatchingDone()) {
+            button = configureButton();
+            choicePanel.add(button);
+        }
+
+
     }
 
 // Methods which have to be defined in child classes
-
-    /**
-     * Determines which welcome text is shown in the center of the homescreen
-     * @return array of strings which should be displayed
-     */
-    abstract protected String[] setInfoText();
-
     /**
      * Displays the button relevant for the user group
      * @return version of button as needed
@@ -62,7 +63,8 @@ public abstract class Homescreen extends JFrame {
      */
     abstract protected void adaptStatus(JLabel status);
     abstract protected void configureBottomRightPanel();
-
+    abstract protected String[] getGeneralInfo();
+    abstract protected String[] getMatchInfo();
 
     /**
      * configure the top panel
@@ -159,20 +161,18 @@ public abstract class Homescreen extends JFrame {
         bottomConstraints.fill = GridBagConstraints.HORIZONTAL;
         bottomConstraints.anchor = GridBagConstraints.SOUTH;
 
-        status = new JLabel("", JLabel.CENTER);
-        adaptStatus(status);
-        bottomConstraints.gridx = 0;
-        bottomConstraints.gridy = 1;
-        bottomConstraints.gridwidth = 1;
-        choicePanel.add(status, bottomConstraints);
-
+        if (!App.isMatchingDone()) {
+            status = new JLabel("", JLabel.CENTER);
+            adaptStatus(status);
+            bottomConstraints.gridx = 0;
+            bottomConstraints.gridy = 1;
+            bottomConstraints.gridwidth = 1;
+            choicePanel.add(status, bottomConstraints);
+        }
         constraints.gridy = 1;
         constraints.weighty = 0.05; //config height of panel
         leftPanel.add(choicePanel, constraints);
     }
-
-
-
 
     private void setWelcomeText(JPanel panel, GridBagConstraints gbc) {
         for (String line : infoText) {
@@ -181,6 +181,18 @@ public abstract class Homescreen extends JFrame {
             infoLabel.setForeground(Color.DARK_GRAY);
             panel.add(infoLabel, gbc);
             gbc.gridy ++;
+        }
+    }
+
+    /**
+     * Determines which welcome text is shown in the center of the homescreen
+     * @return array of strings which should be displayed
+     */
+    private String[] setInfoText() {
+        if (App.isMatchingDone()) {
+            return getMatchInfo();
+        } else {
+            return InfoText.teacherGeneral;
         }
     }
 

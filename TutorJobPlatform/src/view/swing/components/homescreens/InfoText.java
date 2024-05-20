@@ -27,4 +27,18 @@ public class InfoText {
 
     public static final String teacherHasClass = "<html><i>Sie " +
             "haben bereits Kurse eingetragen.</html></i>";
+
+    public static final String chooseHere = "Wählen Sie hier Ihre Präferenzen.";
+    public static final String noChoiceInfo = "(Falls Sie keine Angabe machen, " +
+            "erfolgt die Zuteilung zufällig.)";
+
+    public static final String teacherResultMessage = "Folgende Tutor*innen " +
+            "wurden Ihren Kursen zugeteilt: ";
+
+    public static final String studentResultMessage = "Sie wurden folgendem " +
+            "Kurs zugeteilt: ";
+
+    public static final String[] goodLuck = new String[] {"Vielen Dank für " +
+            "die Nutzung von TutorJobSystem.", "Wir wünschen Ihnen eine gute " +
+            "Zusammenarbeit."};
 }

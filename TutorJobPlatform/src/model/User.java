@@ -5,25 +5,24 @@ public class User {
     private String lastName;
     private String password;
     private String title;
-    private String profession;
+    private String role;
 
-    public User(String name, String surname, String password,
-                String profession) {
-        this.firstName = name;
-        this.lastName = surname;
+    public User(String firstName, String lastName, String password,
+                String role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
         this.title = "";
-        this.profession = profession;
-
+        this.role = role;
     }
 
-    public User(String name, String surname, String password, String title,
-                String profession) {
-        this.firstName = name;
-        this.lastName = surname;
+    public User(String firstName, String lastName, String password, String title,
+                String role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
         this.title = title;
-        this.profession = profession;
+        this.role = role;
     }
 
     public String getFirstName() {
@@ -42,7 +41,8 @@ public class User {
         return password;
     }
 
-    public String getProfession() {
-        return profession;
+    public String getRole() {
+        return role;
     }
+
 }

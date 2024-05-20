@@ -1,7 +1,6 @@
 package view.swing.components;
 
-import model.Lecture;
-import model.Teacher;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -98,7 +97,7 @@ public class TeacherInputField extends JFrame {
     }
 
     public static void main(String[] args) {
-        Teacher stg = new Teacher("Jess", "Steinberger", "12234", "Prof. Dr.");
-        TeacherInputField field = new TeacherInputField(stg);
+        TeacherInputField field =
+                new TeacherInputField(AppData.data.getTeachers().getFirst());
     }
 }
