@@ -87,6 +87,12 @@ public class TeacherInputField extends JFrame {
                     }
                 }
 
+                // Überprüfen, ob alle erforderlichen Felder ausgefüllt sind
+                if (courseName.isEmpty() || abbreviation.isEmpty() || courseInfo.isEmpty() || selectedStudyPaths.isEmpty()) {
+                    JOptionPane.showMessageDialog(TeacherInputField.this, "Bitte füllen Sie alle Felder aus.", "Fehler", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 // Erstellt eine neue Lecture-Instanz mit den gesammelten Informationen
                 Lecture lecture = loggedInTeacher.createLecture(courseName,
                         abbreviation, tutorNum, courseInfo, selectedStudyPaths);
