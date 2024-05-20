@@ -1,10 +1,8 @@
 package model;
 
-import java.util.ArrayList;
-import exceptions.UserAlreadyExistsException;
+import java.util.*;
 
-import java.util.HashMap;
-import java.util.List;
+import exceptions.UserAlreadyExistsException;
 
 public class AppData {
 	final public static AppData data = new AppData();
@@ -59,12 +57,17 @@ public class AppData {
 		Lecture lec5 = new Lecture("Software Engineering 1", "SE1", 3,
 				"Analyse, Design, Testen, Swing", tea2,
 				new ArrayList<>(List.of(new String[]{"IMB", "IB", "CSB", "UIB"})));
+		Lecture lec6 = new Lecture("Mathematik 1", "MA1", 3, "Aussagenlogik, " +
+				"Folgen, Beweise", tea2,
+				new ArrayList<>(List.of(new String[]{"IMB", "IB",
+				"CSB", "UIB"})));
 
 		lectures.add(lec1);
 		lectures.add(lec2);
 		lectures.add(lec3);
 		lectures.add(lec4);
 		lectures.add(lec5);
+		lectures.add(lec6);
 
 		matches = new HashMap<>();
 		matches.put(stud1, lec1);
@@ -183,11 +186,12 @@ public class AppData {
 		return lectures;
 	}
 
-	public ArrayList<String> getLectureNames() {
-		ArrayList<String> lectureNames = new ArrayList<>();
+	public ArrayList<String> getLectureNamesWithoutDuplicates() {
+		Set<String> lectureNameSet = new HashSet<>();
 		for (Lecture lecture : lectures) {
-			lectureNames.add(lecture.getAbbreviation());
+			lectureNameSet.add(lecture.getAbbreviation());
 		}
+		ArrayList<String> lectureNames = new ArrayList<>(lectureNameSet);
 		return lectureNames;
 	}
 

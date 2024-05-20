@@ -63,7 +63,7 @@ public class PreferencePopup extends JFrame {
     private JPanel createLecturePanel() {
         int[] bounds = {100, 40, 100, height};
         return createPreferencePanel(bounds, "Kurse",
-                AppData.data.getLectureNames());
+                AppData.data.getLectureNamesWithoutDuplicates());
     }
 
     private JPanel createTeacherPanel() {
