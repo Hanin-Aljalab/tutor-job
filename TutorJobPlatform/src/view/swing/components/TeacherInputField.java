@@ -9,6 +9,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * TeacherInputField is a JFrame that allows a teacher to input information for creating a new course.
+ * The input fields include course name, abbreviation, desired number of tutors, allowed study paths,
+ * and course information.
+ */
+
 public class TeacherInputField extends JFrame {
     private JTextField txtCourseName;
     private JTextField txtAbbreviation;
@@ -17,8 +23,15 @@ public class TeacherInputField extends JFrame {
     private JTextArea txtCourseInfo;
     private JButton btnSave;
 
-    private Teacher loggedInTeacher; // Referenz auf den eingeloggten Lehrer
-    private TeacherHomescreen homescreen; // Referenz auf den TeacherHomescreen
+    private Teacher loggedInTeacher; // Reference to the logged-in teacher
+    private TeacherHomescreen homescreen; // Reference to the TeacherHomescreen
+
+    /**
+     * Constructs a TeacherInputField with the specified logged-in teacher and teacher homescreen.
+     *
+     * @param loggedInTeacher the logged-in teacher
+     * @param homescreen      the teacher homescreen
+     */
 
     public TeacherInputField(Teacher loggedInTeacher, TeacherHomescreen homescreen) {
         this.loggedInTeacher = loggedInTeacher;
@@ -31,7 +44,7 @@ public class TeacherInputField extends JFrame {
 
         JPanel inputPanel = new JPanel(new GridLayout(10, 2));
 
-        // Labels und Textfelder für die Eingaben
+        // Labels and text fields for input
         JLabel labelName = new JLabel("Veranstaltungsname (ausgeschrieben):");
         txtCourseName = new JTextField();
         inputPanel.add(labelName);
@@ -71,7 +84,7 @@ public class TeacherInputField extends JFrame {
 
         add(inputPanel, BorderLayout.CENTER);
 
-        // Button zum Speichern der Daten
+        // Button for saving data
         btnSave = new JButton("Speichern");
         btnSave.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -87,17 +100,18 @@ public class TeacherInputField extends JFrame {
                     }
                 }
 
-                // Überprüfen, ob alle erforderlichen Felder ausgefüllt sind
+                // Check if all fields are filled
                 if (courseName.isEmpty() || abbreviation.isEmpty() || courseInfo.isEmpty() || selectedStudyPaths.isEmpty()) {
                     JOptionPane.showMessageDialog(TeacherInputField.this, "Bitte füllen Sie alle Felder aus.", "Fehler", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                // Erstellt eine neue Lecture-Instanz mit den gesammelten Informationen
+                // Create new Lecture instance with collected information
                 Lecture lecture = loggedInTeacher.createLecture(courseName,
                         abbreviation, tutorNum, courseInfo, selectedStudyPaths);
 
-                AppData.data.addLecture(lecture); //Speichern der neuen Lecture in AppData
+                // Save new lecture in AppData
+                AppData.data.addLecture(lecture);
 
                 JOptionPane.showMessageDialog(TeacherInputField.this, "Kurs erfolgreich hinzugefügt! ");
 
