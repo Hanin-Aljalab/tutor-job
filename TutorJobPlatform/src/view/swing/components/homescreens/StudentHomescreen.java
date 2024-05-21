@@ -87,6 +87,11 @@ public class StudentHomescreen extends Homescreen {
         return prefButton;
     }
 
+    /**
+     * opens a new window for the preference selection, where the User can choose between
+     * various courses and teachers. Also updates the list of preferences and changes the
+     * status of the "add preference" button
+     */
     public void handlePreferenceSelection() {
         PreferencePopup popup = new PreferencePopup((Student) user);
         popup.addWindowListener(new WindowAdapter() {
@@ -98,6 +103,10 @@ public class StudentHomescreen extends Homescreen {
         });
     }
 
+    /**
+     * removes and updates users preferences of students lists, also updates
+     * buttons
+     */
     public void removePreferences() {
         if (confirmDeletion()) {
             ((Student) user).deletePreferences();
@@ -106,6 +115,10 @@ public class StudentHomescreen extends Homescreen {
         }
     }
 
+    /**
+     * opens a new JOptionPane to confirm the deletion of te students' preferences
+     * @return confirmation to delete the preferences
+     */
     public boolean confirmDeletion() {
         int confirmation = JOptionPane.showConfirmDialog(this,
                 "Möchten Sie wirklich Ihre Auswahl zurücksetzen","",
@@ -114,6 +127,9 @@ public class StudentHomescreen extends Homescreen {
         return (confirmation == JOptionPane.YES_OPTION);
     }
 
+    /**
+     * clears model lists and adds new updated Preferences to the student
+     */
     private void updatePreferenceLists() {
             lectureModel.clear();
             ArrayList<String> lectures = ((Student) user).getLecturePref();
