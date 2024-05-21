@@ -28,7 +28,7 @@ public class Matcher {
     public Matcher() {
         allStudents = data.getStudents();
         allLectures = data.getLectures();
-        teachers = data.getTeacherNames();
+        //teachers = data.getTeachers();
         hasNoPref = new ArrayList<>();
         copyAllStudents = new ArrayList<>();
     }
@@ -105,7 +105,7 @@ public class Matcher {
                     if (lecture.getNumOfTutors() > 0
                             && lecture.getTeacher().equals(teachpref)
                             && student.getStudyPath().equals(lecture.getStudyPaths())) {
-                        matches.put(student, teacher.getTeacherId());
+                        matches.put(student, lecture);
                         lecture.decrementSlot();
                         isAssigned = true;
                         gotAssigned(student);
@@ -117,6 +117,7 @@ public class Matcher {
     }
 
     public void noPrefStudents() {
+        //TODO decision tree course > teacher.course?
         noPrefIsAssigned = false;
         if (copyAllStudents.isEmpty()) {
             for (Student student : hasNoPref) {
@@ -134,7 +135,7 @@ public class Matcher {
                     for (Teacher teacher : teachers) {
                         for (Lecture lecture : teacher.getLectures()) {
                             if ((lecture.getNumOfTutors() > 0 && student.getStudyPath().equals(lecture.getStudyPaths()))) {
-                                matches.put(student, teacher.getTeacherId());
+                                matches.put(student, lecture);
                                 noPrefIsAssigned = true;
                                 hasNoPref.remove(student);
                                 lecture.decrementSlot();
