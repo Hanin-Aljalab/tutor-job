@@ -6,10 +6,8 @@ import controller.Registration;
 import exceptions.*;
 import model.AppData;
 import model.Student;
-import model.Teacher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import javax.swing.*;
 
 public class RegistrationPopupTest {
     private RegistrationPopup registrationPopup;
@@ -20,24 +18,28 @@ public class RegistrationPopupTest {
     void setUp() {
         data = AppData.data;
         registration = new Registration();
-        Registration.registration.data = data;
 
         registrationPopup = new RegistrationPopup();
 
         data.getStudents().clear();
         data.getTeachers().clear();
 
-        registrationPopup.firstNameField.setText("Markus");
-        registrationPopup.lastNameField.setText("Winklhofer");
-        registrationPopup.passwordField.setText("password");
-        registrationPopup.passwordConfirmField.setText("password");
-        registrationPopup.studNumberField.setText("1234567");
-        registrationPopup.roleDropdown.setSelectedItem("Student*in");
+        registrationPopup.setFirstNameField("Markus");
+        registrationPopup.setLastNameField("Winklhofer");
+        registrationPopup.setTitleDropdown("Dr.");
+        registrationPopup.setPasswordField("password");
+        registrationPopup.setPasswordConfirmField("password");
+        registrationPopup.setStudNumberField("1234567");
+        registrationPopup.setTeacherIdField("WKL");
+        registrationPopup.setStudyPathDropdown("IMB");
+        registrationPopup.setRoleDropdown("Student*in");
+
     }
 
     @Test
     void testUserAlreadyExistsException() {
-        Student existingStudent = new Student("Markus", "Winklhofer", "password", "1234567", "IMB");
+        Student existingStudent = new Student("Markus", "Winklhofer",
+                "password", "1234567", "IMB");
         data.addUser(existingStudent);
 
         assertThrows(UserAlreadyExistsException.class, () -> {
@@ -47,7 +49,7 @@ public class RegistrationPopupTest {
 
     @Test
     void testStudentNumberInvalidException() {
-        registrationPopup.studNumberField.setText("invalid");
+        registrationPopup.setStudNumberField("abc");
 
         assertThrows(StudentNumberInvalidException.class, () -> {
             registrationPopup.transmitData();
@@ -56,7 +58,7 @@ public class RegistrationPopupTest {
 
     @Test
     void testPasswordsNotIdenticalException() {
-        registrationPopup.passwordConfirmField.setText("differentPassword");
+        registrationPopup.setPasswordConfirmField("differentPassword");
 
         assertThrows(PasswordsNotIdenticalException.class, () -> {
             registrationPopup.transmitData();
@@ -65,7 +67,7 @@ public class RegistrationPopupTest {
 
     @Test
     void testInvalidInputException() {
-        registrationPopup.firstNameField.setText("");
+        registrationPopup.setFirstNameField("");
 
         assertThrows(InvalidInputException.class, () -> {
             registrationPopup.transmitData();
@@ -74,13 +76,8 @@ public class RegistrationPopupTest {
 
     @Test
     void testTeacherIdInvalidException() {
-        registrationPopup.roleDropdown.setSelectedItem("Dozent*in");
-
-        registrationPopup.firstNameField.setText("Markus");
-        registrationPopup.lastNameField.setText("Winklhofer");
-        registrationPopup.passwordField.setText("password");
-        registrationPopup.passwordConfirmField.setText("password");
-        registrationPopup.teacherIdField.setText("invalid");
+        registrationPopup.setRoleDropdown("Dozent*in");
+        registrationPopup.setTeacherIdField("WKL1");
 
         assertThrows(TeacherIdInvalidException.class, () -> {
             registrationPopup.transmitData();

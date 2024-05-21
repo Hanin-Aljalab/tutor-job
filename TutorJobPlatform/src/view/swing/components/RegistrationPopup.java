@@ -230,7 +230,7 @@ public class RegistrationPopup {
 	 * @throws InvalidInputException          if the input is invalid
 	 * @throws TeacherIdInvalidException     if the teacher ID is invalid
 	 */
-	private boolean transmitData() throws UserAlreadyExistsException, StudentNumberInvalidException,
+	public boolean transmitData() throws UserAlreadyExistsException, StudentNumberInvalidException,
 			PasswordsNotIdenticalException, InvalidInputException, TeacherIdInvalidException {
 		String role = (String) roleDropdown.getSelectedItem();
 		boolean isStudent = "Student*in".equals(role);
@@ -255,4 +255,42 @@ public class RegistrationPopup {
 		return registration.registerUser(firstName, lastName, password, passwordRep, role, title, studNumber, teacherId,
 				studyPath);
 	}
+
+	public void setFirstNameField(String text) {
+		this.firstNameField.setText(text);
+	}
+
+	public void setLastNameField(String text) {
+		this.lastNameField.setText(text);
+	}
+
+	public void setTeacherIdField(String text) {
+		this.teacherIdField.setText(text);
+	}
+
+	public void setStudNumberField(String text) {
+		this.studNumberField.setText(text);
+	}
+
+	public void setPasswordField(String text) {
+		this.passwordField.setText(text);
+	}
+
+	public void setPasswordConfirmField(String text) {
+		this.passwordConfirmField.setText(text);
+	}
+
+	public void setRoleDropdown(String text) {
+		this.roleDropdown.setSelectedItem(text);
+	}
+
+	public void setStudyPathDropdown(String text) {
+		this.studyPathDropdown.setSelectedItem(text);
+	}
+
+	public void setTitleDropdown(String text) {
+		this.titleDropdown.setSelectedItem(text);
+	}
+
+
 }
