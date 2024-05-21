@@ -31,6 +31,10 @@ public class Student extends User {
 		return studNumber;
 	}
 
+	public String getStudyPath() {
+		return studyPath;
+	}
+
 	public ArrayList<String> getLecturePref() {
 		return lecturePref;
 	}

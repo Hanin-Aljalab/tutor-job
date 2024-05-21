@@ -5,16 +5,19 @@ import model.*;
 import java.util.*;
 import java.util.HashMap;
 
+import static model.AppData.data;
+
 
 public class Matcher {
-    private String teacher;
-    private int numOpenTutorSlots;
+    //private String teacher;
+    //private int numOpenTutorSlots;
     private List<Student> allStudents;
     private List<Student> hasNoPref;
     private List<Student> copyAllStudents = new ArrayList<>(allStudents);
     private List<Lecture> allLectures;
     private List<Teacher> teachers;
     private boolean isAssigned;
+    private boolean noPrefIsAssigned;
     private static HashMap<Student, Lecture> matches;
 
     public static HashMap<Student, Lecture> getMatches() {
@@ -25,9 +28,9 @@ public class Matcher {
     public Matcher() {
         allStudents = data.getStudents();
         allLectures = data.getLectures();
+        teachers = data.getTeacherNames();
         hasNoPref = new ArrayList<>();
         copyAllStudents = new ArrayList<>();
-        // match = new HashMap<>();
     }
 
 
@@ -102,7 +105,7 @@ public class Matcher {
                     if (lecture.getNumOfTutors() > 0
                             && lecture.getTeacher().equals(teachpref)
                             && student.getStudyPath().equals(lecture.getStudyPaths())) {
-                        matches.put(student, lecture.getTeacher());
+                        matches.put(student, teacher.getTeacherId());
                         lecture.decrementSlot();
                         isAssigned = true;
                         gotAssigned(student);
@@ -114,18 +117,29 @@ public class Matcher {
     }
 
     public void noPrefStudents() {
+        noPrefIsAssigned = false;
         if (copyAllStudents.isEmpty()) {
             for (Student student : hasNoPref) {
                 for (Lecture lecture : allLectures) {
                     if ((lecture.getNumOfTutors() > 0
                             && student.getStudyPath().equals(lecture.getStudyPaths()))) {
                         matches.put(student, lecture);
+                        noPrefIsAssigned = true;
+                        hasNoPref.remove(student);
+                        lecture.decrementSlot();
+                        break;
                     }
                 }
-                for (Teacher teacher : teachers) {
-                    for (Lecture lecture : teacher.getLectures()) {
-                        if ((lecture.getNumOfTutors() > 0 && student.getStudyPath().equals(lecture.getStudyPaths()))) {
-                            matches.put(student, teacher.getTeacherId());
+                if (!noPrefIsAssigned) {
+                    for (Teacher teacher : teachers) {
+                        for (Lecture lecture : teacher.getLectures()) {
+                            if ((lecture.getNumOfTutors() > 0 && student.getStudyPath().equals(lecture.getStudyPaths()))) {
+                                matches.put(student, teacher.getTeacherId());
+                                noPrefIsAssigned = true;
+                                hasNoPref.remove(student);
+                                lecture.decrementSlot();
+                                break;
+                            }
                         }
                     }
                 }
@@ -144,6 +158,7 @@ public class Matcher {
             Student nextStudent = pickRandomStudent(copyAllStudents);
             balance(nextStudent);
         }
+        noPrefStudents();
     }
 
     public void gotAssigned(Student student) {
