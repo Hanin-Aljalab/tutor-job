@@ -49,6 +49,10 @@ public class Lecture {
         tutors.add(student);
     }
 
+    public void decrementSlot(){
+        numOfTutors--;
+    }
+
     public ArrayList<String> getStudyPaths() {
         return studyPaths;
     }
