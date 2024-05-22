@@ -1,0 +1,35 @@
+* [33mcommit 91fa45443c6568b6d6101bd5d4f995766617853b[m[33m ([m[1;36mHEAD -> [m[1;32mgina[m[33m, [m[1;31morigin/gina[m[33m)[m
+[31m|[m Author: Gina <3009057@stud.hs-mannheim.de>
+[31m|[m Date:   Sun May 12 01:47:42 2024 +0200
+[31m|[m 
+[31m|[m     TeacherInput
+[31m|[m   
+[31m|[m * [33mcommit a3e63b79b45e6c78c6e9328f522cc953f2c006fe[m[33m ([m[1;31morigin/dev-markus[m[33m)[m
+[31m|[m[31m/[m  Author: 3008816 <3008816@stud.hs-mannheim.de>
+[31m|[m   Date:   Fri May 10 17:28:09 2024 +0200
+[31m|[m   
+[31m|[m       huge changes in Homescreen and smaller changes in Student, Teacher, User, PreferencePopup
+[31m|[m 
+* [33mcommit 8b521c80be87c4496b6105de72c563cfe399a3e0[m[33m ([m[1;31morigin/dev-julia[m[33m, [m[1;31morigin/dev[m[33m, [m[1;32mdev[m[33m)[m
+[32m|[m Author: Julia Aktories <3012052@stud.hs-mannheim.de>
+[32m|[m Date:   Tue May 7 16:48:34 2024 -0400
+[32m|[m 
+[32m|[m     reactivated homescreen
+[32m|[m   
+[32m|[m * [33mcommit 0375ed0c10ad62f44751fdf52a2d0f57229bf2e5[m[33m ([m[1;31morigin/dev-julia-markus[m[33m)[m
+[32m|[m[32m/[m  Author: 3008816 <3008816@stud.hs-mannheim.de>
+[32m|[m   Date:   Wed May 8 23:15:55 2024 +0200
+[32m|[m   
+[32m|[m       added not quite functional logout-button lol
+[32m|[m 
+* [33mcommit 14e2d785d3f798bd31851e59c0e4193ddac3f9dc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+[33m|[m Author: Julia Aktories <3012052@stud.hs-mannheim.de>
+[33m|[m Date:   Sun May 5 09:48:20 2024 -0400
+[33m|[m 
+[33m|[m     corrected folder structure
+[33m|[m 
+* [33mcommit a5a6a0f4f78d6ac3d13b12c65d1d62a43c629f63[m
+  Author: Julia-Elisabeth Aktories <3012052@stud.hs-mannheim.de>
+  Date:   Sat May 4 00:12:33 2024 +0200
+  
+      Initial commit

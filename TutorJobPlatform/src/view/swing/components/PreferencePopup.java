@@ -115,4 +115,3 @@ public class PreferencePopup extends JFrame {
         panel.add(cb);
     }
 }
-
