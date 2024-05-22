@@ -6,7 +6,6 @@ import exceptions.*;
 
 public class Registration {
 	public static Registration registration = new Registration();
-	private AppData data = AppData.data;
 
 	/**
      * Checks if the user already exists.
@@ -17,7 +16,7 @@ public class Registration {
      * @return true if the user already exists, false otherwise
      */
     private boolean checkIfUserAlreadyExists(String teacherId, String studNumber, String role) {
-        return data.checkIfUserExists(teacherId, studNumber, role);
+        return App.getData().checkIfUserExists(teacherId, studNumber, role);
     }
 
     /**
@@ -137,7 +136,7 @@ public class Registration {
 		} else if (role.equals("Student*in")) {
 			user = new Student(firstName, lastName, passwordRep, studNumber, studyPath);
 		}
-		data.addUser(user);
+		App.getData().addUser(user);
 
 		return true;
 	}

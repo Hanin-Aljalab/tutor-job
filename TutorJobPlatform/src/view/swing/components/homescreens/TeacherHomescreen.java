@@ -1,6 +1,7 @@
 package view.swing.components.homescreens;
 
 //import model.AppData;
+import controller.App;
 import controller.Matcher;
 import model.*;
 import view.swing.components.TeacherInputField;
@@ -30,7 +31,7 @@ public class TeacherHomescreen extends Homescreen {
         Teacher teacher = (Teacher) user;
         ArrayList<String> matchInfo = new ArrayList<>();
 
-        Matcher.getMatches().forEach((student, lecture) -> {
+        App.getMatcher().getMatches().forEach((student, lecture) -> {
             String teacherId =
                     lecture.getTeacher().getTeacherId();
             if (teacherId.equals(teacher.getTeacherId())) {
@@ -105,7 +106,7 @@ public class TeacherHomescreen extends Homescreen {
     private void updateLectureScroll() {
         lectureModel.clear();
         Teacher teacher = ((Teacher) user);
-        AppData.data.getLectures().forEach((lecture) -> {
+        App.getData().getLectures().forEach((lecture) -> {
             if (lecture.getTeacher().getTeacherId().equals(teacher.getTeacherId())) {
                 lectureModel.addElement(lecture.getName());
             }
@@ -119,10 +120,5 @@ public class TeacherHomescreen extends Homescreen {
 
     public void refreshLectures() {
         updateLectureScroll();
-    }
-
-    // TODO temp main
-    public static void main(String[] args) {
-        new TeacherHomescreen(AppData.data.getTeachers().getFirst());
     }
 }

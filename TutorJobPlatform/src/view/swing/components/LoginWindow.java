@@ -13,7 +13,6 @@ import java.awt.event.*;
 
 public class LoginWindow extends JFrame implements ActionListener {
 	private final Login login = Login.login;
-	private AppData data = AppData.data;
 
 	// Declare UI components
 	private JFrame frame;
@@ -102,7 +101,9 @@ public class LoginWindow extends JFrame implements ActionListener {
 					if (transmitData()) {
 						String role = (String) roleDropdown.getSelectedItem();
 						boolean isStudent = "Student*in".equals(role);
-						User currentUser = data.getUser(studNumberField.getText(), teacherIdField.getText(), role);
+						User currentUser =
+								App.getData().getUser(studNumberField.getText(),
+										teacherIdField.getText(), role);
 						if (isStudent) {
 							frame.dispose();
 							new StudentHomescreen((Student) currentUser);

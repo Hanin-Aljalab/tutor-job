@@ -1,5 +1,6 @@
 package view.swing.components;
 
+import controller.App;
 import model.*;
 import view.swing.components.homescreens.TeacherHomescreen;
 
@@ -56,7 +57,7 @@ public class TeacherInputField extends JFrame {
         inputPanel.add(txtAbbreviation);
 
         JLabel labelTutNumber = new JLabel("  Anzahl Tutor*innen:");
-        comboBoxDesiredTutorNumber = new JComboBox<>(new String[]{"  1", "  2", "  3", "  4", "  5"});
+        comboBoxDesiredTutorNumber = new JComboBox<>(new String[]{"1", "2", "3", "4", "5"});
         inputPanel.add(labelTutNumber);
         inputPanel.add(comboBoxDesiredTutorNumber);
 
@@ -111,7 +112,7 @@ public class TeacherInputField extends JFrame {
                         abbreviation, tutorNum, courseInfo, selectedStudyPaths);
 
                 // Save new lecture in AppData
-                AppData.data.addLecture(lecture);
+                App.getData().addLecture(lecture);
 
                 JOptionPane.showMessageDialog(TeacherInputField.this, "Kurs erfolgreich hinzugefügt! ");
 
@@ -123,11 +124,5 @@ public class TeacherInputField extends JFrame {
         add(btnSave, BorderLayout.SOUTH);
 
         setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        Teacher teacher = new Teacher("Max", "Mustermann", "1234567", "hallo", "TOY"); // Beispiel-Lehrer erstellen
-        TeacherHomescreen homescreen = new TeacherHomescreen(teacher); // Beispiel-Homescreen erstellen
-        new TeacherInputField(teacher, homescreen); // Fenster öffnen
     }
 }

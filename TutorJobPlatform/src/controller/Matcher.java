@@ -5,8 +5,6 @@ import model.*;
 import java.util.*;
 import java.util.HashMap;
 
-import static model.AppData.data;
-
 
 public class Matcher {
     private List<Student> allStudents;
@@ -14,9 +12,9 @@ public class Matcher {
     private List<Lecture> allLectures;
     private List<Teacher> allTeachers;
     private boolean noPrefIsAssigned;
-    private static HashMap<Student, Lecture> matches;
+    private HashMap<Student, Lecture> matches;
 
-    public static HashMap<Student, Lecture> getMatches() {
+    public HashMap<Student, Lecture> getMatches() {
         return matches;
     }
 
@@ -27,10 +25,6 @@ public class Matcher {
         allStudents = new ArrayList<>();
         allLectures = new ArrayList<>();
         allTeachers = new ArrayList<>();
-
-        allStudents.addAll(data.getStudents());
-        allLectures.addAll(data.getLectures());
-        allTeachers.addAll(data.getTeachers());
     }
 
     /* Methode, welche je nach Fülle des Kurses/Fülle der Kurse des Teachers, die der
@@ -178,11 +172,16 @@ public class Matcher {
     }
 
     public void allocateStudents() { //pick random students while thr List is full
+        allStudents.addAll(App.getData().getStudents());
+        allLectures.addAll(App.getData().getLectures());
+        allTeachers.addAll(App.getData().getTeachers());
+
         while (!allStudents.isEmpty()) {
             Student nextStudent = pickRandomStudent(allStudents);
             balance(nextStudent);
         }
         noPrefStudents();
+        App.getData().setMatches(matches);
     }
 //
 //    public void gotAssigned(Student student) {
@@ -205,13 +204,5 @@ public class Matcher {
 
         });
         System.out.println(allLectures);
-    }
-
-
-    public static void main(String[] args) {
-        Matcher matcher = new Matcher();
-        matcher.allocateStudents();
-        System.out.println(matches);
-        matcher.sortLectures();
     }
 }

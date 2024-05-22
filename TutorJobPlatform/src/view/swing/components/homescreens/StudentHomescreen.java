@@ -44,7 +44,7 @@ public class StudentHomescreen extends Homescreen {
         matchInfo.add(InfoText.studentResultMessage);
         matchInfo.add(" ");
         matchInfo.add("<html><font color=blue>" +
-                Matcher.getMatches().get(student).toString() +
+                App.getData().getMatches().get(student).toString() +
                 "</font></html>");
         matchInfo.add(" ");
         matchInfo.add(" ");
@@ -185,12 +185,5 @@ public class StudentHomescreen extends Homescreen {
         constraintsBotR.gridy = 3;
         rightPanel.add(teacherScroll, constraintsBotR);
     }
-
-    // TODO temp main
-    public static void main(String[] args) {
-        new StudentHomescreen(AppData.data.getStudents().getFirst());
-    }
-
-
 }
 

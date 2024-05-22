@@ -1,9 +1,11 @@
 package model;
 
 import view.swing.components.PreferencePopup;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Student extends User {
+public class Student extends User implements Serializable {
 	private String studNumber;
 	private String studyPath;
 	private ArrayList<String> lecturePref;

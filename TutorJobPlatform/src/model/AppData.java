@@ -1,20 +1,24 @@
 package model;
 
+import java.io.Serializable;
 import java.util.*;
 import exceptions.*;
 
-public class AppData {
-	final public static AppData data = new AppData();
-	private static List<Student> students;
-	private static List<Teacher> teachers;
-	private static List<Lecture> lectures;
-	private static HashMap<Student, Lecture> matches;
+public class AppData implements Serializable {
+	private ArrayList<Student> students;
+	private ArrayList<Teacher> teachers;
+	private ArrayList<Lecture> lectures;
+	private HashMap<Student, Lecture> matches;
 
 	public AppData() {
+		System.out.println("Ich erstelle ein neues Objekt.");
 		students = new ArrayList<>();
 		teachers = new ArrayList<>();
 		lectures = new ArrayList<>();
+		matches = new HashMap<>();
+	}
 
+	public void createDummies() {
 		// TODO: These objects are dummies for testing purposes!
 		Student stud1 = new Student("Max", "Mustermann", "12345", "1234567",
 				"CSB");
@@ -66,13 +70,13 @@ public class AppData {
 
 		Lecture lec1 = new Lecture("Mathematik 1", "MA1", 3, "Aussagenlogik, " +
 				"Folgen, Beweise", tea1, new ArrayList<>(List.of(new String[]{"IMB", "IB",
-                "CSB", "UIB"})));
+				"CSB", "UIB"})));
 		Lecture lec2 = new Lecture("Mathematik 2", "MA2", 5,
 				"Vektorräume, Gruppen", tea1, new ArrayList<>(List.of(new String[]{"IMB", "IB",
 				"CSB", "UIB"})));
 		Lecture lec3 = new Lecture("Programmieren 1", "PR1", 2,
 				"Java Basics", tea2, new ArrayList<>(List.of(new String[]{
-						"IMB", "IB", "CSB"})));
+				"IMB", "IB", "CSB"})));
 		Lecture lec4 = new Lecture("Medizinische Informatik 1",
 				"MI1",	1, "Terminologie, Biologie, Physik", tea3,
 				new ArrayList<>(List.of(new String[]{"IMB"})));
@@ -82,7 +86,7 @@ public class AppData {
 		Lecture lec6 = new Lecture("Mathematik 1", "MA1", 3, "Aussagenlogik, " +
 				"Folgen, Beweise", tea2,
 				new ArrayList<>(List.of(new String[]{"IMB", "IB",
-				"CSB", "UIB"})));
+						"CSB", "UIB"})));
 
 		lectures.add(lec1);
 		lectures.add(lec2);
@@ -90,13 +94,6 @@ public class AppData {
 		lectures.add(lec4);
 		lectures.add(lec5);
 		lectures.add(lec6);
-
-		matches = new HashMap<>();
-		matches.put(stud1, lec1);
-		matches.put(stud2, lec2);
-		matches.put(stud3, lec3);
-	//	matches.put(stud4, lec4);
-		matches.put(stud4, lec1);
 	}
 
 	/**
@@ -200,15 +197,12 @@ public class AppData {
 	public List<Student> getStudents() {
 		return students;
 	}
-
-    public static List<Teacher> getTeachers() {
+    public List<Teacher> getTeachers() {
         return teachers;
     }
-
-    public static List<Lecture> getLectures() {
+    public List<Lecture> getLectures() {
         return lectures;
     }
-
 
 	public ArrayList<String> getTeacherNames() {
 		ArrayList<String> teacherNames = new ArrayList<>();
@@ -227,7 +221,11 @@ public class AppData {
 		return lectureNames;
 	}
 
-	public static HashMap<Student, Lecture> getMatches() {
+	public void setMatches(HashMap<Student, Lecture> matches) {
+		this.matches = matches;
+	}
+
+	public HashMap<Student, Lecture> getMatches() {
 		return matches;
 	}
 }
