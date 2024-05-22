@@ -1,10 +1,7 @@
 package model;
 
-import java.util.ArrayList;
-import exceptions.UserAlreadyExistsException;
-
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import exceptions.*;
 
 public class AppData {
 	final public static AppData data = new AppData();
@@ -13,13 +10,10 @@ public class AppData {
 	private static List<Lecture> lectures;
 	private static HashMap<Student, Lecture> matches;
 
-
-
 	public AppData() {
 		students = new ArrayList<>();
 		teachers = new ArrayList<>();
 		lectures = new ArrayList<>();
-
 
 		// TODO: These objects are dummies for testing purposes!
 		Student stud1 = new Student("Max", "Mustermann", "12345", "1234567",
@@ -85,12 +79,17 @@ public class AppData {
 		Lecture lec5 = new Lecture("Software Engineering 1", "MA2", 1,
 				"Analyse, Design, Testen, Swing", tea2,
 				new ArrayList<>(List.of(new String[]{"IMB", "IB", "CSB", "UIB"})));
+		Lecture lec6 = new Lecture("Mathematik 1", "MA1", 3, "Aussagenlogik, " +
+				"Folgen, Beweise", tea2,
+				new ArrayList<>(List.of(new String[]{"IMB", "IB",
+				"CSB", "UIB"})));
 
 		lectures.add(lec1);
 		lectures.add(lec2);
 		lectures.add(lec3);
 		lectures.add(lec4);
 		lectures.add(lec5);
+		lectures.add(lec6);
 
 		matches = new HashMap<>();
 		matches.put(stud1, lec1);
@@ -99,9 +98,19 @@ public class AppData {
 	//	matches.put(stud4, lec4);
 		matches.put(stud4, lec1);
 	}
+
+	/**
+	 * Adds a new lecture to the list of lectures.
+	 *
+	 * @param lecture The lecture to add.
+	 */
+	public void addLecture(Lecture lecture) {
+		lectures.add(lecture);
+	}
+
 	/**
 	 * Checks if a user is already registered.
-	 *
+	 * 
 	 * @param teacherId  the teacher ID
 	 * @param studNumber the student number
 	 * @param role       the role of the user (e.g., student, teacher)
@@ -128,7 +137,7 @@ public class AppData {
 
 	/**
 	 * Registers a new user.
-	 *
+	 * 
 	 * @param user the user to be added
 	 * @throws UserAlreadyExistsException if the user already exists
 	 */
@@ -146,7 +155,7 @@ public class AppData {
 	/**
 	 * Searches for and returns a user based on their student number, teacher ID,
 	 * and role.
-	 *
+	 * 
 	 * @param studNumber the student number
 	 * @param teacherId  the teacher ID
 	 * @param role       the role of the user (e.g., student, teacher)
@@ -209,11 +218,12 @@ public class AppData {
 		return teacherNames;
 	}
 
-	public ArrayList<String> getLectureNames() {
-		ArrayList<String> lectureNames = new ArrayList<>();
+	public ArrayList<String> getLectureNamesWithoutDuplicates() {
+		Set<String> lectureNameSet = new HashSet<>();
 		for (Lecture lecture : lectures) {
-			lectureNames.add(lecture.getAbbreviation());
+			lectureNameSet.add(lecture.getAbbreviation());
 		}
+		ArrayList<String> lectureNames = new ArrayList<>(lectureNameSet);
 		return lectureNames;
 	}
 
