@@ -35,8 +35,8 @@ class AppDataTest {
     }
 
     @Test
-    void testGetLectureNames() {
-        List<String> lectureNames = appData.getLectureNames();
+    void testGetLectureNamesWithoutDuplicates() {
+        List<String> lectureNames = appData.getLectureNamesWithoutDuplicates();
         assertEquals(5, lectureNames.size());
     }
 

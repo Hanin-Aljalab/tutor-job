@@ -2,6 +2,7 @@ package view.swing.components;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import controller.App;
 import controller.Registration;
 import exceptions.*;
 import model.AppData;
@@ -16,7 +17,7 @@ public class RegistrationPopupTest {
 
     @BeforeEach
     void setUp() {
-        data = AppData.data;
+        //data = data.getData();
         registration = new Registration();
 
         registrationPopup = new RegistrationPopup();

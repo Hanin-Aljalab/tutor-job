@@ -10,6 +10,9 @@ public class AppData implements Serializable {
 	private ArrayList<Lecture> lectures;
 	private HashMap<Student, Lecture> matches;
 
+
+	private String somefield;
+
 	public AppData() {
 		System.out.println("Ich erstelle ein neues Objekt.");
 		students = new ArrayList<>();
@@ -227,5 +230,13 @@ public class AppData implements Serializable {
 
 	public HashMap<Student, Lecture> getMatches() {
 		return matches;
+	}
+
+	public String getSomeFieldForTest() {
+		return somefield;
+	}
+
+	public void setSomeFieldForTest(String somefield) {
+		this.somefield = somefield;
 	}
 }

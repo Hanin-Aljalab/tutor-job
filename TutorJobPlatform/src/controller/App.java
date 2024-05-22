@@ -31,7 +31,7 @@ public class App {
      *
      * @throws IOException
      */
-    private static void serializeObjects() {
+    public static void serializeObjects() {
         try (ObjectOutputStream out =
                      new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
             out.writeObject(data);

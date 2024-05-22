@@ -312,7 +312,7 @@ class RegistrationTest {
         ));
 
         // Testfall 21: Wiederholung von Testfall 1 zur Validierung der Konsistenz des Systems.
-        AppData.data.removeUser(AppData.data.getUser("123456", "", "Student*in"));
+        App.getData().removeUser(App.getData().getUser("123456", "", "Student*in"));
         assertTrue(registration.registerUser(
                 "Max",
                 "Mustermann",
