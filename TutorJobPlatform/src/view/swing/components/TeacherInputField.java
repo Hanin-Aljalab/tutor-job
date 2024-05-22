@@ -38,30 +38,30 @@ public class TeacherInputField extends JFrame {
         this.homescreen = homescreen;
 
         setTitle("Neuen Kurs anlegen");
-        setSize(700, 700);
+        setSize(600, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-
+        setLocationRelativeTo(null);
         JPanel inputPanel = new JPanel(new GridLayout(10, 2));
 
         // Labels and text fields for input
-        JLabel labelName = new JLabel("Veranstaltungsname (ausgeschrieben):");
+        JLabel labelName = new JLabel("  Veranstaltungsname (ausgeschrieben):");
         txtCourseName = new JTextField();
         inputPanel.add(labelName);
         inputPanel.add(txtCourseName);
 
-        JLabel labelAbbreviation = new JLabel("Kürzel:");
+        JLabel labelAbbreviation = new JLabel("  Kürzel:");
         txtAbbreviation = new JTextField();
         inputPanel.add(labelAbbreviation);
         inputPanel.add(txtAbbreviation);
 
-        JLabel labelTutNumber = new JLabel("Anzahl Tutor*innen:");
-        comboBoxDesiredTutorNumber = new JComboBox<>(new String[]{"1", "2", "3", "4", "5"});
+        JLabel labelTutNumber = new JLabel("  Anzahl Tutor*innen:");
+        comboBoxDesiredTutorNumber = new JComboBox<>(new String[]{"  1", "  2", "  3", "  4", "  5"});
         inputPanel.add(labelTutNumber);
         inputPanel.add(comboBoxDesiredTutorNumber);
 
-        JLabel labelCourseInfo = new JLabel("Kurzbeschreibung" +
-                "/Anforderungen:");
+        JLabel labelCourseInfo = new JLabel("  Kurzbeschreibung" +
+                "/ Anforderungen:");
         txtCourseInfo = new JTextArea();
         inputPanel.add(labelCourseInfo);
         inputPanel.add(new JScrollPane(txtCourseInfo));
@@ -69,7 +69,7 @@ public class TeacherInputField extends JFrame {
         JPanel studyPathPanel = new JPanel(new GridLayout(0, 4));
         studyPathPanel.setPreferredSize(new Dimension(600, 300));
 
-        String[] studyPaths = {"IMB", "UIB", "CSB", "IB"};
+        String[] studyPaths = {"  IMB", "  UIB", "  CSB", "  IB"};
         checkBoxesAllowedStudyPaths = new ArrayList<>();
         for (String studyPath : studyPaths) {
             JCheckBox checkBox = new JCheckBox(studyPath);
@@ -78,7 +78,7 @@ public class TeacherInputField extends JFrame {
             studyPathPanel.add(checkBox);
         }
 
-        JLabel labelStudyPaths = new JLabel("Studiengang der Tutor*innen:");
+        JLabel labelStudyPaths = new JLabel("  Studiengang der Tutor*innen:");
         inputPanel.add(labelStudyPaths);
         inputPanel.add(studyPathPanel);
 
