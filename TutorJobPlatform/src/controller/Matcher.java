@@ -9,13 +9,10 @@ import static model.AppData.data;
 
 
 public class Matcher {
-    //private String teacher;
-    //private int numOpenTutorSlots;
     private List<Student> allStudents;
     private List<Student> hasNoPref;
     private List<Lecture> allLectures;
     private List<Teacher> allTeachers;
-    private boolean isAssigned;
     private boolean noPrefIsAssigned;
     private static HashMap<Student, Lecture> matches;
 
@@ -23,18 +20,18 @@ public class Matcher {
         return matches;
     }
 
-    public static void setMatches(HashMap<Student, Lecture> matches) {
-        Matcher.matches = matches;
-    }
-
     public Matcher() {
         matches = new HashMap<>();
         hasNoPref = new ArrayList<>();
-        allStudents = data.getStudents();
-        allLectures = data.getLectures();
-        allTeachers = data.getTeachers();
-    }
 
+        allStudents = new ArrayList<>();
+        allLectures = new ArrayList<>();
+        allTeachers = new ArrayList<>();
+
+        allStudents.addAll(data.getStudents());
+        allLectures.addAll(data.getLectures());
+        allTeachers.addAll(data.getTeachers());
+    }
 
     /* Methode, welche je nach Fülle des Kurses/Fülle der Kurse des Teachers, die der
     / Studierende als Pref angegeben hat, den Studierenden zum weniger besetzten Kurs zuordnet.
@@ -187,12 +184,12 @@ public class Matcher {
         }
         noPrefStudents();
     }
-
-    public void gotAssigned(Student student) {
-        if (isAssigned) {
-            allStudents.remove(student);
-        }
-    }
+//
+//    public void gotAssigned(Student student) {
+//        if (isAssigned) {
+//            allStudents.remove(student);
+//        }
+//    }
 
     private void sortLectures() {
         System.out.println(allLectures);
@@ -213,7 +210,6 @@ public class Matcher {
 
     public static void main(String[] args) {
         Matcher matcher = new Matcher();
-        matcher.sortLectures();
         matcher.allocateStudents();
         System.out.println(matches);
         matcher.sortLectures();

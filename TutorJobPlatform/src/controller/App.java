@@ -5,7 +5,7 @@ public class App {
 
     public static void match() {
         Matcher matcher = new Matcher();
-        matcher.allocateStudents(); // TODO matching aufrufen
+        matcher.allocateStudents();
         matchingDone = true;
     }
 
