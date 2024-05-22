@@ -18,7 +18,6 @@ public class AppTest {
         // Initialize the data object with test data
         data = new AppData();
         data.setSomeFieldForTest("Test");
-        // Set FILE_PATH to the test file path
     }
 
     @AfterAll
