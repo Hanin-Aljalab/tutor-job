@@ -1,5 +1,6 @@
 package view.swing.components;
 
+import controller.App;
 import model.AppData;
 import model.Student;
 import view.swing.components.homescreens.InfoText;
@@ -63,13 +64,13 @@ public class PreferencePopup extends JFrame {
     private JPanel createLecturePanel() {
         int[] bounds = {100, 40, 100, height};
         return createPreferencePanel(bounds, "Kurse",
-                AppData.data.getLectureNames());
+                App.getData().getLectureNamesWithoutDuplicates());
     }
 
     private JPanel createTeacherPanel() {
         int[] bounds = {((width / 2) + 20), 40, (width / 2), height};
         return createPreferencePanel(bounds, "Dozent*innen",
-                AppData.data.getTeacherNames());
+                App.getData().getTeacherNames());
     }
 
     private JButton createButton() {

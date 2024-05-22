@@ -1,23 +1,10 @@
 package view.swing.components;
 
-import javax.swing.*;
 
-import controller.Login;
-import controller.Registration;
 
-import exceptions.IncorrectPasswordException;
-import exceptions.InvalidInputException;
-import exceptions.PasswordsNotIdenticalException;
-import exceptions.StudentNumberInvalidException;
-import exceptions.TeacherIdInvalidException;
-import exceptions.UserAlreadyExistsException;
-import exceptions.UserDoesNotExistException;
-
-import model.AppData;
-import model.User;
-import model.Teacher;
-import model.Student;
-
+import controller.*;
+import exceptions.*;
+import model.*;
 import view.swing.components.homescreens.*;
 
 import javax.swing.*;
@@ -26,7 +13,6 @@ import java.awt.event.*;
 
 public class LoginWindow extends JFrame implements ActionListener {
 	private final Login login = Login.login;
-	private AppData data = AppData.data;
 
 	// Declare UI components
 	private JFrame frame;
@@ -115,7 +101,9 @@ public class LoginWindow extends JFrame implements ActionListener {
 					if (transmitData()) {
 						String role = (String) roleDropdown.getSelectedItem();
 						boolean isStudent = "Student*in".equals(role);
-						User currentUser = data.getUser(studNumberField.getText(), teacherIdField.getText(), role);
+						User currentUser =
+								App.getData().getUser(studNumberField.getText(),
+										teacherIdField.getText(), role);
 						if (isStudent) {
 							frame.dispose();
 							new StudentHomescreen((Student) currentUser);
@@ -212,8 +200,16 @@ public class LoginWindow extends JFrame implements ActionListener {
 			teacherId = teacherIdField.getText();
 		}
 
-		User user = login.loginUser(role, studNumber, teacherId, password);
+		if (teacherId.equals("Matcher") && password.equals("matchmaking")) {
+			App.match();
+			JOptionPane.showMessageDialog(new Frame(), "Zuordnung " +
+					"durchgeführt.");
+			teacherIdField.setText("");
+			passwordField.setText("");
+			return false;
+		}
 
+		User user = login.loginUser(role, studNumber, teacherId, password);
 		return user != null;
 	}
 

@@ -27,3 +27,5 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+/tutorjobsystem.db
+/.idea/material_theme_project_new.xml

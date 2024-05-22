@@ -1,32 +1,71 @@
 package view.swing.components.homescreens;
 
-import model.AppData;
-import model.Student;
-import model.Teacher;
+//import model.AppData;
+import controller.App;
+import controller.Matcher;
+import model.*;
+import view.swing.components.TeacherInputField;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
 
-public class TeacherHomescreen extends Homescreen{
+public class TeacherHomescreen extends Homescreen {
     private DefaultListModel<String> lectureModel;
     private JList<String> lectures;
 
     public TeacherHomescreen(Teacher user) {
         super(user, Color.YELLOW);
-        button = configureButton();
-        choicePanel.add(button);
     }
 
     @Override
-    protected String[] setInfoText() {
+    protected String[] getGeneralInfo() {
         return InfoText.teacherGeneral;
+    }
+
+    @Override
+    protected String[] getMatchInfo() {
+        Teacher teacher = (Teacher) user;
+        ArrayList<String> matchInfo = new ArrayList<>();
+
+        App.getMatcher().getMatches().forEach((student, lecture) -> {
+            String teacherId =
+                    lecture.getTeacher().getTeacherId();
+            if (teacherId.equals(teacher.getTeacherId())) {
+                matchInfo.add("<html><font color=blue>" + lecture.getName() + ":  " +
+                        student.getFirstName() + " " + student.getLastName() +
+                        " " + student.getStudNumber() + "</font></html>");
+            }
+        });
+        Collections.sort(matchInfo);
+
+        matchInfo.addFirst(" ");
+        matchInfo.addFirst(InfoText.teacherResultMessage);
+        matchInfo.add(" ");
+        for (String str : InfoText.goodLuck) {
+            matchInfo.add(str);
+        }
+
+        String[] infoText = new String[matchInfo.size()];
+        for (int i = 0; i < matchInfo.size(); i++) {
+            infoText[i] = matchInfo.get(i);
+        }
+        return infoText;
     }
 
     @Override
     protected JButton configureButton() {
         JButton lectureButton = new JButton("Neuen Kurs anlegen");
-        lectureButton.addActionListener(event
-                    -> addLecture());
+        lectureButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            addLecture();
+        }
+    });
+
         lectureButton.setBackground(Color.LIGHT_GRAY);
         lectureButton.setPreferredSize(new Dimension(300, 25));
         return lectureButton;
@@ -56,6 +95,7 @@ public class TeacherHomescreen extends Homescreen{
         rightPanel.add(lectureLabel, constraintsBotR);
 
         lectureModel = new DefaultListModel<>();
+        updateLectureScroll();
         lectures = new JList<>(lectureModel);
         JScrollPane lectureScroll = new JScrollPane(lectures);
         lectureScroll.setPreferredSize(new Dimension(180, 100));
@@ -63,12 +103,22 @@ public class TeacherHomescreen extends Homescreen{
         rightPanel.add(lectureScroll, constraintsBotR);
     }
 
-    // TODO add functional methods
-    private void addLecture() {
+    private void updateLectureScroll() {
+        lectureModel.clear();
+        Teacher teacher = ((Teacher) user);
+        App.getData().getLectures().forEach((lecture) -> {
+            if (lecture.getTeacher().getTeacherId().equals(teacher.getTeacherId())) {
+                lectureModel.addElement(lecture.getName());
+            }
+        });
     }
 
-    // TODO temp main
-    public static void main(String[] args) {
-        new TeacherHomescreen(AppData.data.getTeachers().getFirst());
+    // TODO add functional methods
+    private void addLecture() {
+        new TeacherInputField((Teacher) user, this);
+    }
+
+    public void refreshLectures() {
+        updateLectureScroll();
     }
 }

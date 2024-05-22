@@ -1,7 +1,7 @@
 package view.swing.components.homescreens;
 
-import model.AppData;
-import model.Student;
+import controller.*;
+import model.*;
 import view.swing.components.PreferencePopup;
 
 import javax.swing.*;
@@ -18,8 +18,7 @@ public class StudentHomescreen extends Homescreen {
     public StudentHomescreen(Student user) {
         super(user, Color.CYAN);
         displayStudNumber();
-        button = configureButton();
-        choicePanel.add(button);
+        updatePreferenceLists();
     }
 
     private void displayStudNumber() {
@@ -33,9 +32,33 @@ public class StudentHomescreen extends Homescreen {
      * @return array of strings which should be displayed
      */
     @Override
-    protected String[] setInfoText() {
+    protected String[] getGeneralInfo() {
         return InfoText.studentGeneral;
     }
+
+    @Override
+    protected String[] getMatchInfo() {
+        Student student = (Student) user;
+
+        ArrayList<String> matchInfo = new ArrayList<>();
+        matchInfo.add(InfoText.studentResultMessage);
+        matchInfo.add(" ");
+        matchInfo.add("<html><font color=blue>" +
+                App.getData().getMatches().get(student).toString() +
+                "</font></html>");
+        matchInfo.add(" ");
+        matchInfo.add(" ");
+        for (String str : InfoText.goodLuck) {
+            matchInfo.add(str);
+        }
+
+        String[] infoText = new String[matchInfo.size()];
+        for (int i = 0; i < matchInfo.size(); i++) {
+            infoText[i] = matchInfo.get(i);
+        }
+        return infoText;
+    }
+
 
     /**
      * Manages the display of correct preference button and status text
@@ -178,12 +201,5 @@ public class StudentHomescreen extends Homescreen {
         constraintsBotR.gridy = 3;
         rightPanel.add(teacherScroll, constraintsBotR);
     }
-
-    // TODO temp main
-    public static void main(String[] args) {
-        new StudentHomescreen(AppData.data.getStudents().getFirst());
-    }
-
-
 }
 

@@ -1,9 +1,11 @@
 package model;
 
 import view.swing.components.PreferencePopup;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Student extends User {
+public class Student extends User implements Serializable {
 	private String studNumber;
 	private String studyPath;
 	private ArrayList<String> lecturePref;
@@ -16,8 +18,8 @@ public class Student extends User {
 		super(name, surname, password, "Student*in");
 		this.studNumber = studNumber;
 		this.studyPath = studyPath;
-		lecturePref = new ArrayList<>();
-		teacherPref = new ArrayList<>();
+        teacherPref = new ArrayList<>();
+		this.lecturePref = new ArrayList<>();
 		choiceMade = false;
 	}
 
@@ -31,9 +33,17 @@ public class Student extends User {
 		return studNumber;
 	}
 
+	public String getStudyPath() {
+		return studyPath;
+	}
+
 	public ArrayList<String> getLecturePref() {
 		return lecturePref;
 	}
+	public void setLecturePref(ArrayList<String> lecturePref) {
+		this.lecturePref = lecturePref;
+	}
+
 	public ArrayList<String> getTeacherPref() {
 		return teacherPref;
 	}

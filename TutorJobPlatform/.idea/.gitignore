@@ -8,3 +8,6 @@
 /dataSources.local.xml
 /uiDesigner.xml
 /modules.xml
+/sqldialects.xml
+.DS_Store
+/misc.xml

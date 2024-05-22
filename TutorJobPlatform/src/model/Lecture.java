@@ -1,11 +1,13 @@
 package model;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Lecture {
+public class Lecture implements Serializable {
   
     private String name;
     private String abbreviation;
     private int numOfTutors;
+    private int numOfAssignedTutors;
     private String courseInfo;
     private Teacher teacher;
     private ArrayList<Student> tutors;
@@ -33,6 +35,15 @@ public class Lecture {
         return numOfTutors;
     }
 
+    public int getNumOfAssignedTutors() {
+        return numOfAssignedTutors;
+    }
+
+    public void incrementTutors() {
+        numOfAssignedTutors++;
+    }
+
+
     public String getCourseInfo() {
         return courseInfo;
     }
@@ -47,6 +58,10 @@ public class Lecture {
     
     public void addTutor(Student student) {
         tutors.add(student);
+    }
+
+    public void decrementSlot(){
+        numOfTutors--;
     }
 
     public ArrayList<String> getStudyPaths() {

@@ -6,7 +6,6 @@ import model.*;
 
 public class Login {
 	public static Login login = new Login();
-	private AppData data = AppData.data;
 
 	/**
 	 * Checks if a user is registered.
@@ -49,7 +48,7 @@ public class Login {
 	public User loginUser(String role, String studNumber, String teacherId, String password)
 			throws IncorrectPasswordException, UserDoesNotExistException,
 			InvalidInputException {
-		User user = data.getUser(studNumber, teacherId, role);
+		User user = App.getData().getUser(studNumber, teacherId, role);
 
 		if (studNumber.isEmpty() && teacherId.isEmpty() || password.isEmpty()) {
 			throw new InvalidInputException("Fehlende Eingabe!");

@@ -1,10 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.*;
 
-public class Teacher extends User {
+public class Teacher extends User implements Serializable {
 	private String teacherId;
 
 	JTextField LectureInput = new JTextField(); // TODO
@@ -36,6 +37,9 @@ public class Teacher extends User {
 
 	@Override
 	public String toString() {
+		if (getTitle().isEmpty()) {
+			return getFirstName() + " " + getLastName();
+		}
 		return getTitle() + " " + getFirstName() + " " + getLastName();
 	}
 }
