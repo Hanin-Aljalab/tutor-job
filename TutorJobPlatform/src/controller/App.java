@@ -1,10 +1,12 @@
 package controller;
 
 public class App {
-    private static boolean matchingDone = true;
+    private static boolean matchingDone = false;
+
 
     public static void match() {
-      //  Matcher.match() // TODO matching aufrufen
+        Matcher matcher = new Matcher();
+        matcher.allocateStudents(); // TODO matching aufrufen
         matchingDone = true;
     }
 

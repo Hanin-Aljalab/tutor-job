@@ -13,24 +13,26 @@ public class Matcher {
     //private int numOpenTutorSlots;
     private List<Student> allStudents;
     private List<Student> hasNoPref;
-    private List<Student> copyAllStudents = new ArrayList<>(allStudents);
     private List<Lecture> allLectures;
-    private List<Teacher> teachers;
+    private List<Teacher> allTeachers;
     private boolean isAssigned;
     private boolean noPrefIsAssigned;
     private static HashMap<Student, Lecture> matches;
 
     public static HashMap<Student, Lecture> getMatches() {
-        return AppData.getMatches();
+        return matches;
     }
 
+    public static void setMatches(HashMap<Student, Lecture> matches) {
+        Matcher.matches = matches;
+    }
 
     public Matcher() {
+        matches = new HashMap<>();
+        hasNoPref = new ArrayList<>();
         allStudents = data.getStudents();
         allLectures = data.getLectures();
-        //teachers = data.getTeachers();
-        hasNoPref = new ArrayList<>();
-        copyAllStudents = new ArrayList<>();
+        allTeachers = data.getTeachers();
     }
 
 
@@ -38,21 +40,26 @@ public class Matcher {
     / Studierende als Pref angegeben hat, den Studierenden zum weniger besetzten Kurs zuordnet.
     */
     public void balance(Student student) {
-        List<String> lecturePrefs = student.getLecturePref();
-        List<String> teacherPrefs = student.getTeacherPref();
-        int numSlotsPrefCourse = 0;
-        int numSlotsPrefTeacher = 0;
-
         /*
        Students who have no preference at all, will be added
        only after every student with a preference got assigned.
         */
-        if (student.getLecturePref().isEmpty() || student.getTeacherPref().isEmpty()) {
+        System.out.println("Die Prefs sind: " + student.getLecturePref());
+        if (student.getLecturePref().isEmpty() && student.getTeacherPref().isEmpty()) {
             hasNoPref.add(student);
-            copyAllStudents.remove(student);
-            return;
+            allStudents.remove(student);
+        } else if (student.getTeacherPref().isEmpty()) {
+            matchToCourse(student);
+        } else if (student.getLecturePref().isEmpty()) {
+            matchToTeacher(student);
+        } else {
+            complexMatching(student);
         }
+    }
 
+    private void complexMatching(Student student) {
+        int numSlotsPrefCourse = 0;
+        int numSlotsPrefTeacher = 0;
         for (String lectPref : student.getLecturePref()) {
             for (Lecture lecture : allLectures) {
                 if (lectPref.equals(lecture.getAbbreviation())) {
@@ -62,7 +69,7 @@ public class Matcher {
         }
 
         for (String teachPref : student.getTeacherPref()) {
-            for (Teacher teacher : teachers) {
+            for (Teacher teacher : allTeachers) {
                 if (teachPref.equals(teacher.getTeacherId())) {
                     for (Lecture lecture : teacher.getLectures()) {
                         numSlotsPrefTeacher += lecture.getNumOfTutors();
@@ -70,7 +77,8 @@ public class Matcher {
                 }
             }
         }
-
+        System.out.println("Nummer der Pref Course slots" + numSlotsPrefCourse);
+        System.out.println("Nummer der Teach Course slots" + numSlotsPrefTeacher);
         if (numSlotsPrefCourse > numSlotsPrefTeacher) {
             matchToCourse(student);
         } else {
@@ -78,49 +86,67 @@ public class Matcher {
         }
     }
 
+
     private void matchToCourse(Student student) {
 
-        isAssigned = false;
-        for (String pref : student.getLecturePref()) {
-            for (Lecture lecture : allLectures) {
+        System.out.println("1");
+        sortLectures();
+        for (Lecture lecture : allLectures) {
+            for (String pref : student.getLecturePref()) {
+                System.out.println("2");
+
+                System.out.println("3");
                 if (lecture.getNumOfTutors() > 0
-                        && pref.equals(lecture.getAbbreviation())
-                        && student.getStudyPath().equals(lecture.getStudyPaths())) {
-                    matches.put(student, lecture);
-                    lecture.decrementSlot();
-                    isAssigned = true;
-                    gotAssigned(student);
+                        && pref.equals(lecture.getAbbreviation())) {
+                    System.out.println("4");
+                    for (String studypath : lecture.getStudyPaths()) {
+                        if (student.getStudyPath().equals(studypath)) {
+                            matches.put(student, lecture);
+                            System.out.println(allStudents);
+                            allStudents.remove(student);
+                            System.out.println(allStudents);
+                            lecture.decrementSlot();
+                            lecture.incrementTutors();
+                            return;
+                        }
+                    }
                 }
             }
-            if (isAssigned) break;
         }
+        allStudents.remove(student);
+        hasNoPref.add(student);
     }
+
 
     public void matchToTeacher(Student student) {
 
-        isAssigned = false;
+        System.out.println("Bin ich hier?");
+        sortLectures();
+        System.out.println(student);
+        System.out.println(student.getTeacherPref());
         for (String teachpref : student.getTeacherPref()) {
-            for (Teacher teacher : teachers) {
+            for (Teacher teacher : allTeachers) {
                 for (Lecture lecture : teacher.getLectures()) {
                     if (lecture.getNumOfTutors() > 0
                             && lecture.getTeacher().equals(teachpref)
                             && student.getStudyPath().equals(lecture.getStudyPaths())) {
                         matches.put(student, lecture);
+                        allStudents.remove(student);
                         lecture.decrementSlot();
-                        isAssigned = true;
-                        gotAssigned(student);
+                        lecture.incrementTutors();
+                        return;
                     }
                 }
             }
-            if (isAssigned) break;
         }
     }
 
     public void noPrefStudents() {
         //TODO decision tree course > teacher.course?
         noPrefIsAssigned = false;
-        if (copyAllStudents.isEmpty()) {
+        if (allStudents.isEmpty()) {
             for (Student student : hasNoPref) {
+                System.out.println(student);
                 for (Lecture lecture : allLectures) {
                     if ((lecture.getNumOfTutors() > 0
                             && student.getStudyPath().equals(lecture.getStudyPaths()))) {
@@ -132,7 +158,7 @@ public class Matcher {
                     }
                 }
                 if (!noPrefIsAssigned) {
-                    for (Teacher teacher : teachers) {
+                    for (Teacher teacher : allTeachers) {
                         for (Lecture lecture : teacher.getLectures()) {
                             if ((lecture.getNumOfTutors() > 0 && student.getStudyPath().equals(lecture.getStudyPaths()))) {
                                 matches.put(student, lecture);
@@ -148,15 +174,15 @@ public class Matcher {
         }
     }
 
-    private Student pickRandomStudent(List<Student> copyAllStudents) {
+    private Student pickRandomStudent(List<Student> allStudents) {
         Random random = new Random();
-        int index = random.nextInt(copyAllStudents.size());
-        return copyAllStudents.get(index);
+        int index = random.nextInt(allStudents.size());
+        return allStudents.get(index);
     }
 
     public void allocateStudents() { //pick random students while thr List is full
-        while (!copyAllStudents.isEmpty()) {
-            Student nextStudent = pickRandomStudent(copyAllStudents);
+        while (!allStudents.isEmpty()) {
+            Student nextStudent = pickRandomStudent(allStudents);
             balance(nextStudent);
         }
         noPrefStudents();
@@ -164,22 +190,32 @@ public class Matcher {
 
     public void gotAssigned(Student student) {
         if (isAssigned) {
-            copyAllStudents.remove(student);
+            allStudents.remove(student);
         }
     }
 
+    private void sortLectures() {
+        System.out.println(allLectures);
+        Collections.sort(allLectures, new Comparator<Lecture>() {
+            @Override
+            public int compare(Lecture o1, Lecture o2) {
+                if (o1.getNumOfAssignedTutors() == 0) {
+                    return -1;
+                } else {
+                    return o2.getNumOfTutors() - o1.getNumOfTutors();
+                }
+            }
+
+        });
+        System.out.println(allLectures);
+    }
+
+
     public static void main(String[] args) {
-        Matcher make = new Matcher();
-        make.allocateStudents();
+        Matcher matcher = new Matcher();
+        matcher.sortLectures();
+        matcher.allocateStudents();
+        System.out.println(matches);
+        matcher.sortLectures();
     }
 }
-
-
-
-
-
-
-
-
-
-
