@@ -4,60 +4,63 @@ import view.swing.components.PreferencePopup;
 import java.util.ArrayList;
 
 public class Student extends User {
-    private int matNummer;
-    private ArrayList<String> lecturePref;
-    private ArrayList<String> teacherPref;
-    private boolean choiceMade;
+	private String studNumber;
+	private String studyPath;
+	private ArrayList<String> lecturePref;
+	private ArrayList<String> teacherPref;
+	private boolean choiceMade;
 
-    private PreferencePopup preferencePopup;
+	private PreferencePopup preferencePopup;
 
-    public Student(String name, String surname, String password, int matNummer) {
-        super(name, surname, password, "Student*in");
-        this.matNummer = matNummer;
-        choiceMade = false;
-    }
+	public Student(String name, String surname, String password, String studNumber, String studyPath) {
+		super(name, surname, password, "Student*in");
+		this.studNumber = studNumber;
+		this.studyPath = studyPath;
+		lecturePref = new ArrayList<>();
+		teacherPref = new ArrayList<>();
+		choiceMade = false;
+	}
 
-    public void setPreferences(ArrayList<String> lectures,
-                               ArrayList<String> teachers) {
-        setLecturePref(lectures);
-        setTeacherPref(teachers);
-        choiceMade = true;
-        System.out.println("Das steht in Student" + lectures);
-        System.out.println("Das steht in Student" + teachers);
-    }
+	public void deletePreferences() {
+		lecturePref.clear();
+		teacherPref.clear();
+		choiceMade = false;
+	}
 
-    public void setLecturePref(ArrayList<String> lectures) {
-        lecturePref = lectures;
-    }
+	public String getStudNumber() {
+		return studNumber;
+	}
 
-    public void setTeacherPref(ArrayList<String> teachers) {
-        teacherPref = teachers;
-    }
+	public ArrayList<String> getLecturePref() {
+		return lecturePref;
+	}
+	public ArrayList<String> getTeacherPref() {
+		return teacherPref;
+	}
 
-    public void deletePreferences() {
-        lecturePref = null;
-        teacherPref = null;
-        choiceMade = false;
-    }
+	public void removePreference(String preference) {
+		lecturePref.remove(preference);
+		teacherPref.remove(preference);
+	}
 
-    public int getMatNummer() {
-        return matNummer;
-    }
+	public void addPreference(String preference, String prefCategory) {
+		if (prefCategory.equals("Kurse")) {
+			lecturePref.add(preference);
+		} else if (prefCategory.equals("Dozent*innen")) {
+			teacherPref.add(preference);
+		}
+	}
 
-    public ArrayList<String> getLecturePref() {
-        return lecturePref;
-    }
+	public void setChoiceMade(boolean choiceMade) {
+		this.choiceMade = choiceMade;
+	}
 
-    public ArrayList<String> getTeacherPref() {
-        return teacherPref;
-    }
+	public boolean isChoiceMade() {
+		return choiceMade;
+	}
 
-    public void setChoiceMade(boolean choiceMade) {
-        this.choiceMade = choiceMade;
-    }
-
-    public boolean isChoiceMade() {
-        return choiceMade;
-    }
+	@Override
+	public String toString() {
+		return getFirstName() + " " + getLastName() + " (" + getStudNumber() + ")";
+	}
 }
-

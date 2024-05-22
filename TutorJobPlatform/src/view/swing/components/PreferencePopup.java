@@ -1,38 +1,37 @@
 package view.swing.components;
 
+import model.AppData;
 import model.Student;
+import view.swing.components.homescreens.InfoText;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-public class PreferencePopup extends JFrame implements ActionListener {
+public class PreferencePopup extends JFrame {
     private Student student;
-    private ArrayList<String> lecturePref;
-    private ArrayList<String> teacherPref;
+    private JPanel wrapper, lecturePanel, teacherPanel;
 
-    private final JPanel wrapperPanel;
-    private JLabel title;
-
-    private final int width = 700;
-    private final int height = 500;
+    private final int width = 500;
+    private final int height = 400;
 
     public PreferencePopup(Student student) {
         this.student = student;
-        lecturePref = new ArrayList<>();
-        teacherPref = new ArrayList<>();
 
         setSize(width, height);
+        setResizable(false);
         setLayout(new BorderLayout());
         setTitle();
-        wrapperPanel = createWrapper();
-        add(wrapperPanel, BorderLayout.CENTER);
-        createButton();
-        createLecturePanel();
-        createTeacherPanel();
+        wrapper = createWrapper();
+        add(wrapper, BorderLayout.CENTER);
+        wrapper.add(createButton());
+
+        lecturePanel = createLecturePanel();
+        teacherPanel = createTeacherPanel();
+        wrapper.add(lecturePanel);
+        wrapper.add(teacherPanel);
         revalidate();
-        //      setContentPane(wrapperPanel); // TODO wofür?????
 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -47,11 +46,8 @@ public class PreferencePopup extends JFrame implements ActionListener {
 
     private void setTitle() {
         JPanel textArea = new JPanel();
-        String str1 = "Wählen Sie hier Ihre Präferenzen.";
-        String str2 = "(Falls Sie keine Angabe machen, erfolgt die " +
-                "Zuteilung zufällig.)";
-        JLabel title = new JLabel(str1);
-        JLabel subtitle = new JLabel(str2);
+        JLabel title = new JLabel(InfoText.chooseHere);
+        JLabel subtitle = new JLabel(InfoText.noChoiceInfo);
         JLabel spacing = new JLabel(" ");
 
         textArea.setLayout(new BorderLayout());
@@ -59,63 +55,64 @@ public class PreferencePopup extends JFrame implements ActionListener {
         textArea.add(title, BorderLayout.CENTER);
         textArea.add(subtitle, BorderLayout.SOUTH);
 
-        this.add(textArea, BorderLayout.NORTH);
+        add(textArea, BorderLayout.NORTH);
         title.setHorizontalAlignment(JLabel.CENTER);
         subtitle.setHorizontalAlignment(JLabel.CENTER);
     }
 
-    private void createLecturePanel() {
-        ArrayList<String> lectures = new ArrayList<>();
-        lectures.add("PR1");
-        lectures.add("PR2");
-        lectures.add("SE1");
-        lectures.add("MA1");
-        lectures.add("MA2");
-        int[] bounds = {50, 40, (width/2), height};
-        PreferencePanel panel = new PreferencePanel(this, wrapperPanel, bounds,
-                "Fächer", lectures, lecturePref);
+    private JPanel createLecturePanel() {
+        int[] bounds = {100, 40, 100, height};
+        return createPreferencePanel(bounds, "Kurse",
+                AppData.data.getLectureNamesWithoutDuplicates());
     }
 
-    private void createTeacherPanel() {
-        ArrayList<String> teachers = new ArrayList<>();
-        teachers.add("Y. Todorov");
-        teachers.add("J. Steinberger");
-        teachers.add("J. Fischer");
-        teachers.add("W. Schramm");
-        int[] bounds = {((width/2)+50), 40, (width/2), height};
-        PreferencePanel panel = new PreferencePanel(this, wrapperPanel, bounds,
-                "Dozent*innen", teachers, teacherPref);
+    private JPanel createTeacherPanel() {
+        int[] bounds = {((width / 2) + 20), 40, (width / 2), height};
+        return createPreferencePanel(bounds, "Dozent*innen",
+                AppData.data.getTeacherNames());
     }
 
-    private void createButton() {
+    private JButton createButton() {
         JButton confirmButton = new JButton("Auswahl bestätigen");
-        confirmButton.addActionListener(this);
-        confirmButton.setBounds(((width/2)-150),300, 300, 30);
-        wrapperPanel.add(confirmButton);
+        confirmButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                student.setChoiceMade(true);
+                dispose();
+            }
+        });
+        confirmButton.setBounds(((width / 2) - 150), (height-150), 300, 30);
+        return confirmButton;
     }
 
-    public ArrayList<String> getLecturePref() {
-        return lecturePref;
+    private JPanel createPreferencePanel(int[] bounds, String header,
+                                       ArrayList<String> options) {
+        JPanel prefPanel = new JPanel();
+        prefPanel.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
+        prefPanel.setLayout(new BoxLayout(prefPanel, BoxLayout.Y_AXIS));
+        JLabel label = new JLabel(header);
+        JLabel spacing = new JLabel(" ");
+        prefPanel.add(label);
+        prefPanel.add(spacing);
+        options.forEach(option -> createCheckBox(option, header, prefPanel));
+        return prefPanel;
     }
 
-    public ArrayList<String> getTeacherPref() {
-        return teacherPref;
+    private void createCheckBox(String option,
+                                String prefCategory, JPanel panel) {
+        JCheckBox cb = new JCheckBox(option);
+        cb.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JCheckBox cb = ((JCheckBox) e.getSource());
+                if (cb.isSelected()) {
+                    student.addPreference(cb.getText(), prefCategory);
+                } else {
+                    student.removePreference(cb.getText());
+                }
+            }
+        });
+        panel.add(cb);
     }
-
-    public void addPreference(String pref, ArrayList<String> prefArray) {
-        prefArray.add(pref);
-    }
-
-    public void removePreference(String pref, ArrayList<String> prefArray) {
-        prefArray.remove(pref);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        student.setPreferences(lecturePref, teacherPref);
-        student.setChoiceMade(true);
-        dispose();
-    }
-
 }
 
