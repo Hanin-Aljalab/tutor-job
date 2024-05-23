@@ -4,6 +4,7 @@ import model.*;
 import view.swing.components.*;
 
 import java.io.*;
+import java.util.HashMap;
 
 /**
  * Aggregates and handels central functions of the program
@@ -11,7 +12,7 @@ import java.io.*;
 public class App {
     private static final String FILE_PATH = "./tutorjobsystem_data.ser";
     private static AppData data;
-    private static Matcher matcher;
+    private static Matcher2 matcher;
 
     public static void main(String[] args) {
         startApp();
@@ -76,12 +77,13 @@ public class App {
      * Initiates the matchmaking process
      */
     public static void match() {
-        matcher = new Matcher();
-        matcher.allocateStudents();
+        matcher = new Matcher2(data);
+        HashMap<Student, Lecture> result = matcher.performMatching();
+        data.setMatches(result);
         data.setMatchingDone(true);
     }
 
-    public static Matcher getMatcher() {
+    public static Matcher2 getMatcher() {
         return matcher;
     }
 

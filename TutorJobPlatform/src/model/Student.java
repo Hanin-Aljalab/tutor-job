@@ -43,6 +43,9 @@ public class Student extends User implements Serializable {
 	public void setLecturePref(ArrayList<String> lecturePref) {
 		this.lecturePref = lecturePref;
 	}
+	public void setTeacherPref(ArrayList<String> teacherPref) {
+		this.teacherPref = teacherPref;
+	}
 
 	public ArrayList<String> getTeacherPref() {
 		return teacherPref;
