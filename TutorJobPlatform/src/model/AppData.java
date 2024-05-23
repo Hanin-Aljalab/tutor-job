@@ -189,4 +189,5 @@ public class AppData implements Serializable {
 	public Map<Student, Lecture> getMatches() {
 		return matches;
 	}
+
 }

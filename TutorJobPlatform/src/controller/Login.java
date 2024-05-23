@@ -5,6 +5,7 @@ import model.*;
 
 
 public class Login {
+
 	public static Login login = new Login();
 
 	/**
@@ -64,5 +65,6 @@ public class Login {
 
 		return user;
 	}
+
 
 }

@@ -15,7 +15,6 @@ import java.util.ArrayList;
  * The input fields include course name, abbreviation, desired number of tutors, allowed study paths,
  * and course information.
  */
-
 public class TeacherInputField extends JFrame {
     private JTextField txtCourseName;
     private JTextField txtAbbreviation;
@@ -33,63 +32,93 @@ public class TeacherInputField extends JFrame {
      * @param loggedInTeacher the logged-in teacher
      * @param homescreen      the teacher homescreen
      */
-
     public TeacherInputField(Teacher loggedInTeacher, TeacherHomescreen homescreen) {
         this.loggedInTeacher = loggedInTeacher;
         this.homescreen = homescreen;
 
         setTitle("Neuen Kurs anlegen");
-        setSize(600, 600);
+        setSize(600, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-        setLocationRelativeTo(null);
-        JPanel inputPanel = new JPanel(new GridLayout(10, 2));
+        setLayout(new GridBagLayout());
+
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.insets = new Insets(10, 10, 10, 10);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.weightx = 1.0;
 
         // Labels and text fields for input
-        JLabel labelName = new JLabel("  Veranstaltungsname (ausgeschrieben):");
+        JLabel labelName = new JLabel("Veranstaltungsname (ausgeschrieben):");
         txtCourseName = new JTextField();
-        inputPanel.add(labelName);
-        inputPanel.add(txtCourseName);
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.WEST;
+        add(labelName, constraints);
+        constraints.gridx = 1;
+        constraints.gridwidth = 2;
+        add(txtCourseName, constraints);
 
-        JLabel labelAbbreviation = new JLabel("  Kürzel:");
+        JLabel labelAbbreviation = new JLabel("Kürzel:");
         txtAbbreviation = new JTextField();
-        inputPanel.add(labelAbbreviation);
-        inputPanel.add(txtAbbreviation);
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        constraints.gridwidth = 1;
+        add(labelAbbreviation, constraints);
+        constraints.gridx = 1;
+        constraints.gridwidth = 2;
+        add(txtAbbreviation, constraints);
 
-        JLabel labelTutNumber = new JLabel("  Anzahl Tutor*innen:");
+        JLabel labelTutNumber = new JLabel("Anzahl Tutor*innen:");
         comboBoxDesiredTutorNumber = new JComboBox<>(new String[]{"1", "2", "3", "4", "5"});
-        inputPanel.add(labelTutNumber);
-        inputPanel.add(comboBoxDesiredTutorNumber);
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        constraints.gridwidth = 1;
+        add(labelTutNumber, constraints);
+        constraints.gridx = 1;
+        constraints.gridwidth = 2;
+        add(comboBoxDesiredTutorNumber, constraints);
 
-        JLabel labelCourseInfo = new JLabel("  Kurzbeschreibung" +
-                "/ Anforderungen:");
-        txtCourseInfo = new JTextArea();
-        inputPanel.add(labelCourseInfo);
-        inputPanel.add(new JScrollPane(txtCourseInfo));
+        JLabel labelCourseInfo = new JLabel("Kurzbeschreibung/Anforderungen:");
+        txtCourseInfo = new JTextArea(5, 20);
+        JScrollPane scrollPane = new JScrollPane(txtCourseInfo, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.NORTHWEST;
+        add(labelCourseInfo, constraints);
+        constraints.gridx = 1;
+        constraints.gridwidth = 2;
+        constraints.weighty = 1.0;
+        constraints.fill = GridBagConstraints.BOTH;
+        add(scrollPane, constraints);
 
-        JPanel studyPathPanel = new JPanel(new GridLayout(0, 4));
-        studyPathPanel.setPreferredSize(new Dimension(600, 300));
+        JPanel studyPathPanel = new JPanel(new GridLayout(0, 4, 10, 10));
+        studyPathPanel.setPreferredSize(new Dimension(400, 100));
 
-        String[] studyPaths = {"  IMB", "  UIB", "  CSB", "  IB"};
+        String[] studyPaths = {"IMB", "UIB", "CSB", "IB"};
         checkBoxesAllowedStudyPaths = new ArrayList<>();
         for (String studyPath : studyPaths) {
             JCheckBox checkBox = new JCheckBox(studyPath);
-            checkBox.setPreferredSize(new Dimension(150, 30)); 
+            checkBox.setPreferredSize(new Dimension(150, 30));
             checkBoxesAllowedStudyPaths.add(checkBox);
             studyPathPanel.add(checkBox);
         }
 
-        JLabel labelStudyPaths = new JLabel("  Studiengang der Tutor*innen:");
-        inputPanel.add(labelStudyPaths);
-        inputPanel.add(studyPathPanel);
+        JLabel labelStudyPaths = new JLabel("Studiengang der Tutor*innen:");
+        constraints.gridx = 0;
+        constraints.gridy = 4;
+        constraints.gridwidth = 1;
+        constraints.weighty = 0;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        add(labelStudyPaths, constraints);
+        constraints.gridx = 1;
+        constraints.gridwidth = 2;
+        add(studyPathPanel, constraints);
 
-        add(inputPanel, BorderLayout.CENTER);
-
-        // Button for saving data
+        // Button to save data
         btnSave = new JButton("Speichern");
         btnSave.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Eingaben aus der UI werden verwendet, um eine neue Lecture-Instanz zu erstellen
                 String courseName = txtCourseName.getText();
                 String abbreviation = txtAbbreviation.getText();
                 int tutorNum = Integer.parseInt((String) comboBoxDesiredTutorNumber.getSelectedItem());
@@ -108,26 +137,23 @@ public class TeacherInputField extends JFrame {
                 }
 
                 // Create new Lecture instance with collected information
-                Lecture lecture = loggedInTeacher.createLecture(courseName,
-                        abbreviation, tutorNum, courseInfo, selectedStudyPaths);
+                Lecture lecture = loggedInTeacher.createLecture(courseName, abbreviation, tutorNum, courseInfo, selectedStudyPaths);
 
                 // Save new lecture in AppData
                 App.getData().addLecture(lecture);
-
-                JOptionPane.showMessageDialog(TeacherInputField.this, "Kurs erfolgreich hinzugefügt! ");
-
+                JOptionPane.showMessageDialog(TeacherInputField.this, "Kurs erfolgreich hinzugefügt!");
                 homescreen.refreshLectures();
 
-               dispose();
+                dispose();
             }
         });
-        add(btnSave, BorderLayout.SOUTH);
+        constraints.gridx = 0;
+        constraints.gridy = 5;
+        constraints.gridwidth = 3;
+        constraints.anchor = GridBagConstraints.CENTER;
+        add(btnSave, constraints);
 
+        setLocationRelativeTo(null);
         setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        Teacher stg = new Teacher("Jess", "Steinberger", "12345", "Prof. Dr.");
-        TeacherInputField field = new TeacherInputField(stg);
     }
 }
