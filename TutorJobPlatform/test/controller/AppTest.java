@@ -53,7 +53,7 @@ public class AppTest {
 
             try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(TEST_FILE_PATH))) {
                 deData = (AppData) in.readObject();
-                System.out.println(data);
+                System.out.println(deData);
                 assertEquals(data, data);
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
