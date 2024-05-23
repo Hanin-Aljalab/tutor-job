@@ -29,17 +29,10 @@ public class Matcher2 {
         registeredLectures = new ArrayList<>();
     }
 
-    private void initializeLists() {
-        registeredStudents.clear();
-        registeredLectures.clear();
-        actualMatches.clear();
-        registeredStudents.addAll(data.getStudents());
-        registeredLectures.addAll(data.getLectures());
-    }
-
     public HashMap<Student, Lecture> performMatching() {
         for (int i = 0; i < 200; i++) {
             initializeLists();
+            resetLectureAllocations();
             allocateStudents();
             evaluateMatchResult();
             actualMatches.forEach((student, lecture) -> {
@@ -71,7 +64,7 @@ public class Matcher2 {
         Lecture randomLecture = registeredLectures.get(num);
         randomLecture.decrementSlot();
         randomLecture.incrementTutors();
-        if (randomLecture.getNumOfTutors() == 0) {
+        if (randomLecture.getNumOfOpenSlots() == 0) {
             registeredLectures.remove(randomLecture);
         }
         return randomLecture;
@@ -123,13 +116,28 @@ public class Matcher2 {
 
     private int evaluateEmptyLectures() {
         int lectureScore = 0;
-        for (Lecture lectures : data.getLectures()) {
-            if (lectures.getNumOfAssignedTutors() == 0) {
+        for (Lecture lecture : data.getLectures()) {
+            System.out.println(lecture);
+            if (lecture.getNumOfAssignedTutors() == 0) {
                 lectureScore -= 15;
             }
         }
         System.out.println(lectureScore);
         return lectureScore;
+    }
+
+    private void initializeLists() {
+        registeredStudents.clear();
+        registeredLectures.clear();
+        actualMatches.clear();
+        registeredStudents.addAll(data.getStudents());
+        registeredLectures.addAll(data.getLectures());
+    }
+
+    private void resetLectureAllocations() {
+        registeredLectures.forEach(lecture -> {
+            lecture.resetTutorAssignment();
+        });
     }
 
     public HashMap<Student, Lecture> getMatches() {
