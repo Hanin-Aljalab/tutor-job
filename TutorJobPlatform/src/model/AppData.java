@@ -4,96 +4,34 @@ import java.io.Serializable;
 import java.util.*;
 import exceptions.*;
 
+/**
+ * Objects of this class centrally handle the data (students, teachers,
+ * lectures, preferences, matchmaking status, matches) of the app.
+ */
 public class AppData implements Serializable {
+	private boolean matchingDone;
 	private ArrayList<Student> students;
 	private ArrayList<Teacher> teachers;
 	private ArrayList<Lecture> lectures;
-	private HashMap<Student, Lecture> matches;
+	private Map<Student, Lecture> matches;
 
 	public AppData() {
 		System.out.println("Ich erstelle ein neues Objekt.");
+		matchingDone = false;
 		students = new ArrayList<>();
 		teachers = new ArrayList<>();
 		lectures = new ArrayList<>();
 		matches = new HashMap<>();
+
+		insertDummies();
 	}
 
-	public void createDummies() {
-		// TODO: These objects are dummies for testing purposes!
-		Student stud1 = new Student("Max", "Mustermann", "12345", "1234567",
-				"CSB");
-		ArrayList<String> lecturePref1 = new ArrayList<>();
-		lecturePref1.add("PR1");
-		lecturePref1.add("SE1");
-		lecturePref1.add("MI1");
-		stud1.setLecturePref(lecturePref1);
+	private void insertDummies() {
+		Dummies.createDummies();
 
-		Student stud2 = new Student("Erna", "Musterfrau", "12345",
-				"1111111",
-				"IB");
-		ArrayList<String> lecturePref2 = new ArrayList<>();
-		lecturePref2.add("PR1");
-		lecturePref2.add("SE1");
-		lecturePref2.add("MA2");
-		stud2.setLecturePref(lecturePref2);
-
-		Student stud3 = new Student("Maja", "Biene", "12345", "2222222",
-				"IMB");
-		ArrayList<String> lecturePref3 = new ArrayList<>();
-		lecturePref3.add("PR1");
-		lecturePref3.add("SE1");
-		lecturePref3.add("MA2");
-		stud3.setLecturePref(lecturePref3);
-
-		Student stud4 = new Student("Henry", "Hupfe", "12345",
-				"3333333", "IMB");
-		ArrayList<String> lecturePref4 = new ArrayList<>();
-		lecturePref4.add("PR2");
-		lecturePref4.add("MI1");
-		lecturePref4.add("SE1");
-		stud4.setLecturePref(lecturePref4);
-
-		students.add(stud1);
-		students.add(stud2);
-		students.add(stud3);
-		students.add(stud4);
-
-		Teacher tea1 = new Teacher("Jens", "Baum", "12345", "Dr.", "BAJ");
-		Teacher tea2 = new Teacher("Jolla", "Jammer", "12345", "Prof. Dr.",
-				"JOJA");
-		Teacher tea3 = new Teacher("Harry", "Potter", "12345", "",
-				"POH");
-
-		teachers.add(tea1);
-		teachers.add(tea2);
-		teachers.add(tea3);
-
-		Lecture lec1 = new Lecture("Mathematik 1", "MA1", 3, "Aussagenlogik, " +
-				"Folgen, Beweise", tea1, new ArrayList<>(List.of(new String[]{"IMB", "IB",
-				"CSB", "UIB"})));
-		Lecture lec2 = new Lecture("Mathematik 2", "MA2", 5,
-				"Vektorräume, Gruppen", tea1, new ArrayList<>(List.of(new String[]{"IMB", "IB",
-				"CSB", "UIB"})));
-		Lecture lec3 = new Lecture("Programmieren 1", "PR1", 2,
-				"Java Basics", tea2, new ArrayList<>(List.of(new String[]{
-				"IMB", "IB", "CSB"})));
-		Lecture lec4 = new Lecture("Medizinische Informatik 1",
-				"MI1",	1, "Terminologie, Biologie, Physik", tea3,
-				new ArrayList<>(List.of(new String[]{"IMB"})));
-		Lecture lec5 = new Lecture("Software Engineering 1", "MA2", 1,
-				"Analyse, Design, Testen, Swing", tea2,
-				new ArrayList<>(List.of(new String[]{"IMB", "IB", "CSB", "UIB"})));
-		Lecture lec6 = new Lecture("Mathematik 1", "MA1", 3, "Aussagenlogik, " +
-				"Folgen, Beweise", tea2,
-				new ArrayList<>(List.of(new String[]{"IMB", "IB",
-						"CSB", "UIB"})));
-
-		lectures.add(lec1);
-		lectures.add(lec2);
-		lectures.add(lec3);
-		lectures.add(lec4);
-		lectures.add(lec5);
-		lectures.add(lec6);
+		students.addAll(Dummies.getStudentDummies());
+		teachers.addAll(Dummies.getTeacherDummies());
+		lectures.addAll(Dummies.getLectureDummies());
 	}
 
 	/**
@@ -121,7 +59,6 @@ public class AppData implements Serializable {
 				}
 			}
 		}
-
 		if (role.equals("Student*in")) {
 			for (Student student : students) {
 				if (studNumber.equals(student.getStudNumber())) {
@@ -194,15 +131,7 @@ public class AppData implements Serializable {
 		}
 	}
 
-	public List<Student> getStudents() {
-		return students;
-	}
-    public List<Teacher> getTeachers() {
-        return teachers;
-    }
-    public List<Lecture> getLectures() {
-        return lectures;
-    }
+
 
 	public ArrayList<String> getTeacherNames() {
 		ArrayList<String> teacherNames = new ArrayList<>();
@@ -222,10 +151,29 @@ public class AppData implements Serializable {
 	}
 
 	public void setMatches(HashMap<Student, Lecture> matches) {
-		this.matches = matches;
+		this.matches.putAll(matches);
 	}
 
-	public HashMap<Student, Lecture> getMatches() {
+	public Map<Student, Lecture> getMatches() {
 		return matches;
 	}
+
+	public void setMatchingDone(boolean matchingDone) {
+		this.matchingDone = matchingDone;
+	}
+
+	public boolean isMatchingDone() {
+		return matchingDone;
+	}
+
+	public List<Student> getStudents() {
+		return students;
+	}
+	public List<Teacher> getTeachers() {
+		return teachers;
+	}
+	public List<Lecture> getLectures() {
+		return lectures;
+	}
+
 }

@@ -41,7 +41,7 @@ public abstract class Homescreen extends JFrame {
 
         setVisible(true);
 
-        if(!App.isMatchingDone()) {
+        if(!App.getData().isMatchingDone()) {
             button = configureButton();
             choicePanel.add(button);
         }
@@ -161,7 +161,7 @@ public abstract class Homescreen extends JFrame {
         bottomConstraints.fill = GridBagConstraints.HORIZONTAL;
         bottomConstraints.anchor = GridBagConstraints.SOUTH;
 
-        if (!App.isMatchingDone()) {
+        if (!App.getData().isMatchingDone()) {
             status = new JLabel("", JLabel.CENTER);
             adaptStatus(status);
             bottomConstraints.gridx = 0;
@@ -189,7 +189,7 @@ public abstract class Homescreen extends JFrame {
      * @return array of strings which should be displayed
      */
     private String[] setInfoText() {
-        if (App.isMatchingDone()) {
+        if (App.getData().isMatchingDone()) {
             return getMatchInfo();
         } else {
             return InfoText.teacherGeneral;

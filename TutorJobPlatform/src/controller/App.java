@@ -5,31 +5,39 @@ import view.swing.components.*;
 
 import java.io.*;
 
+/**
+ * Aggregates and handels central functions of the program
+ */
 public class App {
-    private static boolean matchingDone = false;
     private static final String FILE_PATH = "./tutorjobsystem_data.ser";
     private static AppData data;
     private static Matcher matcher;
 
     public static void main(String[] args) {
-        data = deserializeObjects(); //deserialisieren, wenn Programm startet
+        startApp();
+    }
+
+    /**
+     * Central entry point of the tutor job system.
+     */
+    private static void startApp() {
+        // At program start, objects are deserialised. If no serialized file
+        // exists, new data object is initiated.
+        data = deserializeObjects();
         if (data == null) {
             data = new AppData();
-            data.createDummies();
         }
-        // Füge den Shutdown-Hook hinzu
+        // Shutdown hook: ensures serialisation of abject at program termination
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             serializeObjects();
         }));
 
-        new LoginWindow(); //als erstes wird ein Loginfenster gestartet
+        // Entry point into the GUI: login window pops up
+        new LoginWindow();
     }
 
     /**
-     * This Method serializes AppData on closing the window and prints out
-     * the object in the console.
-     *
-     * @throws IOException
+     * Serializes the data object
      */
     private static void serializeObjects() {
         try (ObjectOutputStream out =
@@ -43,11 +51,11 @@ public class App {
     }
 
     /**
-     * This Method tries to deserialize the object of the given input file and returns them.
-     * If there is no object to deserialize, it will just catch an ClassNotFoundException and
-     * return nothing.
+     * Tries to deserialize data from input file. I there is no object to
+     * deserialize, it will catch the ClassNotFoundException and
+     * return null.
      *
-     * @return the data of the objects in the serialized input file.
+     * @return if deserialization successfull, the deserialized objects. Else null.
      */
     private static AppData deserializeObjects() {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(FILE_PATH))) {
@@ -64,10 +72,13 @@ public class App {
         }
     }
 
+    /**
+     * Initiates the matchmaking process
+     */
     public static void match() {
         matcher = new Matcher();
         matcher.allocateStudents();
-        matchingDone = true;
+        data.setMatchingDone(true);
     }
 
     public static Matcher getMatcher() {
@@ -76,9 +87,5 @@ public class App {
 
     public static AppData getData() {
         return data;
-    }
-
-    public static boolean isMatchingDone() {
-        return matchingDone;
     }
 }
