@@ -10,9 +10,6 @@ public class AppData implements Serializable {
 	private ArrayList<Lecture> lectures;
 	private HashMap<Student, Lecture> matches;
 
-
-	private String somefield;
-
 	public AppData() {
 		System.out.println("Ich erstelle ein neues Objekt.");
 		students = new ArrayList<>();
@@ -232,11 +229,19 @@ public class AppData implements Serializable {
 		return matches;
 	}
 
-	public String getSomeFieldForTest() {
-		return somefield;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof AppData)) return false;
+		AppData appData = (AppData) o;
+		return Objects.equals(students, appData.students) &&
+				Objects.equals(teachers, appData.teachers) &&
+				Objects.equals(lectures, appData.lectures);
 	}
 
-	public void setSomeFieldForTest(String somefield) {
-		this.somefield = somefield;
+	@Override
+	public int hashCode() {
+		return Objects.hash(students, teachers, lectures);
 	}
+
 }

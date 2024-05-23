@@ -49,7 +49,7 @@ public class App {
      *
      * @return the data of the objects in the serialized input file.
      */
-    private static AppData deserializeObjects() {
+    public static AppData deserializeObjects() {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(FILE_PATH))) {
             data = (AppData) in.readObject();
             in.close();
@@ -76,6 +76,10 @@ public class App {
 
     public static AppData getData() {
         return data;
+    }
+
+    public static void setData(AppData newData) {
+        data = newData;
     }
 
     public static boolean isMatchingDone() {
