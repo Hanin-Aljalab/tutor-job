@@ -11,19 +11,26 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 /**
- * Homescreen for user group students.
+ * The {@code StudentHomescreen} class represents the home screen for student.
+ * It extends the {@link Homescreen} class and provides functionality specific to student users
+ * such as displaying their student number and managing their preference selections.
  */
 public class StudentHomescreen extends Homescreen {
     private JLabel studNumber;
     private JList<String> lecturePrefList, teacherPrefList;
     private DefaultListModel<String> lectureModel, teacherModel;
 
+    /**
+     * Constructs a new {@code StudentHomescreen} for the given student user.
+     * @param user the student user for whom the home screen is created.
+     */
     public StudentHomescreen(Student user) {
         super(user, Color.CYAN);
         displayStudNumber();
         updatePreferenceLists();
     }
 
+    //Displays the student's matriculation number on the home screen.
     private void displayStudNumber() {
         studNumber = new JLabel("Mtr: " + ((Student) user).getStudNumber());
         constraints.gridx = 1;
@@ -39,6 +46,10 @@ public class StudentHomescreen extends Homescreen {
         return InfoText.studentGeneral;
     }
 
+    /**
+     * Determines the match information text to be displayed to the student user.
+     * @return an array of strings to be displayed as match information
+     */
     @Override
     protected String[] getMatchInfo() {
         Student student = (Student) user;
@@ -114,9 +125,8 @@ public class StudentHomescreen extends Homescreen {
     }
 
     /**
-     * opens a new window for the preference selection, where the User can choose between
-     * various courses and teachers. Also updates the list of preferences and changes the
-     * status of the "add preference" button
+     * Handles the preference selection process by opening a
+     * {@link PreferencePopup}
      */
     public void handlePreferenceSelection() {
         PreferencePopup popup = new PreferencePopup((Student) user);
@@ -129,10 +139,7 @@ public class StudentHomescreen extends Homescreen {
         });
     }
 
-    /**
-     * removes and updates users preferences of students lists, also updates
-     * buttons
-     */
+    //Removes the student's preferences after confirming the deletion.
     public void removePreferences() {
         if (confirmDeletion()) {
             ((Student) user).deletePreferences();
@@ -142,8 +149,9 @@ public class StudentHomescreen extends Homescreen {
     }
 
     /**
-     * opens a new JOptionPane to confirm the deletion of te students' preferences
-     * @return confirmation to delete the preferences
+     * Confirms the deletion of the student's preferences.
+     * @return {@code true} if the deletion is confirmed,
+     * {@code false} otherwise
      */
     public boolean confirmDeletion() {
         int confirmation = JOptionPane.showConfirmDialog(this,
@@ -153,9 +161,7 @@ public class StudentHomescreen extends Homescreen {
         return (confirmation == JOptionPane.YES_OPTION);
     }
 
-    /**
-     * clears model lists and adds new updated Preferences to the student
-     */
+    //Updates the preference lists displayed on the home screen.
     private void updatePreferenceLists() {
             lectureModel.clear();
             ArrayList<String> lectures = ((Student) user).getLecturePref();
@@ -174,6 +180,7 @@ public class StudentHomescreen extends Homescreen {
             }
         }
 
+    //Configures the bottom right panel of the home screen.
     @Override
     protected void configureBottomRightPanel() {
         GridBagConstraints constraintsBotR = new GridBagConstraints();

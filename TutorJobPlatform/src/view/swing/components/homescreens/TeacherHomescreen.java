@@ -13,12 +13,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Homescreen for user group teachers.
+ * The {@code TeacherHomescreen} class represents the home screen for teacher.
+ * It extends the {@link Homescreen} class and provides functionality specific to teacher,
+ * such as displaying their courses and managing their lecture creation.
  */
 public class TeacherHomescreen extends Homescreen {
     private DefaultListModel<String> lectureModel;
     private JList<String> lectures;
 
+    /**
+     * Constructs a new {@code TeacherHomescreen} for the given teacher
+     * @param user the teacher for whom the home screen is created
+     */
     public TeacherHomescreen(Teacher user) {
         super(user, Color.YELLOW);
     }
@@ -28,18 +34,21 @@ public class TeacherHomescreen extends Homescreen {
         return InfoText.teacherGeneral;
     }
 
+    /**
+     * Determines the match information text to be displayed to the teacher
+     * @return an array of strings to be displayed as match information
+     */
     @Override
     protected String[] getMatchInfo() {
         Teacher teacher = (Teacher) user;
         ArrayList<String> matchInfo = new ArrayList<>();
-
-        App.getMatcher().getMatches().forEach((student, lecture) -> {
+        App.getData().getMatches().forEach((student, lecture) -> {
             String teacherId =
                     lecture.getTeacher().getTeacherId();
             if (teacherId.equals(teacher.getTeacherId())) {
                 matchInfo.add("<html><font color=blue>" + lecture.getName() + ":  " +
                         student.getFirstName() + " " + student.getLastName() +
-                        " " + student.getStudNumber() + "</font></html>");
+                        " (" + student.getStudNumber() + ")</font></html>");
             }
         });
         Collections.sort(matchInfo);
@@ -58,6 +67,10 @@ public class TeacherHomescreen extends Homescreen {
         return infoText;
     }
 
+    /**
+     * Configure and returns the button for adding a new lecture.
+     * @return a {@link JButton} configured for adding a new lecture
+     */
     @Override
     protected JButton configureButton() {
         JButton lectureButton = new JButton("Neuen Kurs anlegen");
@@ -73,6 +86,10 @@ public class TeacherHomescreen extends Homescreen {
         return lectureButton;
     }
 
+    /**
+     * Updates the status label tp reflect whether the teacher has any courses.
+     * @param status the {@link JLabel} to be updated with the status information
+     */
     @Override
     protected void adaptStatus(JLabel status) {
         if (((Teacher) user).getLectures().isEmpty()) {
@@ -84,6 +101,10 @@ public class TeacherHomescreen extends Homescreen {
         }
     }
 
+    /**
+     * Configures the bottom right panel of the home screen to display
+     * the teacher's courses.
+     */
     @Override
     protected void configureBottomRightPanel() {
         GridBagConstraints constraintsBotR = new GridBagConstraints();
@@ -105,6 +126,10 @@ public class TeacherHomescreen extends Homescreen {
         rightPanel.add(lectureScroll, constraintsBotR);
     }
 
+    /**
+     * Updates the lecture scroll pane to display the current list
+     * of lectures for the teacher.
+     */
     private void updateLectureScroll() {
         lectureModel.clear();
         Teacher teacher = ((Teacher) user);

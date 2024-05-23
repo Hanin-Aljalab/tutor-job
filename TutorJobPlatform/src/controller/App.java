@@ -63,9 +63,6 @@ public class App {
             data = (AppData) in.readObject();
             in.close();
             System.out.println("Objekte wurden deserialisiert");
-            System.out.println(data.getStudents());
-            System.out.println(data.getTeachers());
-            System.out.println(data.getLectures());
             return data;
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Keine gespeicherten Daten gefunden oder Fehler beim Laden.");
