@@ -24,9 +24,8 @@ class RegistrationTest {
      */
     @Test
     void checkIfStudNumberIsCorrect() {
-        assertTrue(registration.checkIfStudNumberIsCorrect("123456789"));
-        assertTrue(registration.checkIfStudNumberIsCorrect("558866715"));
-        assertTrue(registration.checkIfStudNumberIsCorrect("1"));
+        assertTrue(registration.checkIfStudNumberIsCorrect("1234567"));
+        assertTrue(registration.checkIfStudNumberIsCorrect("5588667"));
 
         assertFalse(registration.checkIfStudNumberIsCorrect("123X56789"));
         assertFalse(registration.checkIfStudNumberIsCorrect("AlfredWerner"));
@@ -373,12 +372,12 @@ class RegistrationTest {
 
 
     /**
-     * Test for StudentIdAlreadyExists()
+     * Test for StudentNumberAlreadyExists()
      *
      * @throws UserAlreadyExistsException if the user already exists
      */
     @Test
-    void StudentIdAlreadyExists() throws UserAlreadyExistsException {
+    void StudentNumberAlreadyExists() throws UserAlreadyExistsException {
         //  Matrikelnr. existiert bereits, was zu einer UserAlreadyExistsException führt.
         assertThrows(UserAlreadyExistsException.class, () -> registration.registerUser(
                 "Max",
@@ -398,7 +397,7 @@ class RegistrationTest {
      */
     @Test
     void nonExistentStudentRole() {
-        // Testfall 20: Nicht-existierende Rolle für einen Benutzer soll nicht zu Exception führen.
+        // Testfall : Nicht-existierende Rolle für einen Benutzer soll nicht zu Exception führen.
         assertDoesNotThrow(() -> registration.registerUser(
                 "Max",
                 "Mustermann",
