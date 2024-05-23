@@ -2,7 +2,6 @@ package view.swing.components.homescreens;
 
 //import model.AppData;
 import controller.App;
-import controller.Matcher;
 import model.*;
 import view.swing.components.TeacherInputField;
 
@@ -13,6 +12,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Homescreen for user group teachers.
+ */
 public class TeacherHomescreen extends Homescreen {
     private DefaultListModel<String> lectureModel;
     private JList<String> lectures;

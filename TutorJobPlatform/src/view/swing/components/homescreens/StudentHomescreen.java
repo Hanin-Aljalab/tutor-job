@@ -10,6 +10,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
+/**
+ * Homescreen for user group students.
+ */
 public class StudentHomescreen extends Homescreen {
     private JLabel studNumber;
     private JList<String> lecturePrefList, teacherPrefList;

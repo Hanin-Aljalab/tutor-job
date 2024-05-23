@@ -1,7 +1,5 @@
 package view.swing.components;
 
-
-
 import controller.*;
 import exceptions.*;
 import model.*;
@@ -14,7 +12,7 @@ import java.awt.event.*;
 public class LoginWindow extends JFrame implements ActionListener {
 	private final Login login = Login.login;
 
-	// Declare UI components
+	// UI components
 	private JFrame frame;
 	private JPanel mainPanel, formPanel, buttonPanel, passwordPanel;
 	private JTextField studNumberField, teacherIdField;

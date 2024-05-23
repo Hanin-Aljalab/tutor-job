@@ -1,12 +1,7 @@
 package view.swing.components;
 
 import controller.Registration;
-import exceptions.InvalidInputException;
-import exceptions.PasswordsNotIdenticalException;
-import exceptions.StudentNumberInvalidException;
-import exceptions.TeacherIdInvalidException;
-import exceptions.UserAlreadyExistsException;
-import model.AppData;
+import exceptions.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +10,7 @@ import java.awt.event.*;
 public class RegistrationPopup {
 	private final Registration registration = Registration.registration;
 
-	// Declare UI components
+	// UI components
 	private JFrame frame;
 	private JPanel mainPanel, formPanel, buttonPanel;
 	private JTextField firstNameField, lastNameField, teacherIdField, studNumberField;
@@ -217,8 +212,6 @@ public class RegistrationPopup {
 		teacherIdField.setVisible(!isStudent);
 		studyPathDropdown.setVisible(isStudent);
 	}
-
-	// TODO: Pop-up-Nachrichten anzeigen basierend auf dem Ergebnis
 
 	/**
 	 * Transmits the data from the registration form to the registration controller.
