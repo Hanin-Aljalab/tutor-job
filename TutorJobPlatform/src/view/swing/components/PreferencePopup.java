@@ -1,7 +1,6 @@
 package view.swing.components;
 
 import controller.App;
-import model.AppData;
 import model.Student;
 import view.swing.components.homescreens.InfoText;
 
@@ -10,6 +9,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+/**
+ * Defines Popup which allows students to select their preferences
+ */
 public class PreferencePopup extends JFrame {
     private Student student;
     private JPanel wrapper, lecturePanel, teacherPanel;
@@ -61,31 +63,27 @@ public class PreferencePopup extends JFrame {
         subtitle.setHorizontalAlignment(JLabel.CENTER);
     }
 
+    // Separate panel for display of lecture options
     private JPanel createLecturePanel() {
         int[] bounds = {100, 40, 100, height};
         return createPreferencePanel(bounds, "Kurse",
                 App.getData().getLectureNamesWithoutDuplicates());
     }
 
+    // Separate panel for display of teacher options
     private JPanel createTeacherPanel() {
         int[] bounds = {((width / 2) + 20), 40, (width / 2), height};
         return createPreferencePanel(bounds, "Dozent*innen",
                 App.getData().getTeacherNames());
     }
 
-    private JButton createButton() {
-        JButton confirmButton = new JButton("Auswahl bestätigen");
-        confirmButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                student.setChoiceMade(true);
-                dispose();
-            }
-        });
-        confirmButton.setBounds(((width / 2) - 150), (height-150), 300, 30);
-        return confirmButton;
-    }
-
+    /**
+     * Method to create different panels with preference options
+     * @param bounds size and position of panel
+     * @param header title of panel
+     * @param options list of Strings representing options which can be selected
+     * @return created panel
+     */
     private JPanel createPreferencePanel(int[] bounds, String header,
                                        ArrayList<String> options) {
         JPanel prefPanel = new JPanel();
@@ -99,6 +97,12 @@ public class PreferencePopup extends JFrame {
         return prefPanel;
     }
 
+    /**
+     * Creates checkboxes for each option of a preference panel
+     * @param option String option which can be selected
+     * @param prefCategory type of the option (e.g. lecture/teacher)
+     * @param panel JPanel in which the checkbox will be displayed
+     */
     private void createCheckBox(String option,
                                 String prefCategory, JPanel panel) {
         JCheckBox cb = new JCheckBox(option);
@@ -114,5 +118,19 @@ public class PreferencePopup extends JFrame {
             }
         });
         panel.add(cb);
+    }
+
+    // Configures label, position and functions of confirm button
+    private JButton createButton() {
+        JButton confirmButton = new JButton("Auswahl bestätigen");
+        confirmButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                student.setChoiceMade(true);
+                dispose();
+            }
+        });
+        confirmButton.setBounds(((width / 2) - 150), (height-150), 300, 30);
+        return confirmButton;
     }
 }

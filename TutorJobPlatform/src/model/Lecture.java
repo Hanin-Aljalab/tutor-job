@@ -6,7 +6,8 @@ public class Lecture implements Serializable {
   
     private String name;
     private String abbreviation;
-    private int numOfTutors;
+    private int numOfDesiredTutors;
+    private int numOfOpenSlots;
     private int numOfAssignedTutors;
     private String courseInfo;
     private Teacher teacher;
@@ -17,7 +18,8 @@ public class Lecture implements Serializable {
                    String courseInfo, Teacher teacher, ArrayList<String> allowedStudyPaths) {
         this.name = name;
         this.abbreviation = abbreviation;
-        this.numOfTutors = numTutors;
+        this.numOfDesiredTutors = numTutors;
+        this.numOfOpenSlots = numTutors;
         this.courseInfo = courseInfo;
         this.teacher = teacher;
         this.studyPaths = allowedStudyPaths;
@@ -31,8 +33,8 @@ public class Lecture implements Serializable {
         return abbreviation;
     }
 
-    public int getNumOfTutors() {
-        return numOfTutors;
+    public int getNumOfOpenSlots() {
+        return numOfOpenSlots;
     }
 
     public int getNumOfAssignedTutors() {
@@ -56,12 +58,18 @@ public class Lecture implements Serializable {
         return tutors;
     }
     
-    public void addTutor(Student student) {
-        tutors.add(student);
+    public void addTutor() {
+        numOfOpenSlots --;
+        numOfAssignedTutors++;
+    }
+
+    public void resetTutorAssignment() {
+        numOfOpenSlots = numOfDesiredTutors;
+        numOfAssignedTutors = 0;
     }
 
     public void decrementSlot(){
-        numOfTutors--;
+        numOfOpenSlots--;
     }
 
     public ArrayList<String> getStudyPaths() {

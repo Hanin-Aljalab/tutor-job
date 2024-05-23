@@ -54,7 +54,7 @@ public class Matcher {
         for (String lectPref : student.getLecturePref()) {
             for (Lecture lecture : allLectures) {
                 if (lectPref.equals(lecture.getAbbreviation())) {
-                    numSlotsPrefCourse += lecture.getNumOfTutors();
+                    numSlotsPrefCourse += lecture.getNumOfOpenSlots();
                 }
             }
         }
@@ -63,7 +63,7 @@ public class Matcher {
             for (Teacher teacher : allTeachers) {
                 if (teachPref.equals(teacher.getTeacherId())) {
                     for (Lecture lecture : teacher.getLectures()) {
-                        numSlotsPrefTeacher += lecture.getNumOfTutors();
+                        numSlotsPrefTeacher += lecture.getNumOfOpenSlots();
                     }
                 }
             }
@@ -87,7 +87,7 @@ public class Matcher {
                 System.out.println("2");
 
                 System.out.println("3");
-                if (lecture.getNumOfTutors() > 0
+                if (lecture.getNumOfOpenSlots() > 0
                         && pref.equals(lecture.getAbbreviation())) {
                     System.out.println("4");
                     for (String studypath : lecture.getStudyPaths()) {
@@ -118,7 +118,7 @@ public class Matcher {
         for (String teachpref : student.getTeacherPref()) {
             for (Teacher teacher : allTeachers) {
                 for (Lecture lecture : teacher.getLectures()) {
-                    if (lecture.getNumOfTutors() > 0
+                    if (lecture.getNumOfOpenSlots() > 0
                             && lecture.getTeacher().equals(teachpref)
                             && student.getStudyPath().equals(lecture.getStudyPaths())) {
                         matches.put(student, lecture);
@@ -139,7 +139,7 @@ public class Matcher {
             for (Student student : hasNoPref) {
                 System.out.println(student);
                 for (Lecture lecture : allLectures) {
-                    if ((lecture.getNumOfTutors() > 0
+                    if ((lecture.getNumOfOpenSlots() > 0
                             && student.getStudyPath().equals(lecture.getStudyPaths()))) {
                         matches.put(student, lecture);
                         noPrefIsAssigned = true;
@@ -151,7 +151,7 @@ public class Matcher {
                 if (!noPrefIsAssigned) {
                     for (Teacher teacher : allTeachers) {
                         for (Lecture lecture : teacher.getLectures()) {
-                            if ((lecture.getNumOfTutors() > 0 && student.getStudyPath().equals(lecture.getStudyPaths()))) {
+                            if ((lecture.getNumOfOpenSlots() > 0 && student.getStudyPath().equals(lecture.getStudyPaths()))) {
                                 matches.put(student, lecture);
                                 noPrefIsAssigned = true;
                                 hasNoPref.remove(student);
@@ -198,7 +198,7 @@ public class Matcher {
                 if (o1.getNumOfAssignedTutors() == 0) {
                     return -1;
                 } else {
-                    return o2.getNumOfTutors() - o1.getNumOfTutors();
+                    return o2.getNumOfOpenSlots() - o1.getNumOfOpenSlots();
                 }
             }
 
