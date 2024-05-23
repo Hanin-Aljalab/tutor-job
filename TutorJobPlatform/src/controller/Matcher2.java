@@ -30,21 +30,17 @@ public class Matcher2 {
     }
 
     public HashMap<Student, Lecture> performMatching() {
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < 3000; i++) {
             initializeLists();
             resetLectureAllocations();
             allocateStudents();
             evaluateMatchResult();
             actualMatches.forEach((student, lecture) -> {
-                System.out.println(student.getLastName() + " eingeteilt in: " + lecture.toString());
             });
-            System.out.println("Rating: " + actualScore);
         }
         finalMatches.putAll(bestMatches);
         finalMatches.forEach((student, lecture) -> {
-            System.out.println(student.getLastName() + " eingeteilt in: " + lecture.toString());
         });
-        System.out.println("Final Score: " + bestScore);
 
         return finalMatches;
     }
@@ -77,7 +73,6 @@ public class Matcher2 {
             int score = evaluateSingleMatch(matchedStudent, matchedLecture);
             scores.add(score);
         });
-        System.out.println(scores);
 
         actualScore = 0;
         for (int score : scores) {
@@ -97,12 +92,12 @@ public class Matcher2 {
         int individualScore = 0;
         for (String pref : matchedStudent.getLecturePref()) {
             if (pref.equals(matchedLecture.getAbbreviation())) {
-                individualScore += 2;
+                individualScore += 3;
             }
         }
         for (String pref : matchedStudent.getTeacherPref()) {
             if (pref.equals(matchedLecture.getTeacher().toString())) {
-                individualScore += 1;
+                individualScore += 2;
             }
         }
         for (String allowedStudyPaths : matchedLecture.getStudyPaths()) {
@@ -117,12 +112,10 @@ public class Matcher2 {
     private int evaluateEmptyLectures() {
         int lectureScore = 0;
         for (Lecture lecture : data.getLectures()) {
-            System.out.println(lecture);
             if (lecture.getNumOfAssignedTutors() == 0) {
                 lectureScore -= 15;
             }
         }
-        System.out.println(lectureScore);
         return lectureScore;
     }
 

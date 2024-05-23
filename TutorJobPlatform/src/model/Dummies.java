@@ -44,7 +44,7 @@ public class Dummies {
         stud2.setLecturePref(lecturePref2);
 
         Student stud3 = new Student("Maja", "Biene", "12345", "2222222",
-                "IB");
+                "UIB");
         ArrayList<String> lecturePref3 = new ArrayList<>();
         lecturePref3.add("SE1");
         lecturePref3.add("MA2");
@@ -117,7 +117,7 @@ public class Dummies {
                 new ArrayList<>(List.of(new String[]{"IMB"})));
         Lecture lec5 = new Lecture("Software Engineering 1", "SE1", 2,
                 "Analyse, Design, Testen, Swing", teacherDummies.get(1),
-                new ArrayList<>(List.of(new String[]{"IMB", "IB", "CSB", "UIB"})));
+                new ArrayList<>(List.of(new String[]{"IMB", "IB", "CSB"})));
         Lecture lec6 = new Lecture("Mathematik 1", "MA1", 3, "Aussagenlogik, " +
                 "Folgen, Beweise", teacherDummies.get(1),
                 new ArrayList<>(List.of(new String[]{"IMB", "IB",
