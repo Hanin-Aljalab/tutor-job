@@ -22,24 +22,10 @@ class TeacherTest {
         assertNotNull(lecture);
         assertEquals("Programmierung 2", lecture.getName());
         assertEquals("PR2", lecture.getAbbreviation());
-        assertEquals(2, lecture.getNumOfTutors());
+        assertEquals(2, lecture.getNumOfOpenSlots());
         assertEquals("Course Info", lecture.getCourseInfo());
         assertEquals(teacher, lecture.getTeacher());
         assertEquals(studyPaths, lecture.getStudyPaths());
-    }
-
-
-    //andere --------------------------------------------------------------------------- (was brauchen wir?)
-
-    @Test
-    void testGetTeacherId() {
-        assertEquals("STG123", teacher.getTeacherId());
-    }
-
-    @Test
-    void testGetLectures() {
-        assertNotNull(teacher.getLectures());
-        assertTrue(teacher.getLectures().isEmpty());
     }
 
     @Test

@@ -13,28 +13,19 @@ import org.junit.jupiter.api.Test;
 public class RegistrationPopupTest {
     private RegistrationPopup registrationPopup;
     private AppData data;
-    private Registration registration;
 
     @BeforeEach
     void setUp() {
-        //data = data.getData();
-        registration = new Registration();
-
         registrationPopup = new RegistrationPopup();
-
-        data.getStudents().clear();
-        data.getTeachers().clear();
+        data = new AppData();
 
         registrationPopup.setFirstNameField("Markus");
         registrationPopup.setLastNameField("Winklhofer");
-        registrationPopup.setTitleDropdown("Dr.");
         registrationPopup.setPasswordField("password");
         registrationPopup.setPasswordConfirmField("password");
         registrationPopup.setStudNumberField("1234567");
-        registrationPopup.setTeacherIdField("WKL");
         registrationPopup.setStudyPathDropdown("IMB");
         registrationPopup.setRoleDropdown("Student*in");
-
     }
 
     @Test

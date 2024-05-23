@@ -45,7 +45,6 @@ public class Lecture implements Serializable {
         numOfAssignedTutors++;
     }
 
-
     public String getCourseInfo() {
         return courseInfo;
     }

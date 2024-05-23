@@ -21,7 +21,7 @@ public class App {
     /**
      * Central entry point of the tutor job system.
      */
-    private static void startApp() {
+    public static void startApp() {
         // At program start, objects are deserialised. If no serialized file
         // exists, new data object is initiated.
         data = deserializeObjects();
@@ -93,9 +93,5 @@ public class App {
 
     public static void setData(AppData newData) {
         data = newData;
-    }
-
-    public static boolean isMatchingDone() {
-        return matchingDone;
     }
 }

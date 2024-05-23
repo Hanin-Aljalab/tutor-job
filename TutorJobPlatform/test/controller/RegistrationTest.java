@@ -1,7 +1,6 @@
 package controller;
 
 import exceptions.*;
-import model.AppData;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
