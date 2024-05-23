@@ -32,14 +32,13 @@ public class TeacherHomescreen extends Homescreen {
     protected String[] getMatchInfo() {
         Teacher teacher = (Teacher) user;
         ArrayList<String> matchInfo = new ArrayList<>();
-
-        App.getMatcher().getMatches().forEach((student, lecture) -> {
+        App.getData().getMatches().forEach((student, lecture) -> {
             String teacherId =
                     lecture.getTeacher().getTeacherId();
             if (teacherId.equals(teacher.getTeacherId())) {
                 matchInfo.add("<html><font color=blue>" + lecture.getName() + ":  " +
                         student.getFirstName() + " " + student.getLastName() +
-                        " " + student.getStudNumber() + "</font></html>");
+                        " (" + student.getStudNumber() + ")</font></html>");
             }
         });
         Collections.sort(matchInfo);

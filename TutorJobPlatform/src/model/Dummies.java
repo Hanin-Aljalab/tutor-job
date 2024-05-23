@@ -107,10 +107,10 @@ public class Dummies {
                 "Folgen, Beweise", teacherDummies.get(0),
                 new ArrayList<>(List.of(new String[]{"IMB", "IB",
                 "CSB", "UIB"})));
-        Lecture lec2 = new Lecture("Mathematik 2", "MA2", 2, "Aussagenlogik, " +
-                "Folgen, Beweise", teacherDummies.get(0),
-                new ArrayList<>(List.of(new String[]{"IMB", "IB",
-                        "CSB", "UIB"})));
+//        Lecture lec2 = new Lecture("Mathematik 2", "MA2", 2, "Aussagenlogik, " +
+//                "Folgen, Beweise", teacherDummies.get(0),
+//                new ArrayList<>(List.of(new String[]{"IMB", "IB",
+//                        "CSB", "UIB"})));
         Lecture lec4 = new Lecture("Medizinische Informatik 1",
                 "MI1",	1, "Terminologie, Biologie, Physik",
                 teacherDummies.get(2),
@@ -128,7 +128,7 @@ public class Dummies {
                         "CSB", "UIB"})));
 
         lectureDummies.add(lec1);
-        lectureDummies.add(lec2);
+      //  lectureDummies.add(lec2);
         lectureDummies.add(lec4);
         lectureDummies.add(lec5);
         lectureDummies.add(lec6);
