@@ -25,11 +25,11 @@ class LoginTest {
      */
     @BeforeEach
     void setUp() {
-        AppData appData = new AppData();
+        App.setData(new AppData());
         student = new Student("John", "Doe", "password", "556677", "CSB");
-        appData.addUser(student);
+        App.getData().addUser(student);
         teacher = new Teacher("John", "Doe", "password", "Test Dr.", "AABBCC");
-        appData.addUser(teacher);
+        App.getData().addUser(teacher);
     }
 
     /**
