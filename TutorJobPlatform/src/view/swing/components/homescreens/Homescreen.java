@@ -45,8 +45,6 @@ public abstract class Homescreen extends JFrame {
             button = configureButton();
             choicePanel.add(button);
         }
-
-
     }
 
 // Methods which have to be defined in child classes
@@ -78,8 +76,7 @@ public abstract class Homescreen extends JFrame {
         constraints.insets = new Insets(10, 10, 10, 10); //abstand von anderen El.
         constraints.weightx = 1;
 
-        name =
-                new JLabel("Name: " + user.getTitle() + " "
+        name = new JLabel("Name: " + user.getTitle() + " "
                         + user.getFirstName() + " " + user.getLastName());
         constraints.gridx = 0;
         constraints.gridy = 0;

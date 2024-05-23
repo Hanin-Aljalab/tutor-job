@@ -113,7 +113,6 @@ public class TeacherHomescreen extends Homescreen {
         });
     }
 
-    // TODO add functional methods
     private void addLecture() {
         new TeacherInputField((Teacher) user, this);
     }
