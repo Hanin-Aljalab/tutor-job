@@ -1,78 +1,64 @@
 package controller;
 
-import exceptions.IncorrectPasswordException;
-import exceptions.InvalidInputException;
-import exceptions.UserDoesNotExistException;
+import exceptions.*;
 import model.AppData;
 import model.Student;
 import model.Teacher;
+import model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * LoginTest contains all tests for the Login class
- */
 class LoginTest {
-    private Student student;
-    private Teacher teacher;
+    private Login login;
+    private AppData appData;
+    private Registration registration;
 
-    private static final Login login = Login.login;
 
-    /**
-     * Resets data before each test
-     */
     @BeforeEach
-    void setUp() {
-        App.setData(new AppData());
-        student = new Student("John", "Doe", "password", "556677", "CSB");
-        App.getData().addUser(student);
-        teacher = new Teacher("John", "Doe", "password", "Test Dr.", "AABBCC");
-        App.getData().addUser(teacher);
+    void setUp() throws InvalidInputException, PasswordsNotIdenticalException, UserAlreadyExistsException, StudentNumberInvalidException, TeacherIdInvalidException {
+        appData = new AppData();
+        App.setData(appData);
+
+        login = Login.login;
+        registration = Registration.registration;
+
+        registration.registerUser("Max", "Mustermann", "passwort22+!",
+                "passwort22+!", "Student*in", "", "1000000", "", "IMB");
+        registration.registerUser("Max", "Mustermann", "passwort22!!",
+                "passwort22!!", "Dozent*in", "Prof. Dr.", "", "MM", "");
     }
 
-    /**
-     * Test for checkIfUserExists()
-     */
     @Test
-    void checkIfUserExists() {
-        assertTrue(login.checkIfUserExists(student));
-        assertTrue(login.checkIfUserExists(teacher));
-
-        assertFalse(login.checkIfUserExists(null));
+    void correctLoginStudent() throws InvalidInputException, IncorrectPasswordException, UserDoesNotExistException {
+        User user = login.loginUser("Student*in", "1000000", "", "passwort22+!");
+        assertEquals("1000000", ((Student) user).getStudNumber());
+        assertEquals("passwort22+!", ((Student) user).getPassword());
     }
 
-    /**
-     * Test for validatePassword()
-     */
     @Test
-    void validatePassword() {
-        assertTrue(login.validatePassword(student, "password"));
-        assertFalse(login.validatePassword(student, "passwort"));
-
-        assertTrue(login.validatePassword(teacher, "password"));
-        assertFalse(login.validatePassword(teacher, "passwort"));
+    void correctLoginTeacher() throws InvalidInputException, IncorrectPasswordException, UserDoesNotExistException {
+        User user = login.loginUser("Dozent*in", "", "MM", "passwort22!!");
+        assertEquals("MM", ((Teacher) user).getTeacherId());
+        assertEquals("passwort22!!", ((Teacher) user).getPassword());
     }
 
-    /**
-     * Test for loginUser()
-     * @throws IncorrectPasswordException if the provided password is incorrect
-     * @throws UserDoesNotExistException if the user does not exist
-     * @throws InvalidInputException if input is not valid
-     */
     @Test
-    void loginUser() throws IncorrectPasswordException, UserDoesNotExistException, InvalidInputException {
-        assertSame(student, login.loginUser("Student*in", "556677", "", "password"));
-        assertSame(teacher, login.loginUser("Dozent*in", "", "AABBCC", "password"));
+    void studDoesNotExist() {
+        assertThrows(UserDoesNotExistException.class, () -> login.loginUser("Student*in", "1122334",
+                "", "passwort22+!"));
+    }
 
-        assertThrows(InvalidInputException.class, () -> login.loginUser("Dozent*in", "", "", "password"));
-        assertThrows(InvalidInputException.class, () -> login.loginUser("Dozent*in", "", "AABBCC", ""));
+    @Test
+    void teacherDoesNotExist() {
+        assertThrows(UserDoesNotExistException.class, () -> login.loginUser("Dozent*in", "",
+                "ABC", "passwort22!!"));
+    }
 
-        assertThrows(UserDoesNotExistException.class, () -> login.loginUser("Student*in", "123", "", "password"));
-        assertThrows(UserDoesNotExistException.class, () -> login.loginUser("Dozent*in", "", "ABC", "password"));
-
-        assertThrows(IncorrectPasswordException.class, () -> login.loginUser("Student*in", "556677", "", "passwort"));
-        assertThrows(IncorrectPasswordException.class, () -> login.loginUser("Dozent*in", "", "AABBCC", "passwort"));
+    @Test
+    void incorrectPassword() {
+        assertThrows(IncorrectPasswordException.class, () -> login.loginUser("Student*in", "1000000",
+                "", "passwort22"));
     }
 }
