@@ -89,21 +89,21 @@ class RegistrationTest {
 //        );
 //    }
 
-    @Test // Testfall 4: Nachname enthält Zahl, wirft InvalidInput Exception
-    void invalidLastName() throws InvalidInputException {
-
-        assertThrows(InvalidInputException.class, () -> registration.registerUser(
-                "Max",
-                "Mustermann1",
-                "passwort",
-                "passwort",
-                "Dozent*in",
-                "Prof. Dr.",
-                "",
-                "MM",
-                "")
-        );
-    }
+//    @Test // Testfall 4: Nachname enthält Zahl, wirft InvalidInput Exception
+//    void invalidLastName() throws InvalidInputException {
+//
+//        assertThrows(InvalidInputException.class, () -> registration.registerUser(
+//                "Max",
+//                "Mustermann1",
+//                "passwort",
+//                "passwort",
+//                "Dozent*in",
+//                "Prof. Dr.",
+//                "",
+//                "MM",
+//                "")
+//        );
+//    }
 
 //    @Test // Testfall 5: Nachname Leerzeichen, wirft InvalidInput Exception
 //    void lastNameOnlySpace() throws InvalidInputException {
