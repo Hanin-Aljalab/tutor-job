@@ -169,8 +169,8 @@ class RegistrationTest {
         // Testfall 6: Passwort fehlt, wirft InvalidInput Exception
         assertThrows(InvalidInputException.class, () -> registration.registerUser(
                 "Max",
+                "Mustermann",
                 "",
-                "passwort",
                 "passwort",
                 "Student*in",
                 "",
@@ -216,7 +216,7 @@ class RegistrationTest {
                 "passwor",
                 "Student*in",
                 "",
-                "5555555",
+                "5555551",
                 "",
                 "IMB")
         );
@@ -352,11 +352,17 @@ class RegistrationTest {
     /**
      * Test for teacherIdAlreadyExists()
      *
-     * @throws UserAlreadyExistsException if the user already exists
+     * @throws UserAlreadyExistsException     if the user already exists
+     * @throws StudentNumberInvalidException  if the student number is invalid
+     * @throws PasswordsNotIdenticalException if the passwords do not match
+     * @throws InvalidInputException          if any input fields are incomplete
+     * @throws TeacherIdInvalidException      if the teacher ID is invalid
      */
     @Test
-    void teacherIdAlreadyExists() throws UserAlreadyExistsException {
+    void teacherIdAlreadyExists() throws UserAlreadyExistsException, InvalidInputException, PasswordsNotIdenticalException, StudentNumberInvalidException, TeacherIdInvalidException {
         //  Dozent-ID existiert bereits, was zu einer UserAlreadyExistsException führt.
+        registration.registerUser("Max","Mustermann","passwort","passwort",
+                "Dozent*in","Prof. Dr.","","MM","");
         assertThrows(UserAlreadyExistsException.class, () -> registration.registerUser(
                 "Max",
                 "Mustermann",
@@ -374,11 +380,17 @@ class RegistrationTest {
     /**
      * Test for StudentNumberAlreadyExists()
      *
-     * @throws UserAlreadyExistsException if the user already exists
+     * @throws UserAlreadyExistsException     if the user already exists
+     * @throws StudentNumberInvalidException  if the student number is invalid
+     * @throws PasswordsNotIdenticalException if the passwords do not match
+     * @throws InvalidInputException          if any input fields are incomplete
+     * @throws TeacherIdInvalidException      if the teacher ID is invalid
      */
     @Test
-    void StudentNumberAlreadyExists() throws UserAlreadyExistsException {
+    void StudentNumberAlreadyExists() throws UserAlreadyExistsException, InvalidInputException, PasswordsNotIdenticalException, StudentNumberInvalidException, TeacherIdInvalidException {
         //  Matrikelnr. existiert bereits, was zu einer UserAlreadyExistsException führt.
+        registration.registerUser("Max","Mustermann","passwort", "passwort",
+                "Student*in", "", "1000000", "", "UIB");
         assertThrows(UserAlreadyExistsException.class, () -> registration.registerUser(
                 "Max",
                 "Mustermann",
@@ -410,6 +422,7 @@ class RegistrationTest {
                 "Informatik"
         ));
     }
+
     /**
      * Second Test for correctRegisterStudent()
      *
