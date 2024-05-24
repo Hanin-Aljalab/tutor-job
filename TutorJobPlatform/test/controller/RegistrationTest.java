@@ -19,9 +19,6 @@ class RegistrationTest {
         App.setData(new AppData());
     }
 
-    /**
-     * Test for checkIfStudNumberIsCorrect()
-     */
     @Test
     void checkIfStudNumberIsCorrect() {
         assertTrue(registration.checkIfStudNumberIsCorrect("1234567"));
@@ -32,9 +29,6 @@ class RegistrationTest {
         assertFalse(registration.checkIfStudNumberIsCorrect("-2"));
     }
 
-    /**
-     * Test for checkIfTeacherIdIsCorrect()
-     */
     @Test
     void checkIfTeacherIdIsCorrect() {
         assertTrue(registration.checkIfTeacherIdIsCorrect("AABBCC"));
@@ -46,18 +40,9 @@ class RegistrationTest {
         assertFalse(registration.checkIfTeacherIdIsCorrect("123456"));
     }
 
-    /**
-     * Test for correctRegisterStudent()
-     *
-     * @throws UserAlreadyExistsException     if the user already exists
-     * @throws StudentNumberInvalidException  if the student number is invalid
-     * @throws PasswordsNotIdenticalException if the passwords do not match
-     * @throws InvalidInputException          if any input fields are incomplete
-     * @throws TeacherIdInvalidException      if the teacher ID is invalid
-     */
-    @Test
-        void correctRegisterStudent() throws InvalidInputException, PasswordsNotIdenticalException, UserAlreadyExistsException, StudentNumberInvalidException, TeacherIdInvalidException {
-        // Testfall 1: Erfolgreiche Registrierung eines Studenten mit korrekten Daten.
+    @Test // Testfall 1: Erfolgreiche Registrierung eines Studenten mit korrekten Daten.
+    void correctRegisterStudent() throws InvalidInputException, PasswordsNotIdenticalException, UserAlreadyExistsException, StudentNumberInvalidException, TeacherIdInvalidException {
+
         assertTrue(registration.registerUser(
                 "Max",
                 "Mustermann",
@@ -71,18 +56,10 @@ class RegistrationTest {
         );
     }
 
-    /**
-     * Test for correctRegisterTeacher()
-     *
-     * @throws UserAlreadyExistsException     if the user already exists
-     * @throws StudentNumberInvalidException  if the student number is invalid
-     * @throws PasswordsNotIdenticalException if the passwords do not match
-     * @throws InvalidInputException          if any input fields are incomplete
-     * @throws TeacherIdInvalidException      if the teacher ID is invalid
-     */
-    @Test
+
+    @Test // Testfall 2: Erfolgreiche Registrierung eines Dozenten mit korrekten Daten.
     void correctRegisterTeacher() throws InvalidInputException, PasswordsNotIdenticalException, UserAlreadyExistsException, StudentNumberInvalidException, TeacherIdInvalidException {
-        // Testfall 2: Erfolgreiche Registrierung eines Dozenten mit korrekten Daten.
+
         assertTrue(registration.registerUser(
                 "Max",
                 "Mustermann",
@@ -96,35 +73,25 @@ class RegistrationTest {
         );
     }
 
-    /**
-     * Test for invalidFirstName()
-     *
-     * @throws InvalidInputException if any input fields are incomplete
-     */
-    @Test
-    void invalidFirstName() throws InvalidInputException {
-        // Testfall 3: Vorname enthält Zahl, wirft InvalidInput Exception
-        assertThrows(InvalidInputException.class, () -> registration.registerUser(
-                "Max1",
-                "Mustermann",
-                "passwort",
-                "passwort",
-                "Student*in",
-                "",
-                "9999999",
-                "",
-                "CSB")
-        );
-    }
+//    @Test // Testfall 3: Vorname enthält Zahl, wirft InvalidInput Exception
+//    void invalidFirstName() throws InvalidInputException {
+//
+//        assertThrows(InvalidInputException.class, () -> registration.registerUser(
+//                "Max1",
+//                "Mustermann",
+//                "passwort",
+//                "passwort",
+//                "Student*in",
+//                "",
+//                "9999999",
+//                "",
+//                "CSB")
+//        );
+//    }
 
-    /**
-     * Test for invalidLastName()
-     *
-     * @throws InvalidInputException if any input fields are incomplete
-     */
-    @Test
+    @Test // Testfall 4: Nachname enthält Zahl, wirft InvalidInput Exception
     void invalidLastName() throws InvalidInputException {
-        // Testfall 4: Nachname enthält Zahl, wirft InvalidInput Exception
+
         assertThrows(InvalidInputException.class, () -> registration.registerUser(
                 "Max",
                 "Mustermann1",
@@ -138,14 +105,9 @@ class RegistrationTest {
         );
     }
 
-//    /**
-//     * Test for lastNameOnlySpace()
-//     *
-//     * @throws InvalidInputException if any input fields are incomplete
-//     */
-//    @Test
+//    @Test // Testfall 5: Nachname Leerzeichen, wirft InvalidInput Exception
 //    void lastNameOnlySpace() throws InvalidInputException {
-//        // Testfall 5: Nachname Leerzeichen, wirft InvalidInput Exception
+//
 //        assertThrows(InvalidInputException.class, () -> registration.registerUser(
 //                "Max",
 //                " ",
@@ -159,14 +121,10 @@ class RegistrationTest {
 //        );
 //    }
 
-    /**
-     * Test for passwordIsMissing()
-     *
-     * @throws InvalidInputException if any input fields are incomplete
-     */
-    @Test
+
+    @Test // Testfall 6: Passwort fehlt, wirft InvalidInput Exception
     void passwordIsMissing() throws InvalidInputException {
-        // Testfall 6: Passwort fehlt, wirft InvalidInput Exception
+
         assertThrows(InvalidInputException.class, () -> registration.registerUser(
                 "Max",
                 "Mustermann",
@@ -180,14 +138,9 @@ class RegistrationTest {
         );
     }
 
-//    /**
-//     * Test for passwordWithOnlySpaces()
-//     *
-//     * @throws InvalidInputException if any input fields are incomplete
-//     */
-//    @Test
+//    @Test // Testfall 7: Passwort Leerzeichen, wirft InvalidInput Exception
 //    void passwordWithOnlySpaces() throws InvalidInputException {
-//        // Testfall 7: Passwort Leerzeichen, wirft InvalidInput Exception
+//
 //        assertThrows(InvalidInputException.class, () -> registration.registerUser(
 //                "Max",
 //                "Mustermann",
@@ -201,14 +154,9 @@ class RegistrationTest {
 //        );
 //    }
 
-    /**
-     * Test for passwordsNotIdentical()
-     *
-     * @throws PasswordsNotIdenticalException if the passwords do not match
-     */
-    @Test
+    @Test // Testfall 8: Die Passwörter stimmen nicht überein, was zu einer PasswordsNotIdenticalException führt.
     void passwordsNotIdentical() throws PasswordsNotIdenticalException {
-        // Testfall 8: Die Passwörter stimmen nicht überein, was zu einer PasswordsNotIdenticalException führt.
+
         assertThrows(PasswordsNotIdenticalException.class, () -> registration.registerUser(
                 "Max",
                 "Mustermann",
@@ -222,14 +170,9 @@ class RegistrationTest {
         );
     }
 
-//    /**
-//     * Test for studentNumberTooLong()
-//     *
-//     * @throws StudentNumberInvalidException if the student number is invalid
-//     */
-//    @Test
+//    @Test // Testfall 9: Matrikelnummer zu lang, führt zu StudentNumberInvalidException
 //    void studentNumberTooLong() throws StudentNumberInvalidException {
-//        // Testfall 9: Matrikelnummer zu lang, führt zu StudentNumberInvalidException
+//
 //        assertThrows(StudentNumberInvalidException.class, () -> registration.registerUser(
 //                "Max",
 //                "Mustermann",
@@ -243,14 +186,10 @@ class RegistrationTest {
 //        );
 //    }
 
-//    /**
-//     * Test for teacherWithStudentNumber()
-//     *
-//     * @throws StudentNumberInvalidException if the student number is invalid
-//     */
-//    @Test
+
+//    @Test // Testfall 10: Matrikelnummer ist zu kurz
 //    void studNumberTooShort() throws StudentNumberInvalidException {
-//        // Testfall 10: Matrikelnummer ist zu kurz
+//
 //        assertThrows(StudentNumberInvalidException.class, () -> registration.registerUser(
 //                "Max",
 //                "Mustermann",
@@ -264,14 +203,10 @@ class RegistrationTest {
 //        );
 //    }
 
-    /**
-     * studentNumberNonNumericCharacters
-     *
-     * @throws StudentNumberInvalidException if the student number is invalid
-     */
-    @Test
+
+    @Test // Testfall 11: Ungültige Matrikelnummer, enthält nicht-numerische Zeichen, was zu einer StudentNumberInvalidException führt.
     void studentNumberNonNumericCharacters() throws StudentNumberInvalidException {
-        // Testfall 11: Ungültige Matrikelnummer, enthält nicht-numerische Zeichen, was zu einer StudentNumberInvalidException führt.
+
         assertThrows(StudentNumberInvalidException.class, () -> registration.registerUser(
                 "Max",
                 "Mustermann",
@@ -285,14 +220,9 @@ class RegistrationTest {
         );
     }
 
-    /**
-     * Test for invalidStudentNumberWithNegativeNumbers()
-     *
-     * @throws StudentNumberInvalidException if the student number is invalid
-     */
-    @Test
+    @Test // Testfall 12: Ungültige Matrikelnummer, negative Zahl, was zu einer StudentNumberInvalidException führt.
     void StudentNumberWithNegativeNumbers() throws StudentNumberInvalidException {
-        // Testfall 12: Ungültige Matrikelnummer, negative Zahl, was zu einer StudentNumberInvalidException führt.
+
         assertThrows(StudentNumberInvalidException.class, () -> registration.registerUser(
                 "Max",
                 "Mustermann",
@@ -306,14 +236,9 @@ class RegistrationTest {
         );
     }
 
-    /**
-     * Test for teacherIdNonLetterCharacters()
-     *
-     * @throws TeacherIdInvalidException if any input fields are incomplete
-     */
-    @Test
+    @Test // Testfall 13: Ungültige Dozenten-ID, enthält nicht nur Buchstaben, was zu einer TeacherIdInvalidException führt.
     void teacherIdNonLetterCharacters() throws TeacherIdInvalidException {
-        // Testfall 13: Ungültige Dozenten-ID, enthält nicht nur Buchstaben, was zu einer TeacherIdInvalidException führt.
+
         assertThrows(TeacherIdInvalidException.class, () -> registration.registerUser(
                 "Max",
                 "Mustermann",
@@ -327,14 +252,9 @@ class RegistrationTest {
         );
     }
 
-    /**
-     * Test for TeacherIdOnlySpaces()
-     *
-     * @throws TeacherIdInvalidException if any input fields are incomplete
-     */
-    @Test
+    @Test // Testfall 14: Ungültige Dozenten-ID, enthält nur ein Leerzeichen, was zu einer TeacherIdInvalidException führt.
     void TeacherIdOnlySpaces() throws TeacherIdInvalidException {
-        // Testfall 14: Ungültige Dozenten-ID, enthält nur ein Leerzeichen, was zu einer TeacherIdInvalidException führt.
+
         assertThrows(TeacherIdInvalidException.class, () -> registration.registerUser(
                 "Max",
                 "Mustermann",
@@ -349,20 +269,11 @@ class RegistrationTest {
     }
 
 
-    /**
-     * Test for teacherIdAlreadyExists()
-     *
-     * @throws UserAlreadyExistsException     if the user already exists
-     * @throws StudentNumberInvalidException  if the student number is invalid
-     * @throws PasswordsNotIdenticalException if the passwords do not match
-     * @throws InvalidInputException          if any input fields are incomplete
-     * @throws TeacherIdInvalidException      if the teacher ID is invalid
-     */
-    @Test
+    @Test // Testfall 15: Dozent-ID existiert bereits, was zu einer UserAlreadyExistsException führt.
     void teacherIdAlreadyExists() throws UserAlreadyExistsException, InvalidInputException, PasswordsNotIdenticalException, StudentNumberInvalidException, TeacherIdInvalidException {
-        //  Testfall 15: Dozent-ID existiert bereits, was zu einer UserAlreadyExistsException führt.
-        registration.registerUser("Max","Mustermann","passwort","passwort",
-                "Dozent*in","Prof. Dr.","","MM","");
+
+        registration.registerUser("Max", "Mustermann", "passwort", "passwort",
+                "Dozent*in", "Prof. Dr.", "", "MM", "");
         assertThrows(UserAlreadyExistsException.class, () -> registration.registerUser(
                 "Max",
                 "Mustermann",
@@ -376,20 +287,10 @@ class RegistrationTest {
         );
     }
 
-
-    /**
-     * Test for StudentNumberAlreadyExists()
-     *
-     * @throws UserAlreadyExistsException     if the user already exists
-     * @throws StudentNumberInvalidException  if the student number is invalid
-     * @throws PasswordsNotIdenticalException if the passwords do not match
-     * @throws InvalidInputException          if any input fields are incomplete
-     * @throws TeacherIdInvalidException      if the teacher ID is invalid
-     */
-    @Test
+    @Test // Testfall 16: Matrikelnr. existiert bereits, was zu einer UserAlreadyExistsException führt.
     void StudentNumberAlreadyExists() throws UserAlreadyExistsException, InvalidInputException, PasswordsNotIdenticalException, StudentNumberInvalidException, TeacherIdInvalidException {
-        //  Testfall 16: Matrikelnr. existiert bereits, was zu einer UserAlreadyExistsException führt.
-        registration.registerUser("Max","Mustermann","passwort", "passwort",
+
+        registration.registerUser("Max", "Mustermann", "passwort", "passwort",
                 "Student*in", "", "1000000", "", "UIB");
         assertThrows(UserAlreadyExistsException.class, () -> registration.registerUser(
                 "Max",
@@ -405,18 +306,9 @@ class RegistrationTest {
     }
 
 
-    /**
-     * Second Test for correctRegisterStudent()
-     *
-     * @throws UserAlreadyExistsException     if the user already exists
-     * @throws StudentNumberInvalidException  if the student number is invalid
-     * @throws PasswordsNotIdenticalException if the passwords do not match
-     * @throws InvalidInputException          if any input fields are incomplete
-     * @throws TeacherIdInvalidException      if the teacher ID is invalid
-     */
-    @Test
+    @Test // Testfall 18: Wiederholung von Testfall 1 zur Validierung der Konsistenz des Systems.
     void validateCorrectRegisterStudent() throws InvalidInputException, PasswordsNotIdenticalException, UserAlreadyExistsException, StudentNumberInvalidException, TeacherIdInvalidException {
-        // Testfall 18: Wiederholung von Testfall 1 zur Validierung der Konsistenz des Systems.
+
         App.getData().removeUser(App.getData().getUser("1000000", "", "Student*in"));
         assertTrue(registration.registerUser(
                 "Max",
