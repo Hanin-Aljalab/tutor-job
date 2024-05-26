@@ -76,8 +76,10 @@ public class RegistrationPopup {
 		studNumberField = new JTextField();
 
 		// Load and scale the eye icons
-		openEyeIcon = new ImageIcon(new ImageIcon("src/icons/eye.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-		closedEyeIcon = new ImageIcon(new ImageIcon("src/icons/hide.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+		openEyeIcon = new ImageIcon(
+				new ImageIcon("src/icons/eye.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+		closedEyeIcon = new ImageIcon(
+				new ImageIcon("src/icons/hide.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 
 		// Password panel with toggle button for passwordField
 		JPanel passwordPanel1 = new JPanel(new BorderLayout());
@@ -135,9 +137,8 @@ public class RegistrationPopup {
 							}
 						});
 					}
-				} catch (UserAlreadyExistsException | StudentNumberInvalidException
-						| PasswordsNotIdenticalException | InvalidInputException
-						| TeacherIdInvalidException exception) {
+				} catch (UserAlreadyExistsException | StudentNumberInvalidException | PasswordsNotIdenticalException
+						| InvalidInputException | TeacherIdInvalidException | IncorrectNameException exception) {
 					JOptionPane.showMessageDialog(new Frame(), exception.getMessage());
 				} catch (HeadlessException exception) {
 					exception.printStackTrace();
@@ -221,10 +222,11 @@ public class RegistrationPopup {
 	 * @throws StudentNumberInvalidException  if the student number is invalid
 	 * @throws PasswordsNotIdenticalException if the passwords do not match
 	 * @throws InvalidInputException          if the input is invalid
-	 * @throws TeacherIdInvalidException     if the teacher ID is invalid
+	 * @throws TeacherIdInvalidException      if the teacher ID is invalid
+	 * @throws IncorrectNameException         if the first or last name is incorrect
 	 */
 	public boolean transmitData() throws UserAlreadyExistsException, StudentNumberInvalidException,
-			PasswordsNotIdenticalException, InvalidInputException, TeacherIdInvalidException {
+			PasswordsNotIdenticalException, InvalidInputException, TeacherIdInvalidException, IncorrectNameException {
 		String role = (String) roleDropdown.getSelectedItem();
 		boolean isStudent = "Student*in".equals(role);
 
@@ -284,6 +286,5 @@ public class RegistrationPopup {
 	public void setTitleDropdown(String text) {
 		this.titleDropdown.setSelectedItem(text);
 	}
-
 
 }
