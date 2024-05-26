@@ -17,7 +17,7 @@ class LoginTest {
 
 
     @BeforeEach
-    void setUp() throws InvalidInputException, PasswordsNotIdenticalException, UserAlreadyExistsException, StudentNumberInvalidException, TeacherIdInvalidException {
+    void setUp() throws InvalidInputException, PasswordsNotIdenticalException, UserAlreadyExistsException, StudentNumberInvalidException, TeacherIdInvalidException, IncorrectNameException {
         appData = new AppData();
         App.setData(appData);
 
