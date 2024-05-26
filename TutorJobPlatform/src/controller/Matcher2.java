@@ -185,10 +185,4 @@ public class Matcher2 {
     public HashMap<Student, Lecture> getMatches() {
         return finalMatches;
     }
-
-    public static void main(String[] args) {
-        AppData testData = new AppData();
-        Matcher2 matcher = new Matcher2(testData);
-        matcher.performMatching();
-    }
 }
